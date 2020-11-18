@@ -1,0 +1,21 @@
+
+.search.container{
+    padding: 10px;
+}
+.search.row{
+    padding-top: 10px;
+}
+#search_res{
+    margin:15px;
+    margin-top: 10px;
+    float:right;
+}
+#export {
+    margin-top: 10px;
+    float:right;
+}
+
+.custom-col {
+    position: relative;
+    right: 21px;
+}
