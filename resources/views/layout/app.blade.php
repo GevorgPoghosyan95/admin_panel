@@ -23,18 +23,26 @@
     <!-- END THEME GLOBAL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
     <link href="/assets/layouts/layout2/css/layout.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/layouts/layout2/css/themes/blue.min.css" rel="stylesheet" type="text/css" id="style_color"
+    <link href="/assets/layouts/layout2/css/themes/blue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
     <link rel="shortcut icon" href="favicon.ico"/>
     <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/css/image-uploader.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/jquery.nestable.min.css" rel="stylesheet" type="text/css"/>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN CORE PLUGINS -->
+
 <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+
+<script src="/js/image-uploader.min.js" type="text/javascript"></script>
+<script src="/js/jquery.nestable.min.js" type="text/javascript"></script>
+
 <!-- END CORE PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>

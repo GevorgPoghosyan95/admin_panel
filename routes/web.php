@@ -30,10 +30,18 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update_personal/{user}', 'Ekeng\ProfileController@update')->name('update_personal');
     Route::patch('change_password/{user}', 'Ekeng\ProfileController@change')->name('change_password');
     Route::post('permissions_foreach', 'PermissionController@foreach')->name('permissions_foreach');
-    Route::get('/all_pages',function (){
-        return view('pages.index');
-    });
-    Route::post('/pages/save',function (\Illuminate\Http\Request $request){
-        dd($request->all());
-    });
+    Route::resource('pages','PageController');
+    Route::post('pages/delete', 'PageController@delete');
+    Route::get('pages/edit/{id}','PageController@edit');
+    Route::get('all_pages','PageController@index');
+
+    Route::get('menu','MenuController@index');
+    Route::get('menu/builder/{id}','MenuController@build');
+    Route::get('menu/builder/edit/{id}','MenuController@build_edit'); //ajax
+    Route::post('menu/create', 'MenuController@create')->name('menu_create');
+    Route::post('menu/create/menu_item', 'MenuController@create_menu_item')->name('menu_item');
 });
+
+
+
+MenuBuilder::routes();
