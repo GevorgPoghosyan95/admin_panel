@@ -33,4 +33,9 @@ class MenuItem extends Model
     {
         return $this->hasMany(MenuSetting::class, 'menu_id');
     }
+
+    public function parentMenu()
+    {
+        return $this->hasone('App\Menu', 'id', 'menu_id');
+    }
 }

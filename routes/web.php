@@ -36,10 +36,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('all_pages','PageController@index');
 
     Route::get('menu','MenuController@index');
-    Route::get('menu/builder/{id}','MenuController@build');
-    Route::get('menu/builder/edit/{id}','MenuController@build_edit'); //ajax
-    Route::post('menu/create', 'MenuController@create')->name('menu_create');
-    Route::post('menu/create/menu_item', 'MenuController@create_menu_item')->name('menu_item');
+    Route::get('menu/builder/{id}','MenuItemController@build');
+    Route::get('menu/builder/edit/{id}','MenuItemController@build_edit'); //ajax
+    Route::post('menu/create', 'MenuItemController@create')->name('menu_create');
+    Route::post('menu/create/menu', 'MenuController@create_menu')->name('create_menu');
+    Route::post('menu/menu_item_add', 'MenuItemController@menu_item_add')->name('menu_item_add');
+    Route::post('menu/menu_item_edit', 'MenuItemController@menu_item_edit')->name('menu_item_edit');
+    Route::post('menu/menu_item_delete', 'MenuItemController@menu_item_delete')->name('menu_item_delete');
 });
 
 

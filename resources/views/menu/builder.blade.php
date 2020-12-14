@@ -9,28 +9,19 @@
             color: red
         }
 
-        .delete {
-            width: 15%;
-            margin: 0;
-            position: absolute;
-            right: 5px;
-            top: 3px;
-            text-align: center
+        .buttons {
+            z-index: 9;
+            position: relative;
+            top: 4px;
+            right: 10px;
+            float: right;
         }
-
-        .delete:hover {
-            cursor: pointer
-        }
+        .buttons .btn {padding: 6px 15px;margin: 5px 5px 5px 0;border-radius: 5px!important;}
+        .delete{margin-left: 0!important;}
 
         .dd {
             max-width: 100%
         }
-
-        .pull-right {
-            text-align: right;
-            margin-right: 15px;
-        }
-
         .dd-handle {
             display: block;
             height: 50px;
@@ -40,7 +31,7 @@
             text-decoration: none;
             font-weight: bold;
             background: #fafafa;
-            border-radius: 3px !important;
+            border-radius: 5px !important;
             box-sizing: border-box;
             font-size: 15px;
             box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .2);
@@ -50,6 +41,17 @@
         .dd-handle:hover {
             cursor: pointer
         }
+        .flash-modal {
+            position: fixed;
+            top: 75px;
+            right: -250px;
+            z-index: 1000;
+            max-width: 25%;
+            background-color: #ff6f36;border-radius: 4px!important;
+        }
+        .flash-modal p { padding: 10px 10px;margin: 0;color: #ffffff;font-size: 20px;}
+        #menuItemModal ,.close{float: left;}
+        #menuItemModal{width: 98%}
     </style>
 @include('layout.sidebar')
 <!-- BEGIN CONTENT -->
@@ -57,9 +59,10 @@
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             <div class="row">
-                <div class="col-lg-3 pull-right">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
-                        New Item
+                <div class="col-lg-3 pull-left">
+                    <span style="font-size: 24px;line-height: 26px"><i class="fa fa-bars" aria-hidden="true"></i> {{$menu->name}} (menu)</span>
+                    <button type="button" class="btn btn-success" style="margin-left: 15px;border-radius: 5px!important;" data-toggle="modal" data-target="#menu_item_form">
+                        add new menu Item
                     </button>
                 </div>
             </div>
@@ -80,18 +83,24 @@
         </div>
     </div>
 </div>
+<div class="flash-modal">
+    <p></p>
+</div>
 
-<div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+{{--------------------new item modal--}}
+<div class="modal fade" id="menu_item_form" tabindex="-1" role="dialog" aria-labelledby="menuItemLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="exampleModalLabel">
+                <h5 class="modal-title" id="menuItemModal">
                     Title of the Menu Item </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <input type="hidden" name="id" value="0">
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" placeholder="Enter title">
@@ -126,68 +135,115 @@
 <script>
 
     $(document).ready(function () {
-        $.get("/menu/builder/edit/{{basename(Request::path())}}", function (data) {
-            let data1 = JSON.parse(data);
+        $.get("/menu/builder/edit/{{$menu->id}}", function (data) {
+            data = JSON.parse(data);
             let obj = {children: []};
             let rrt = '[{"id":1,"order":1,"children":[{"id":7,"parent_id":1,"order":1,"children":[{"id":9,"parent_id":7,"order":1,"children":[]},{"id":8,"parent_id":7,"order":2,"children":[]}]}]},{"id":10,"order":2,"children":[]}]';
-
-            // console.log(obj);
-            //console.log(data);
-            $.each(JSON.parse(data),function (key,value) {
+            $.each(data, function (key, value) {
+                // console.log(value);
                 $('.dd').nestable('add', value);
-            })
-
-            // $('.dd').nestable('add', {"id":7,"order":1,"title":"users","parent_id":null,"children":[{"id":1,"title":"Admin","parent_id":7,"order":3,"children":[]}]},{"id":9,"order":1,"title":"groups","parent_id":null,"children":[]},{"id":10,"order":1,"title":"test","parent_id":null,"children":[]},{"id":8,"order":2,"title":"permissions","parent_id":null,"children":[]});
-            // $('.dd').nestable('add', {"id":1,"order":1,"children":[{"id":7,"parent_id":1,"order":1,"children":[{"id":9,"parent_id":7,"order":1,"children":[]},{"id":8,"parent_id":7,"order":2,"children":[]}]}]},{"id":10,"order":2,"children":[]});
-            // $('.dd').nestable('add', {"id":1,"order":1  ,"children":[{"id":7,"parent_id":1,"order":1,"children":[{"id":9,"parent_id":7,"order":1,"children":[]},{"id":8,"parent_id":7,"order":2,"children":[]}]}]},{"id":10,"order":2,"children":[]});
-
+            });
+            $('.dd-item').each(function (i, v) {
+                // console.log(v.attributes['data-id'].value);
+                $(this).prepend('<div class="buttons">' +
+                    '<div class="btn btn-sm btn-danger pull-right delete" data-id="' + v.attributes['data-id'].value + '"> Delete </div>' +
+                    '<div class="btn btn-sm btn-primary pull-right edit" data-id="' + v.attributes['data-id'].value + '" > Edit </div>' +
+                    '</div>')
+            });
+            if ($('.outer .dd-item').length === 0) {
+                $('.dd-empty').show();
+            } else {
+                $('.dd-empty').hide();
+            }
         });
 
         $('.dd').nestable({maxDepth: 3});
-        $(document).on("click", ".add_to", function () {
-            $('.dd-empty').hide();
-            $(this).removeClass('add_to');
-            $(this).append('<button class="btn btn-alert delete" style="width: 15%;margin: 0;position: absolute;right: 5px;top: 3px;text-align: center">delete</button>');
-            $(this).appendTo('.dd-list');
-        });
         $(document).on("click", ".delete", function () {
-            if (!$(this).parent().parent().hasClass('outer')) {
-                $(this).parent().parent().remove()
-            } else {
-                $(this).parent('.dd-item').remove();
+            var r = confirm("Delete item ?");
+            if (r == true) {
+                let id = $(this).data('id');
+                if (!$(this).parent().parent().hasClass('outer')) {
+                    $(this).parent().parent().remove()
+                } else {
+                    $(this).parent('.dd-item').remove();
+                }
+                $.post('{{ route('menu_item_delete') }}', {
+                    item_id: id,
+                    _token: '{{ csrf_token() }}'
+                }, function (data) {
+                    data = JSON.parse(data);
+                    data.status === 'success' ? flashMessage(data.message) : flashMessage(data.message, 'red');
+                });
+                if ($('.outer .dd-item').length === 0) {
+                    $('.dd-empty').show();
+                }
             }
-            if ($('.outer .dd-item').length === 0) {
-                $('.dd-empty').show();
-            }
+        });
+        $(document).on("click", ".edit", function () {
+            // console.log($(this).data('id'));
+            $('input[name="id"]').val($(this).data('id'));
+            $('#title').val($(this).closest(".dd-item").data('title'));
+            // console.log($(this).closest(".dd-item").data('title'));
+            $('input[name="id"]').val($(this).data('id'));
+            $('#menu_item_form').modal('show')
+        });
+        $('#menu_item_form').on('hidden.bs.modal', function (e) {
+            $(this).find('input[name="id"]').val(0);
         });
         $('#subm').click(function () {
             let page = $('#page').val(),
                 title = $('#title').val(),
                 url = $('#url').val();
-            $('.outer').append('<li class="dd-item" data-id="' + page + '" data-order="1" data-title="'+ title+'"> <div class="dd-handle"> ' + title + '</div><p class="delete">delete</p> </li>');
-            $('.dd-empty').hide();
+            if($('#menu_item_form input[name="id"]').val() == 0){
+
+            }
+            // let str = '<li class="dd-item" data-id="0" data-order="1" data-title="'+ title+'"><div class="buttons">' +
+            //     '<div class="btn btn-sm btn-danger pull-right delete" data-id="0"> Delete </div>' +
+            //     '<div class="btn btn-sm btn-primary pull-right edit" data-id="0" > Edit </div>' +
+            //     '</div> <div class="dd-handle"> ' + title + '</div></li>';
+            // $('.outer').append(str);
+            // $('.dd-empty').hide();
+            // console.log($('.outer .dd-item').length);
+            $.post('{{ route('menu_item_add') }}', {
+                // list: JSON.stringify($('.dd').nestable('serialize')),
+                // id: 0,
+                title: title,
+                order: 1,
+                menu_id: '{{$menu->id}}',
+                _token: '{{ csrf_token() }}'
+            }, function (data) {
+                $('.dd-empty').hide();
+                data = JSON.parse(data);
+                $('.outer').append('<li class="dd-item" data-id="' + data.id + '" data-order="1" data-title="' + title + '"> <div class="buttons">' +
+                    '<div class="btn btn-sm btn-danger pull-right delete" data-id="' + data.id + '"> Delete </div>' +
+                    '<div class="btn btn-sm btn-primary pull-right edit" data-id="' + data.id + '" > Edit </div>' +
+                    '</div><div class="dd-handle"> ' + title + '</div></li>');
+                data.status === 'success' ? flashMessage(data.message) : flashMessage(data.message, 'red');
+            });
+        });
+        $('.dd').on('change', function (e) {
+            $('.flash-modal').css({'right': '-250px', 'transition': '1s'});
+            $('.flash-modal p').html('')
             // console.log(JSON.stringify($('.dd').nestable('serialize')));
             $.post('{{ route('menu_create') }}', {
                 list: JSON.stringify($('.dd').nestable('serialize')),
-                menu_id : '{{basename(Request::path())}}',
+                menu_id: '{{$menu->id}}',
                 _token: '{{ csrf_token() }}'
             }, function (data) {
-                // console.log(data);
-                ;
+                data = JSON.parse(data);
+                data.status === 'success' ? flashMessage(data.message) : flashMessage(data.message, 'red');
             });
+        });
 
-        });
-        $('.dd').on('change', function (e) {
-            console.log($('.dd').nestable('serialize'));
-            $.post('{{ route('menu_create') }}', {
-                list: JSON.stringify($('.dd').nestable('serialize')),
-                menu_id : '{{basename(Request::path())}}',
-                _token: '{{ csrf_token() }}'
-            }, function (data) {
-                console.log(data);
-            });
-        });
+        function flashMessage(message, color = '#ff6f36') {
+            $('.flash-modal p').html(message)
+            $('.flash-modal').css({'right': '35px', 'transition': '1s', 'background-color': color})
+            setTimeout(function () {
+                $('.flash-modal').css({'right': '-250px', 'transition': '1s'})
+            }, 3000)
+        }
     })
+    
 </script>
 </body>
 @include('layout.footer')

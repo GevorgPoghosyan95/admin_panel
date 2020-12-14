@@ -17,10 +17,17 @@
     <div class="page-content-wrapper">
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
-            @if ($message = Session::get('success'))
+            @if ($message = Session::get('message'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
                 </div>
+            @endif
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger">
+                        <p>{{ $error }}</p>
+                    </div>
+                @endforeach
             @endif
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Create new menu
@@ -71,7 +78,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{route('menu_item')}}" method="post">
+            <form action="{{route('create_menu')}}" method="post">
                 @csrf
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">New menu</h5>
