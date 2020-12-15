@@ -54,15 +54,14 @@
                                 <td >{!! $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '' !!}</td>
                                 <td>{{$page->document}}</td>
                                 <td>{{$page->created_at}}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="#" title="Edit" class="btn btn-sm btn-primary pull-right delete" id="{{$page->id}}">
-                                           <span class="hidden-xs hidden-sm">Delete</span>
-                                        </a>
-                                        <a href="pages/edit/{{$page->id}}" title="Edit" class="btn btn-sm btn-primary pull-right edit">
-                                            <span class="hidden-xs hidden-sm">Edit</span>
-                                        </a>
-                                    </div>
+                                <td width="10%">
+                                        {!! Form::open(['method' => 'DELETE','route' => ['pages.destroy', $page->id]]) !!}
+                                        {!! Form::submit('Delete',array('class' => 'btn btn-sm btn-danger pull-right')) !!}
+                                        {!! Form::close() !!}
+
+                                        {!! Form::open(['method' => 'GET','route' => ['pages.edit', $page->id]]) !!}
+                                        {!! Form::submit('Edit',array('class' => 'btn btn-sm btn-primary pull-right')) !!}
+                                        {!! Form::close() !!}
                                 </td>
                             </tr>
                         @endforeach
@@ -77,23 +76,3 @@
 </body>
 @include('layout.footer')
 <script src="/js/sweetAlert.js"></script>
-<script>
-    $(document).ready(function () {
-        setTimeout(function () {
-            $('.alert').fadeOut('1000')
-        },2000)
-        $('.delete').click(function () {
-            let id = $(this).attr('id');
-            $.ajax({
-                type: 'POST',
-                url: 'pages/delete',
-                data: {id : id, "_token": "{{ csrf_token() }}"},
-                success: function(data){
-                    if(data === 'success'){
-                        location.reload()
-                    }
-                }
-            });
-        })
-    })
-</script>

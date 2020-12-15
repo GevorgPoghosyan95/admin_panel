@@ -63,16 +63,3 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.proto.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css">
-
-{{--@if($errors->any())--}}
-{{--    <div class="errorMessage" style="display: none">{{$errors->first()}}</div>--}}
-{{--@endif--}}
-
-{{--<script>--}}
-{{--    $(document).ready(function () {--}}
-{{--        let error = $('.errorMessage').text()--}}
-{{--        if(error){--}}
-{{--            alert(error)--}}
-{{--        }--}}
-{{--    })--}}
-{{--</script>--}}

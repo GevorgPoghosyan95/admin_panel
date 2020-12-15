@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MenuItem;
 use App\Page;
 use Illuminate\Http\Request;
 
@@ -42,15 +43,19 @@ class PageController extends Controller
         ]);
 
         $file = $request->file('photos')[0];
-        $imagedata = file_get_contents($file);
-        $base64 = base64_encode($imagedata);
+        if($file){
+            $imagedata = file_get_contents($file);
+            $image = base64_encode($imagedata);
+        }else{
+            $image = null;
+        }
         $page = new Page;
         $page->title = $request->input('title');
         $page->body = $request->input('content');
-        $page->image = $base64;
+        $page->image = $image;
         $page->save();
 
-        return redirect('pages')->with('success', 'Page Was Create Successfully');
+        return redirect('pages')->with('success', 'Page created successfully');
     }
 
     /**
@@ -86,8 +91,6 @@ class PageController extends Controller
     public function update(Request $request,Page $page)
     {
         $file = $request->file('photos')[0];
-//        var_dump($request->all());
-//        dd($request->file('doc'));
         $base64 = '';
         if( $file !== null){
             $imagedata = file_get_contents($file);
@@ -106,18 +109,6 @@ class PageController extends Controller
     }
 
 
-
-
-    public function delete(Request $request)
-    {
-       $result = Page::where('id',$request->input('id'))->delete();
-       if($result){
-           return 'success';
-       } else {
-           return 'fail';
-       }
-
-    }
     /**
      * Remove the specified resource from storage.
      *
@@ -126,6 +117,8 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        dd('ok');
+        Page::find($id)->delete();
+        MenuItem::where('page_id',$id)->delete();
+        return redirect('pages')->with('success', 'Page deleted successfully');
     }
 }

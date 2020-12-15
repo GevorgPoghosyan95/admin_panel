@@ -13,26 +13,25 @@ use Illuminate\Support\Facades\Validator;
 class MenuController extends Controller
 {
     protected $order = [];
-    protected $childrens = [];
     protected $parents = [];
     protected $depth = 0;
     protected $root = null;
-    protected $root_depth = 0;
+
 
 
     public function index()
     {
         $menus = Menu::all();
-        return view('menu.index',compact('menus'));
+        return view('menu.index', compact('menus'));
     }
 
     public function create_menu(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|unique:menus|max:255',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors(['name already in use']);
         } else {
             $menu = new Menu;
@@ -40,8 +39,24 @@ class MenuController extends Controller
             $menu->slug = $request->input('name');
             $menu->save();
 
-            return back()->with('message','success');
+            return back()->with('message', 'success');
         }
 
+    }
+
+    public function delete($id)
+    {
+        Menu::find($id)->delete();
+        MenuItem::where('menu_id',$id)->delete();
+        return redirect()->back()->with('success', 'Menu deleted successfully!');
+    }
+
+    public function edit(Request $request, $id)
+    {
+        Menu::where('id',$id)->update([
+            'name' => $request->get('menu_name'),
+            'slug' => strtolower($request->get('menu_name'))
+        ]);
+        return redirect()->back()->with('success', 'Menu name changed!');
     }
 }

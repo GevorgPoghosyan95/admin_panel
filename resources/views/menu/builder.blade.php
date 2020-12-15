@@ -16,12 +16,21 @@
             right: 10px;
             float: right;
         }
-        .buttons .btn {padding: 6px 15px;margin: 5px 5px 5px 0;border-radius: 5px!important;}
-        .delete{margin-left: 0!important;}
+
+        .buttons .btn {
+            padding: 6px 15px;
+            margin: 5px 5px 5px 0;
+            border-radius: 5px !important;
+        }
+
+        .delete {
+            margin-left: 0 !important;
+        }
 
         .dd {
             max-width: 100%
         }
+
         .dd-handle {
             display: block;
             height: 50px;
@@ -41,17 +50,31 @@
         .dd-handle:hover {
             cursor: pointer
         }
+
         .flash-modal {
             position: fixed;
             top: 75px;
             right: -250px;
             z-index: 1000;
             max-width: 25%;
-            background-color: #ff6f36;border-radius: 4px!important;
+            background-color: #ff6f36;
+            border-radius: 4px !important;
         }
-        .flash-modal p { padding: 10px 10px;margin: 0;color: #ffffff;font-size: 20px;}
-        #menuItemModal ,.close{float: left;}
-        #menuItemModal{width: 98%}
+
+        .flash-modal p {
+            padding: 10px 10px;
+            margin: 0;
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        #menuItemModal, .close {
+            float: left;
+        }
+
+        #menuItemModal {
+            width: 98%
+        }
     </style>
 @include('layout.sidebar')
 <!-- BEGIN CONTENT -->
@@ -61,7 +84,9 @@
             <div class="row">
                 <div class="col-lg-3 pull-left">
                     <span style="font-size: 24px;line-height: 26px"><i class="fa fa-bars" aria-hidden="true"></i> {{$menu->name}} (menu)</span>
-                    <button type="button" class="btn btn-success" style="margin-left: 15px;border-radius: 5px!important;" data-toggle="modal" data-target="#menu_item_form">
+                    <button type="button" class="btn btn-success"
+                            style="margin-left: 15px;border-radius: 5px!important;" data-toggle="modal"
+                            data-target="#menu_item_form">
                         add new menu Item
                     </button>
                 </div>
@@ -71,12 +96,6 @@
                 <div class="dd">
                     <ol class="dd-list outer">
                         <div id="dd-empty-placeholder"></div>
-                        {{--                        @foreach($items as $item)--}}
-                        {{--                            <li class="dd-item" data-id=" {{$item->id}}">--}}
-                        {{--                                <div class="dd-handle"> {{$item->title}}</div>--}}
-                        {{--                                <p class="delete">delete</p>--}}
-                        {{--                            </li>--}}
-                        {{--                        @endforeach--}}
                     </ol>
                 </div>
             </div>
@@ -89,7 +108,8 @@
 
 
 {{--------------------new item modal--}}
-<div class="modal fade" id="menu_item_form" tabindex="-1" role="dialog" aria-labelledby="menuItemLabel" aria-hidden="true">
+<div class="modal fade" id="menu_item_form" tabindex="-1" role="dialog" aria-labelledby="menuItemLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header border-bottom-0">
@@ -138,7 +158,6 @@
         $.get("/menu/builder/edit/{{$menu->id}}", function (data) {
             data = JSON.parse(data);
             let obj = {children: []};
-            let rrt = '[{"id":1,"order":1,"children":[{"id":7,"parent_id":1,"order":1,"children":[{"id":9,"parent_id":7,"order":1,"children":[]},{"id":8,"parent_id":7,"order":2,"children":[]}]}]},{"id":10,"order":2,"children":[]}]';
             $.each(data, function (key, value) {
                 // console.log(value);
                 $('.dd').nestable('add', value);
@@ -194,7 +213,7 @@
             let page = $('#page').val(),
                 title = $('#title').val(),
                 url = $('#url').val();
-            if($('#menu_item_form input[name="id"]').val() == 0){
+            if ($('#menu_item_form input[name="id"]').val() == 0) {
 
             }
             // let str = '<li class="dd-item" data-id="0" data-order="1" data-title="'+ title+'"><div class="buttons">' +
@@ -210,6 +229,7 @@
                 title: title,
                 order: 1,
                 menu_id: '{{$menu->id}}',
+                page_id: page,
                 _token: '{{ csrf_token() }}'
             }, function (data) {
                 $('.dd-empty').hide();
@@ -243,7 +263,7 @@
             }, 3000)
         }
     })
-    
+
 </script>
 </body>
 @include('layout.footer')
