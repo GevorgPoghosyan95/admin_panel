@@ -24,6 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('groups', 'GroupsController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('posts', 'PostController');
     Route::get('personal', 'LoginController@personal')->name('personal');
     Route::get('logout', 'LoginController@logout');
     Route::get('profile/{user}', 'Ekeng\ProfileController@index');

@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:menu-list|menu-create|menu-edit|menu-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:menu-create', ['only' => ['create_menu', 'store']]);
+        $this->middleware('permission:menu-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
+    }
+
     protected $order = [];
     protected $parents = [];
     protected $depth = 0;

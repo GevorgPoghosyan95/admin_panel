@@ -36,7 +36,6 @@ class MenuItemController extends Controller
 
     public function create(Request $request)
     {
-        dd($request->all());
         $data = json_decode($request->input('list'));
 
         $id = $this->saveList($data, $request->input('menu_id'));

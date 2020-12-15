@@ -1,8 +1,15 @@
 @include('layout.app')
 @include('layout.page_styles')
 <style>
-    .btn-group {position: relative!important;}
-    table img{height: 100px;width:100px;object-fit: cover}
+    .btn-group {
+        position: relative !important;
+    }
+
+    table img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover
+    }
 </style>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
@@ -22,12 +29,12 @@
                     <p>{{ $message }}</p>
                 </div>
             @endif
-            <a target="_self" type="button" class="btn btn-primary" href="pages/create">Create New Page</a>
+            <a target="_self" type="button" class="btn btn-primary" href="posts/create">Create New Post</a>
             <br><br>
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i>Pages
+                        <i class="fa fa-globe"></i>posts
                     </div>
                     <div class="tools"></div>
                 </div>
@@ -39,33 +46,32 @@
                             <th>Title</th>
                             <th>Body</th>
                             <th>Image</th>
-                            <th>Document</th>
+
                             <th>Created at</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if($pages)
-                        @foreach($pages as $key=>$page)
-                            <tr>
-                                <td>{{$page->id}}</td>
-                                <td>{{$page->title}}</td>
-                                <td>{!!  substr($page->body,0,50) !!}</td>
-                                <td >{!! $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '' !!}</td>
-                                <td>{{$page->document}}</td>
-                                <td>{{$page->created_at}}</td>
-                                <td width="10%">
-                                        {!! Form::open(['method' => 'DELETE','route' => ['pages.destroy', $page->id]]) !!}
+                        @if($posts)
+                            @foreach($posts as $key=>$page)
+                                <tr>
+                                    <td>{{$page->id}}</td>
+                                    <td>{{$page->title}}</td>
+                                    <td>{!! substr($page->content,0,50) !!}</td>
+                                    <td>{!! $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '' !!}</td>
+                                    <td>{{$page->created_at}}</td>
+                                    <td width="10%">
+                                        {!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', $page->id]]) !!}
                                         {!! Form::submit('Delete',array('class' => 'btn btn-sm btn-danger pull-right')) !!}
                                         {!! Form::close() !!}
 
-                                        {!! Form::open(['method' => 'GET','route' => ['pages.edit', $page->id]]) !!}
+                                        {!! Form::open(['method' => 'GET','route' => ['posts.edit', $page->id]]) !!}
                                         {!! Form::submit('Edit',array('class' => 'btn btn-sm btn-primary pull-right')) !!}
                                         {!! Form::close() !!}
-                                </td>
-                            </tr>
-                        @endforeach
-                            @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>

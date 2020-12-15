@@ -40,7 +40,4 @@ class User extends Authenticatable
     ];
 
 
-    public function company(){
-        return $this->belongsToMany(Company::class,'user_2_company','user_id','company_id');
-    }
 }

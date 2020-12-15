@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class GroupsController extends Controller
 {
@@ -45,7 +47,14 @@ class GroupsController extends Controller
     public function store(Request $request)
     {
         $request->validate(['name' => 'required']);
-        Group::create($request->only(['name', 'route']));
+        $group = Group::create($request->only(['name', 'route']));
+        $permissions = createPermission($group->name);
+        foreach ($permissions as $permission){
+            $perm = Permission::create(['name'=>$permission,'group_id'=>$group->id]);
+            $role = Role::where('name','Admin')->first();
+            $role->givePermissionTo([$perm->name]);
+        }
+
         return redirect()->back()
             ->with('success', 'Group created successfully');
     }
@@ -94,9 +103,16 @@ class GroupsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Group $group)
     {
-        Group::find($id)->delete();
+        $permissions = createPermission($group->name);
+        foreach ($permissions as $permission){
+            $roles = Role::all();
+            foreach($roles as $role){
+                $role->revokePermissionTo($permission);
+            }
+        }
+        $group->delete();
         return redirect()->back()
             ->with('success', 'Group deleted successfully');
     }

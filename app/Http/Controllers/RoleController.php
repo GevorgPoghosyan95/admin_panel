@@ -31,7 +31,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $roles = Role::orderBy('id', 'DESC')->get();
         return view('roles.index', compact('roles'));

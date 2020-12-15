@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\MenuItem;
-use App\Page;
+use App\Post;
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class PostController extends Controller
 {
+
     function __construct()
     {
-        $this->middleware('permission:pages-list|pages-create|pages-edit|pages-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:pages-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:pages-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:pages-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:posts-list|posts-create|posts-edit|posts-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:posts-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:posts-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:posts-delete', ['only' => ['destroy']]);
     }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $pages = Page::all();
-        return view('pages.index',compact('pages'));
+        $posts = Post::all();
+        return view('posts.index',compact('posts'));
     }
 
     /**
@@ -34,7 +34,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('pages.create');
+        return view('posts.create');
     }
 
     /**
@@ -57,13 +57,13 @@ class PageController extends Controller
         }else{
             $image = null;
         }
-        $page = new Page;
-        $page->title = $request->input('title');
-        $page->body = $request->input('content');
-        $page->image = $image;
-        $page->save();
+        $post = new Post;
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->image = $image;
+        $post->save();
 
-        return redirect('pages')->with('success', 'Page created successfully');
+        return redirect('posts')->with('success', 'Post created successfully');
     }
 
     /**
@@ -85,8 +85,8 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-       $page = Page::where('id',$id)->first();
-        return view('pages.edit',compact('page'));
+        $post = Post::where('id',$id)->first();
+        return view('posts.edit',compact('post'));
     }
 
     /**
@@ -96,7 +96,7 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Page $page)
+    public function update(Request $request,Post $post)
     {
         $file = $request->file('photos')[0];
         $base64 = '';
@@ -109,24 +109,16 @@ class PageController extends Controller
             $base64 = base64_encode($imagedata);
         }
         if($request->input('img') !== null) {
-            $base64 = $page->image;
+            $base64 = $post->image;
         }
 
-        $page->update(['title' => $request->input('title'),'body' => $request->input('content'),'image' => $base64]);
-        return redirect('pages')->with('success', 'Page Was Update Successfully');
+        $post->update(['title' => $request->input('title'),'content' => $request->input('content'),'image' => $base64]);
+        return redirect()->back()->with('success', 'Post updated successfully');
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        Page::find($id)->delete();
-        MenuItem::where('page_id',$id)->delete();
-        return redirect('pages')->with('success', 'Page deleted successfully');
+
     }
 }
