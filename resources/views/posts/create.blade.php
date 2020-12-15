@@ -1,5 +1,4 @@
 @include('layout.app')
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>tinymce.init({selector: 'textarea'});</script>
 <style>
     textarea {
@@ -28,7 +27,7 @@
                 <label for="title" style="font-size: 26px">Title</label>
                 <input type="text" class="form-control" name="title" id="title"><br>
                 <label for="" style="font-size: 26px">Post Content</label>
-                <textarea id="full-featured" name="content"></textarea><br>
+                <textarea id="full-featured-non-premium" name="content"></textarea><br>
                 <div class="input-images" style="width: 10%"></div>
                 <input type="submit" value="Save" class="btn btn-success"/>
            {!! Form::close() !!}
@@ -43,3 +42,5 @@
 </script>
 </body>
 @include('layout.footer')
+<script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js"></script>
+<script src="/js/tiny.js"></script>
