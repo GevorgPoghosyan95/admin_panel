@@ -43,4 +43,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('menu/menu_item_add', 'MenuItemController@menu_item_add')->name('menu_item_add');
     Route::post('menu/menu_item_edit', 'MenuItemController@menu_item_edit')->name('menu_item_edit');
     Route::post('menu/menu_item_delete', 'MenuItemController@menu_item_delete')->name('menu_item_delete');
+    Route::get('menu/builder/edit/get_page/{id}','MenuItemController@get_page'); //ajax
 });

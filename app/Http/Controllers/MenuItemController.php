@@ -20,13 +20,13 @@ class MenuItemController extends Controller
 
     public function build_edit(Request $request, $id)
     {
-        $itemsWithChildrens = $this->getChildrens($id);
+        $itemsWithChildrens = $this->getChilds($id);
 
         return json_encode($itemsWithChildrens);
 
     }
 
-    public function getChildrens($menu_id, $parent_id = null, $orderBy = 'asc')
+    public function getChilds($menu_id, $parent_id = null, $orderBy = 'asc')
     {
         return MenuItem::with('children')
             ->where(['menu_id' => $menu_id, 'parent_id' => $parent_id])->select('id', 'order', 'title')
@@ -84,5 +84,14 @@ class MenuItemController extends Controller
             return json_encode(['status' => 'fail', 'message' => 'Error deleting item']);
         }
 
+    }
+
+    public function get_page($id){
+            $data = Page::find($id);
+            if($data){
+                return json_encode(['status' => 'success', 'data' => $data]);
+            } else {
+                return json_encode(['status' => 'fail']);
+            }
     }
 }
