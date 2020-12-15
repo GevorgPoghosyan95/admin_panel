@@ -22,3 +22,8 @@ function generate_sidebar_groups($array, $output)
 
     return $output;
 }
+
+function createPermission($group){
+    $group = strtolower($group);
+    return [$group.'-list',$group.'-create',$group.'-edit',$group.'-delete'];
+}

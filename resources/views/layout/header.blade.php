@@ -5,7 +5,8 @@
         <!-- BEGIN LOGO -->
         <div class="page-logo">
             <a href="/personal">
-                <img src="/assets/pages/img/logos/ekeng_logo.gif" alt="logo" class="logo-default" style="width:130px;margin-top:15px"/> </a>
+                <img src="/assets/pages/img/logos/ekeng_logo.gif" alt="logo" class="logo-default"
+                     style="width:130px;margin-top:15px"/> </a>
             <div class="menu-toggler sidebar-toggler">
                 <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
             </div>
@@ -36,7 +37,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
-                                <a href="/profile/{{Auth::user()->id}}")>
+                                <a href="/profile/{{Auth::user()->id}}" )>
                                     <i class="icon-user"></i> My Profile </a>
                             </li>
 
@@ -58,3 +59,32 @@
 <!-- BEGIN HEADER & CONTENT DIVIDER -->
 <div class="clearfix"></div>
 <!-- END HEADER & CONTENT DIVIDER -->
+
+    @if ($errors->any())
+        <script>
+            $(document).ready(function () {
+                $('#error_modal').modal('show');
+            })
+        </script>
+        <div class="modal fade" id="error_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #db4444">
+                        <h4 class="modal-title" id="myModalLabel">ERROR </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @foreach ($errors->all() as $error)
+                        <h3>{!! $error !!}</h3>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
