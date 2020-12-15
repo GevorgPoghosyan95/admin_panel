@@ -132,6 +132,7 @@
                 <div class="form-group">
                     <label for="page">Select page</label>
                     <select class="form-control" id="page">
+                        <option selected="selected">choose page</option>
                         @foreach($pages as $page)
                             <option value="{{$page->id}}">{{$page->title}}</option>
                         @endforeach
@@ -262,6 +263,20 @@
                 $('.flash-modal').css({'right': '-250px', 'transition': '1s'})
             }, 3000)
         }
+
+        $('#page').change(function () {
+            console.log($(this).val());
+            $.get("/menu/builder/edit/get_page/"+$(this).val(),function (res) {
+                res = JSON.parse(res);
+                if(res.status === "success"){
+                    $('#menu_item_form').find('input[id="title"]').val(res.data.title);
+                    // console.log(res.data.title);
+                }else{
+                    alert("error")
+                    $('#menu_item_form').modal('hide');
+                }
+            });
+        })
     })
 
 </script>
