@@ -132,7 +132,7 @@
                 <div class="form-group">
                     <label for="page">Select page</label>
                     <select class="form-control" id="page">
-{{--                        <option selected="selected">choose page</option>--}}
+                        <option selected="selected">choose page</option>
                         @foreach($pages as $page)
                             <option value="{{$page->id}}">{{$page->title}}</option>
                         @endforeach
@@ -209,6 +209,9 @@
         });
         $('#menu_item_form').on('hidden.bs.modal', function (e) {
             $(this).find('input[name="id"]').val(0);
+            $(this).find('input:text').val('');
+            $(this).find('#page').val('');
+
         });
         $('#subm').click(function () {
             let page = $('#page').val(),
@@ -279,6 +282,7 @@
                 }
             });
         })
+
     })
 
 </script>
