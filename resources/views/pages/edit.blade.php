@@ -32,7 +32,7 @@
                 <label for="title" style="font-size: 26px">Title</label>
                 <input type="text" class="form-control" name="title" id="title" value="{!! !empty($page->title) ? $page->title : '' !!}"><br>
                 <label for="" style="font-size: 26px">Page Content</label>
-                <textarea id="full-featured-non-premium" name="content"></textarea> <br>
+                <textarea id="full-featured-non-premium" name="content">{!! $page->body !!}</textarea> <br>
                 <div class="input-images" style="width: 10%"></div>
                 <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
 {{--                <input type="file" name="doc" >--}}
@@ -50,15 +50,15 @@
     $(document).ready(function () {
         let myImg = '{{($page->image)}}' ? 'data:image/png;base64,{{($page->image)}}' : '',
             pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-         tinymce.init({
-            selector: 'textarea',
-            height: 300,
-            setup: function (editor) {
-                editor.on('init', function (e) {
-                    editor.setContent('{!! !empty($page->body) ? $page->body : '' !!}');
-                });
-            }
-        });
+        {{--tinymce.init({--}}
+        {{--    selector: 'textarea',--}}
+        {{--    height: 300,--}}
+        {{--    setup: function (editor) {--}}
+        {{--        editor.on('init', function (e) {--}}
+        {{--            editor.setContent('{!! !empty($page->body) ? $page->body : '' !!}');--}}
+        {{--        });--}}
+        {{--    }--}}
+        {{--});--}}
         $('.input-images').imageUploader({
             imagesInputName: 'photos',
             maxFiles: 1,
