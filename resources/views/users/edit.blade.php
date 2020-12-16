@@ -107,15 +107,6 @@
                                             <div class="col-md-4">
                                                 {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!} </div>
                                         </div>
-                                        <!-- organization -->
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Company
-                                                <span class="required"> * </span>
-                                            </label>
-                                            <div class="col-md-4">
-                                                {!! Form::select('company', $value = $companies, $user->company[0]->id,['class' => 'chosen-select form-control','id'=>'company']) !!}
-                                            </div>
-                                        </div>
                                         <div class="form-group">
                                             <label class="control-label col-md-3">Role
                                                 <span class="required"> * </span>
