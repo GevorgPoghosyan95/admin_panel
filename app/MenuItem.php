@@ -10,7 +10,7 @@ class MenuItem extends Model
     protected $table = 'menu_items';
     //
     protected $fillable = [
-        'title', 'slug', 'order', 'parent_id',
+        'title', 'slug', 'order', 'parent_id','target',
     ];
 
     public function parent()

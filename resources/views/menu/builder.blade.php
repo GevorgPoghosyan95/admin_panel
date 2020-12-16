@@ -132,17 +132,17 @@
                 <div class="form-group">
                     <label for="page">Select page</label>
                     <select class="form-control" id="page">
-                        <option selected="selected">choose page</option>
+{{--                        <option selected="selected">choose page</option>--}}
                         @foreach($pages as $page)
                             <option value="{{$page->id}}">{{$page->title}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="page">Open in </label>
-                    <select class="form-control" id="page">
-                        <option value="1">Same window</option>
-                        <option value="2">New window</option>
+                    <label for="target">Open in </label>
+                    <select class="form-control" id="target">
+                        <option value="_self">Same window</option>
+                        <option value="_blank">New window</option>
                     </select>
                 </div>
             </div>
@@ -213,7 +213,8 @@
         $('#subm').click(function () {
             let page = $('#page').val(),
                 title = $('#title').val(),
-                url = $('#url').val();
+                url = $('#url').val(),
+                target  = $('#target').val();
             if ($('#menu_item_form input[name="id"]').val() == 0) {
 
             }
@@ -231,6 +232,7 @@
                 order: 1,
                 menu_id: '{{$menu->id}}',
                 page_id: page,
+                target : target,
                 _token: '{{ csrf_token() }}'
             }, function (data) {
                 $('.dd-empty').hide();
