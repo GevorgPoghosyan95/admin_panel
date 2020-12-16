@@ -9,9 +9,15 @@
         margin-top: 10px;
         float: right;
     }
-    .image-uploader .uploaded .uploaded-image {width: calc(100% - 1rem);
-        padding-bottom: calc(100% - 1rem);}
-    .image-uploader .uploaded .uploaded-image img{object-fit: contain}
+
+    .image-uploader .uploaded .uploaded-image {
+        width: calc(100% - 1rem);
+        padding-bottom: calc(100% - 1rem);
+    }
+
+    .image-uploader .uploaded .uploaded-image img {
+        object-fit: contain
+    }
 </style>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
@@ -24,13 +30,15 @@
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             {!! Form::open( ['method' => 'POST','route' => 'posts.store', 'files' => true]) !!}
-                <label for="title" style="font-size: 26px">Title</label>
-                <input type="text" class="form-control" name="title" id="title"><br>
-                <label for="" style="font-size: 26px">Post Content</label>
-                <textarea id="full-featured-non-premium" name="content"></textarea><br>
-                <div class="input-images" style="width: 10%"></div>
-                <input type="submit" value="Save" class="btn btn-success"/>
-           {!! Form::close() !!}
+            <label for="title" style="font-size: 18px">Title</label>
+            <input type="text" class="form-control" name="title" id="title">
+            <label for="title" style="font-size: 18px">Category</label><br>
+            {!! Form::select('category', $categories, null,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
+            <label for="" style="font-size: 18px">Post Content</label>
+            <textarea id="full-featured-non-premium" name="content"></textarea><br>
+            <div class="input-images" style="width: 10%"></div>
+            <input type="submit" value="Save" class="btn btn-success"/>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
@@ -42,5 +50,11 @@
 </script>
 </body>
 @include('layout.footer')
-<script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js"></script>
+<script
+    src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js"></script>
 <script src="/js/tiny.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
+    });
+</script>

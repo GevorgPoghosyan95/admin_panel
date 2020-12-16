@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Ekeng\PostManager;
 use App\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
 
-    function __construct()
+    protected $postManager;
+    function __construct(PostManager $postManager)
     {
+        $this->postManager = $postManager;
         $this->middleware('permission:posts-list|posts-create|posts-edit|posts-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:posts-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:posts-edit', ['only' => ['edit', 'update']]);
@@ -23,8 +27,10 @@ class PostController extends Controller
 
     public function index()
     {
+        $categories = Category::pluck('name','name')->all();
+        array_unshift($categories,"");
         $posts = Post::all();
-        return view('posts.index',compact('posts'));
+        return view('posts.index',compact('posts','categories'));
     }
 
     /**
@@ -34,7 +40,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::pluck('name','id')->all();
+        array_unshift($categories,"");
+        return view('posts.create',compact('categories'));
     }
 
     /**
@@ -45,7 +53,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'title' => 'required|max:255',
         ]);
@@ -62,6 +69,9 @@ class PostController extends Controller
         $post->content = $request->input('content');
         $post->image = $image;
         $post->save();
+        if($request->get('category') !== 0){
+            $post->categories()->sync([$request->get('category')]);
+        }
 
         return redirect('posts')->with('success', 'Post created successfully');
     }
@@ -85,8 +95,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::pluck('name','id')->all();
         $post = Post::where('id',$id)->first();
-        return view('posts.edit',compact('post'));
+
+        return view('posts.edit',compact('post','categories'));
     }
 
     /**
@@ -111,14 +123,29 @@ class PostController extends Controller
         if($request->input('img') !== null) {
             $base64 = $post->image;
         }
-
         $post->update(['title' => $request->input('title'),'content' => $request->input('content'),'image' => $base64]);
+        if($request->get('category')){
+            $post->categories()->sync($request->get('category'));
+        }else{
+            $post->categories()->sync([]);
+        }
         return redirect()->back()->with('success', 'Post updated successfully');
     }
 
 
     public function destroy(Post $post)
     {
+        $post->delete();
+        return redirect()->back()->with('success', 'Post deleted successfully');
+    }
 
+    public function foreach(Request $request)
+    {
+        return $this->postManager->posts_table($request);
+    }
+
+    public function search(Request $request)
+    {
+        return $this->postManager->search($request);
     }
 }
