@@ -29,8 +29,7 @@ class PostController extends Controller
     {
         $categories = Category::pluck('name','name')->all();
         array_unshift($categories,"");
-        $posts = Post::all();
-        return view('posts.index',compact('posts','categories'));
+        return view('posts.index',compact('categories'));
     }
 
     /**
