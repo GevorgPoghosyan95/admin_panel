@@ -120,6 +120,5 @@ class PermissionController extends Controller
     public function foreach(Request $request)
     {
         return $this->permissionManager->permissions_table($request);
-
     }
 }

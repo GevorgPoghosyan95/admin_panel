@@ -28,10 +28,12 @@
                 </div>
             @endif
             {!! Form::model($post, ['method' => 'PUT','route' => ['posts.update', $post->id], 'files' => true]) !!}
-                <label for="title" style="font-size: 26px">Title</label>
+                <label for="title" style="font-size: 18px">Title</label>
                 <input type="text" class="form-control" name="title" id="title" value="{!! !empty($post->title) ? $post->title : '' !!}"><br>
+                <label for="title" style="font-size: 18px">Category</label><br>
+                {!! Form::select('category[]', $categories, $post->categories,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
                 <label for="" style="font-size: 26px">Page Content</label>
-                <textarea id="full-featured-non-premium" name="content"></textarea> <br>
+                <textarea id="full-featured-non-premium" name="content">{!! $post->content !!}</textarea> <br>
                 <div class="input-images" style="width: 10%"></div>
                 <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
 {{--                <input type="file" name="doc" >--}}
@@ -47,17 +49,9 @@
 </body>
 <script>
     $(document).ready(function () {
+        $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
         let myImg = '{{($post->image)}}' ? 'data:image/png;base64,{{($post->image)}}' : '',
             pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-         tinymce.init({
-            selector: 'textarea',
-            height: 300,
-            setup: function (editor) {
-                editor.on('init', function (e) {
-                    editor.setContent('{!! !empty($post->content) ? $post->content : '' !!}');
-                });
-            }
-        });
         $('.input-images').imageUploader({
             imagesInputName: 'photos',
             maxFiles: 1,
