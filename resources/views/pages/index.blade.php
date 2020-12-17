@@ -29,7 +29,7 @@
                     <div class="caption">
                         <i class="fa fa-globe"></i>Pages
                     </div>
-                    <div class="tools"></div>
+{{--                    <div class="tools"></div>--}}
                 </div>
                 <div class="portlet-body">
                     <table class="table table-striped table-bordered table-hover" id="sample_2">
@@ -75,4 +75,9 @@
 </div>
 </body>
 @include('layout.footer')
+<script>
+    $(document).ready(function () {
+        $('.alert').fadeOut('5000')
+    })
+</script>
 <script src="/js/sweetAlert.js"></script>

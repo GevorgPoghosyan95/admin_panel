@@ -1,5 +1,10 @@
 @include('layout.app')
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+{{--<script src="/js/tinymce.min.js"></script>--}}
+<script src="/js/tiny.js"></script>
+
 <style>
+
     textarea {
         height: 400px;
     }
@@ -27,16 +32,16 @@
                 </div>
             @endif
             {!! Form::model($page, ['method' => 'PUT','route' => ['pages.update', $page->id], 'files' => true]) !!}
-                <label for="title" style="font-size: 26px">Title</label>
-                <input type="text" class="form-control" name="title" id="title" value="{!! !empty($page->title) ? $page->title : '' !!}"><br>
-                <label for="" style="font-size: 26px">Page Content</label>
-                <textarea id="full-featured-non-premium" name="content"></textarea> <br>
-                <div class="input-images" style="width: 10%"></div>
-                <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
-{{--                <input type="file" name="doc" >--}}
-                <input type="hidden" name="img" value="{{$page->image}}" id="img">
-                <input type="submit" value="Save" class="btn btn-success"/>
-                <div class="clearfix"></div>
+            <label for="title" style="font-size: 26px">Title</label>
+            <input type="text" class="form-control" name="title" id="title" value="{!! !empty($page->title) ? $page->title : '' !!}"><br>
+            <label for="" style="font-size: 26px">Page Content</label>
+            <textarea class="tiny_area" name="content"></textarea> <br>
+            <div class="input-images" style="width: 10%"></div>
+            <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
+            {{--                <input type="file" name="doc" >--}}
+            <input type="hidden" name="img" value="{{$page->image}}" id="img">
+            <input type="submit" value="Save" class="btn btn-success"/>
+            <div class="clearfix"></div>
             {!! Form::close() !!}
         </div>
 
@@ -48,12 +53,11 @@
     $(document).ready(function () {
         let myImg = '{{($page->image)}}' ? 'data:image/png;base64,{{($page->image)}}' : '',
             pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-         tinymce.init({
-            selector: 'textarea',
-            height: 300,
+        tinymce.init({
+            selector: 'textarea.tiny_area',
             setup: function (editor) {
                 editor.on('init', function (e) {
-                    editor.setContent('{!! !empty($page->body) ? $page->body : '' !!}');
+                    editor.setContent(`{!! !empty($page->body) ? $page->body : '' !!}`);
                 });
             }
         });
@@ -64,12 +68,7 @@
         });
         $('.iui-close').click(function () {
             $('#img').val('')
-        })
-        setTimeout(function () {
-            $('.alert').fadeOut('1000')
-        }, 2000)
+        });
     });
 </script>
 @include('layout.footer')
-<script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js"></script>
-<script src="/js/tiny.js"></script>
