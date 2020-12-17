@@ -132,7 +132,7 @@
                 <div class="form-group">
                     <label for="page">Select page</label>
                     <select class="form-control" id="page">
-                        <option selected="selected">choose page</option>
+                        <option  value="0" selected="selected">choose page</option>
                         @foreach($pages as $page)
                             <option value="{{$page->id}}">{{$page->title}}</option>
                         @endforeach
@@ -203,6 +203,10 @@
             // console.log($(this).data('id'));
             $('input[name="id"]').val($(this).data('id'));
             $('#title').val($(this).closest(".dd-item").data('title'));
+            let text = $(this).closest(".dd-item").data('title');
+            $('#page option').filter(function() {
+                return $(this).text() === text;
+            }).prop('selected', true);
             // console.log($(this).closest(".dd-item").data('title'));
             $('input[name="id"]').val($(this).data('id'));
             $('#menu_item_form').modal('show')
@@ -210,7 +214,7 @@
         $('#menu_item_form').on('hidden.bs.modal', function (e) {
             $(this).find('input[name="id"]').val(0);
             $(this).find('input:text').val('');
-            $(this).find('#page').val('');
+            $(this).find('#page').val('0');
 
         });
         $('#subm').click(function () {
@@ -218,9 +222,6 @@
                 title = $('#title').val(),
                 url = $('#url').val(),
                 target  = $('#target').val();
-            if ($('#menu_item_form input[name="id"]').val() == 0) {
-
-            }
             // let str = '<li class="dd-item" data-id="0" data-order="1" data-title="'+ title+'"><div class="buttons">' +
             //     '<div class="btn btn-sm btn-danger pull-right delete" data-id="0"> Delete </div>' +
             //     '<div class="btn btn-sm btn-primary pull-right edit" data-id="0" > Edit </div>' +
@@ -270,17 +271,18 @@
         }
 
         $('#page').change(function () {
-            console.log($(this).val());
-            $.get("/menu/builder/edit/get_page/"+$(this).val(),function (res) {
-                res = JSON.parse(res);
-                if(res.status === "success"){
-                    $('#menu_item_form').find('input[id="title"]').val(res.data.title);
-                    // console.log(res.data.title);
-                }else{
-                    alert("error")
-                    $('#menu_item_form').modal('hide');
-                }
-            });
+            if($(this).val() !== 'choose page') {
+                $.get("/menu/builder/edit/get_page/" + $(this).val(), function (res) {
+                    res = JSON.parse(res);
+                    if (res.status === "success") {
+                        $('#menu_item_form').find('input[id="title"]').val(res.data.title);
+                        // console.log(res.data.title);
+                    } else {
+                        alert("error")
+                        $('#menu_item_form').modal('hide');
+                    }
+                });
+            }
         })
 
     })
