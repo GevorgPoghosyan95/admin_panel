@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Ekeng\PageManager;
 use App\MenuItem;
 use App\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    function __construct()
+    protected $pageManager;
+    function __construct(PageManager $pageManager)
     {
+        $this->pageManager = $pageManager;
         $this->middleware('permission:pages-list|pages-create|pages-edit|pages-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:pages-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:pages-edit', ['only' => ['edit', 'update']]);
@@ -23,8 +26,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::all();
-        return view('pages.index',compact('pages'));
+        return view('pages.index');
     }
 
     /**
@@ -57,11 +59,11 @@ class PageController extends Controller
         }else{
             $image = null;
         }
-        $page = new Page;
-        $page->title = $request->input('title');
-        $page->body = $request->input('content');
-        $page->image = $image;
-        $page->save();
+        Page::create([
+            'title'=>$request->get('title'),
+            'body'=>$request->input('content'),
+            'image'=>$image
+        ]);
 
         return redirect('pages')->with('success', 'Page created successfully');
     }
@@ -128,5 +130,15 @@ class PageController extends Controller
         Page::find($id)->delete();
         MenuItem::where('page_id',$id)->delete();
         return redirect('pages')->with('success', 'Page deleted successfully');
+    }
+
+    public function foreach(Request $request)
+    {
+        return $this->pageManager->pages_table($request);
+    }
+
+    public function search(Request $request)
+    {
+        return $this->pageManager->search($request);
     }
 }

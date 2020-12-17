@@ -24,60 +24,61 @@
             @endif
             <a target="_self" type="button" class="btn btn-primary" href="pages/create">Create New Page</a>
             <br><br>
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-globe"></i>Pages
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-globe"></i>Posts
+                        </div>
+                        <div class="tools"></div>
                     </div>
-{{--                    <div class="tools"></div>--}}
-                </div>
-                <div class="portlet-body">
-                    <table class="table table-striped table-bordered table-hover" id="sample_2">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Body</th>
-                            <th>Image</th>
-                            <th>Document</th>
-                            <th>Created at</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if($pages)
-                        @foreach($pages as $key=>$page)
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover" id="pages">
+                            <thead>
                             <tr>
-                                <td>{{$page->id}}</td>
-                                <td>{{$page->title}}</td>
-                                <td>{!!  substr($page->body,0,50) !!}</td>
-                                <td >{!! $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '' !!}</td>
-                                <td>{{$page->document}}</td>
-                                <td>{{$page->created_at}}</td>
-                                <td width="10%">
-                                        {!! Form::open(['method' => 'DELETE','route' => ['pages.destroy', $page->id]]) !!}
-                                        {!! Form::submit('Delete',array('class' => 'btn btn-sm btn-danger pull-right')) !!}
-                                        {!! Form::close() !!}
-
-                                        {!! Form::open(['method' => 'GET','route' => ['pages.edit', $page->id]]) !!}
-                                        {!! Form::submit('Edit',array('class' => 'btn btn-sm btn-primary pull-right')) !!}
-                                        {!! Form::close() !!}
-                                </td>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Image</th>
+                                <th>Created at</th>
+                                <th>Actions</th>
                             </tr>
-                        @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
 </body>
 @include('layout.footer')
+<script src="/js/sweetAlert.js"></script>
 <script>
     $(document).ready(function () {
-        $('.alert').fadeOut('5000')
-    })
+
+        $('#pages').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "searching": true,
+            "order": [[ 0, 'desc' ]],
+            "ajax": {
+                "url": "{{ url('pages_foreach') }}",
+                "dataType": "json",
+                "type": "POST",
+                "data": {_token: "{{csrf_token()}}"},
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "title"},
+                {"data": "body"},
+                {"data": "image"},
+                {"data": "created_at"},
+                {"data": "options"},
+            ]
+
+        });
+    });
+
 </script>
-<script src="/js/sweetAlert.js"></script>
