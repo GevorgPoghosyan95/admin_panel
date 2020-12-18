@@ -47,7 +47,6 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'title' => 'required|max:255',
         ]);
@@ -61,7 +60,7 @@ class PageController extends Controller
         }
         Page::create([
             'title'=>$request->get('title'),
-            'body'=>$request->input('content'),
+            'body'=>$request->get('content'),
             'image'=>$image
         ]);
 
@@ -125,10 +124,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Page $page)
     {
-        Page::find($id)->delete();
-        MenuItem::where('page_id',$id)->delete();
+        MenuItem::where('page_id',$page->id)->delete();
+        $page->delete();
         return redirect('pages')->with('success', 'Page deleted successfully');
     }
 

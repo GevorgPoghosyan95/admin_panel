@@ -64,12 +64,13 @@ class PostController extends Controller
         }else{
             $image = null;
         }
-        $post = new Post;
-        $post->title = $request->input('title');
-        $post->content = $request->input('content');
-        $post->image = $image;
-        $post->save();
-        if($request->get('category') !== 0){
+        $post = Post::create([
+            'title'=>$request->get('title'),
+            'content'=>$request->get('content'),
+            'image'=>$image,
+            'lang'=>$request->get('lang')
+        ]);
+        if(isset($request['category'])){
             $post->categories()->sync([$request->get('category')]);
         }
 

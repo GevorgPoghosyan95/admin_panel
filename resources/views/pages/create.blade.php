@@ -1,6 +1,4 @@
 @include('layout.app')
-
-<script>tinymce.init({selector: 'textarea'});</script>
 <style>
     textarea {
         height: 400px;

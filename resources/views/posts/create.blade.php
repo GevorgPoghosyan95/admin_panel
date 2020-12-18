@@ -1,5 +1,4 @@
 @include('layout.app')
-<script>tinymce.init({selector: 'textarea'});</script>
 <style>
     textarea {
         height: 400px;
@@ -31,6 +30,7 @@
         <div class="page-content">
             {!! Form::open( ['method' => 'POST','route' => 'posts.store', 'files' => true]) !!}
             <label for="title" style="font-size: 18px">Title</label>
+            <input type="hidden" name="lang" value="hy">
             <input type="text" class="form-control" name="title" id="title">
             <label for="title" style="font-size: 18px">Category</label><br>
             {!! Form::select('category', $categories, null,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>

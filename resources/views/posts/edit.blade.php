@@ -33,7 +33,7 @@
                 <label for="title" style="font-size: 18px">Category</label><br>
                 {!! Form::select('category[]', $categories, $post->categories,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
                 <label for="" style="font-size: 26px">Page Content</label>
-                <textarea id="full-featured-non-premium" name="content">{!! $post->content !!}</textarea> <br>
+                <textarea class="tiny_area" name="content"></textarea> <br>
                 <div class="input-images" style="width: 10%"></div>
                 <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
 {{--                <input type="file" name="doc" >--}}
@@ -52,6 +52,25 @@
         $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
         let myImg = '{{($post->image)}}' ? 'data:image/png;base64,{{($post->image)}}' : '',
             pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
+        tinymce.init({
+            selector: 'textarea.tiny_area',
+            plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+            imagetools_cors_hosts: ['picsum.photos'],
+            menubar: 'file edit view insert format tools table help',
+            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+            toolbar_sticky: true,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            image_advtab: true,
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    editor.setContent(`{!! !empty($post->content) ? $post->content : '' !!}`);
+                });
+            }
+        });
         $('.input-images').imageUploader({
             imagesInputName: 'photos',
             maxFiles: 1,
@@ -67,4 +86,3 @@
 </script>
 @include('layout.footer')
 <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js"></script>
-<script src="/js/tiny.js"></script>
