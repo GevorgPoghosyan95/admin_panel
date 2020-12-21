@@ -200,15 +200,15 @@
             }
         });
         $(document).on("click", ".edit", function () {
-            // console.log($(this).data('id'));
+            console.log($(this).data('id'));
             $('input[name="id"]').val($(this).data('id'));
             $('#title').val($(this).closest(".dd-item").data('title'));
             let text = $(this).closest(".dd-item").data('title');
             $('#page option').filter(function() {
                 return $(this).text() === text;
             }).prop('selected', true);
+
             // console.log($(this).closest(".dd-item").data('title'));
-            $('input[name="id"]').val($(this).data('id'));
             $('#menu_item_form').modal('show')
         });
         $('#menu_item_form').on('hidden.bs.modal', function (e) {
@@ -221,7 +221,8 @@
             let page = $('#page').val(),
                 title = $('#title').val(),
                 url = $('#url').val(),
-                target  = $('#target').val();
+                target  = $('#target').val(),
+                id = $('input[name="id"]').val();
             // let str = '<li class="dd-item" data-id="0" data-order="1" data-title="'+ title+'"><div class="buttons">' +
             //     '<div class="btn btn-sm btn-danger pull-right delete" data-id="0"> Delete </div>' +
             //     '<div class="btn btn-sm btn-primary pull-right edit" data-id="0" > Edit </div>' +
@@ -231,7 +232,7 @@
             // console.log($('.outer .dd-item').length);
             $.post('{{ route('menu_item_add') }}', {
                 // list: JSON.stringify($('.dd').nestable('serialize')),
-                // id: 0,
+                id: id,
                 title: title,
                 order: 1,
                 menu_id: '{{$menu->id}}',
@@ -241,11 +242,17 @@
             }, function (data) {
                 $('.dd-empty').hide();
                 data = JSON.parse(data);
-                $('.outer').append('<li class="dd-item" data-id="' + data.id + '" data-order="1" data-title="' + title + '"> <div class="buttons">' +
-                    '<div class="btn btn-sm btn-danger pull-right delete" data-id="' + data.id + '"> Delete </div>' +
-                    '<div class="btn btn-sm btn-primary pull-right edit" data-id="' + data.id + '" > Edit </div>' +
-                    '</div><div class="dd-handle"> ' + title + '</div></li>');
-                data.status === 'success' ? flashMessage(data.message) : flashMessage(data.message, 'red');
+                console.log(data.status);
+                if(data.status === 'success' || data.status === 'fail') {
+                    $('.outer').append('<li class="dd-item" data-id="' + data.id + '" data-order="1" data-title="' + title + '"> <div class="buttons">' +
+                        '<div class="btn btn-sm btn-danger pull-right delete" data-id="' + data.id + '"> Delete </div>' +
+                        '<div class="btn btn-sm btn-primary pull-right edit" data-id="' + data.id + '" > Edit </div>' +
+                        '</div><div class="dd-handle"> ' + title + '</div></li>');
+                    data.status === 'success' ? flashMessage(data.message) : flashMessage(data.message, 'red');
+                } else if(data.status === 's') {
+                    $('.dd').find(`[data-id='${data.id}']`).find('.dd-content:first').text(data.title);
+                    flashMessage(data.message);
+                }
             });
         });
         $('.dd').on('change', function (e) {

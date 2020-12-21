@@ -43,7 +43,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i>Pages
+                        <i class="fa fa-globe"></i>Menus
                     </div>
                     <div class="tools"></div>
                 </div>

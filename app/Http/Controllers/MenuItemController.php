@@ -58,18 +58,22 @@ class MenuItemController extends Controller
 
     function menu_item_add(Request $request)
     {
-        dd($request->all());
-        $current_order = MenuItem::where('menu_id', $request->input('menu_id'))->max('order');
-        $current_order ? $curr = $current_order : $curr = 1;
-        $menu_item = new MenuItem;
-        $menu_item->page_id =  $request->input('page_id');
-        $menu_item->menu_id = $request->input('menu_id');
-        $menu_item->title = $request->input('title');
-        $menu_item->target = $request->input('target');
-        $menu_item->slug = strtolower($request->input('title'));
-        $menu_item->order = $current_order + 1;
-        $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
-        return $ret;
+        if ( $request->input('id') === '0') {
+            $current_order = MenuItem::where('menu_id', $request->input('menu_id'))->max('order');
+            $current_order ? $curr = $current_order : $curr = 1;
+            $menu_item = new MenuItem;
+            $menu_item->page_id = $request->input('page_id');
+            $menu_item->menu_id = $request->input('menu_id');
+            $menu_item->title = $request->input('title');
+            $menu_item->target = $request->input('target');
+            $menu_item->slug = strtolower($request->input('title'));
+            $menu_item->order = $current_order + 1;
+            $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
+            return $ret;
+        } else {
+            MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title') ]);
+            return json_encode(['status' => 's', 'message' => 'Edit successfully', 'id' => $request->input('id'),'title' => $request->input('title')]);
+        }
     }
 
     function menu_item_edit(Request $request)
