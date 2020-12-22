@@ -1,5 +1,7 @@
 @include('layout.app')
 @include('layout.page_styles')
+<link href="/css/lang.css" rel="stylesheet" type="text/css"/>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .btn-group {
         position: relative !important;
@@ -26,6 +28,11 @@
     <!-- END SIDEBAR -->
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
+        <div id="lang-switch">
+            <img src="/images/armenia.png" class="hy">
+            <img src="/images/english.png" class="en">
+            <img src="/images/russia.png" class="ru">
+        </div>
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             @if ($message = Session::get('success'))
@@ -131,56 +138,6 @@
             container.slideToggle(1000)
         });
 
-        $('#posts').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "searching": true,
-            "order": [[ 0, 'desc' ]],
-            "ajax": {
-                "url": "{{ url('posts_foreach') }}",
-                "dataType": "json",
-                "type": "POST",
-                "data": {_token: "{{csrf_token()}}"},
-            },
-            "columns": [
-                {"data": "id"},
-                {"data": "title"},
-                {"data": "content"},
-                {"data": "image"},
-                {"data": "created_at"},
-                {"data": "options"},
-            ]
-
-        });
-    });
-
-    $(document).on('click','#search_res',function () {
-        let params = $('.form-group').serializeArray();
-        $('#posts').DataTable().destroy();
-        let table = $('#posts').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "searching": true,
-            "order": [[ 0, 'desc' ]],
-            // "pagingType": "full_numbers",
-            "ajax": {
-                "url": "{{ route('posts_search') }}",
-                "dataType": "json",
-                "type": "POST",
-                "data": {_token: "{{csrf_token()}}", params},
-                "error": function (request, status, error) {
-                    console.log(request.responseText);
-                }
-            },
-            "columns": [
-                {"data": "id"},
-                {"data": "title"},
-                {"data": "content"},
-                {"data": "image"},
-                {"data": "created_at"},
-                {"data": "options"},
-            ]
-        });
-
     });
 </script>
+<script src="/js/posts/index.js"></script>

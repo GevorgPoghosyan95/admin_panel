@@ -29,6 +29,7 @@ class PostManager
 
         if (empty($request->input('search.value'))) {
             $posts = Post::offset($start)
+                ->where('lang',$request->get('lang'))
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -37,6 +38,7 @@ class PostManager
 
             $posts = Post::where('id', 'LIKE', "%{$search}%")
                 ->orWhere('title', 'LIKE', "%{$search}%")
+                ->where('lang',$request->get('lang'))
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -72,6 +74,7 @@ class PostManager
 
         $query = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
             ->leftjoin('categories', 'post_2_category.category_id', '=', 'categories.id')
+            ->where('posts.lang',$request->get('lang'))
             ->select($this->getSelectFields());
 
         $session = [];

@@ -1,37 +1,4 @@
 <!-- BEGIN HEADER -->
-<style>
-    #lang-switch {
-        float: left;
-    }
-    #lang-switch img {
-        width: 50px;
-        height: 50px;
-        opacity: 0.5;
-        transition: all .5s;
-        margin: auto 3px;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    #lang-switch img:hover {
-        cursor: pointer;
-        opacity: 1;
-
-    }
-
-    /* Language */
-    .active-lang {
-        display: flex !important;
-        transition: display .5s;
-    }
-
-    .active-flag {
-        transition: all .5s;
-        opacity: 1 !important;
-    }
-</style>
 <div class="page-header navbar navbar-fixed-top">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner ">
@@ -51,11 +18,6 @@
         <!-- END PAGE ACTIONS -->
         <!-- BEGIN PAGE TOP -->
         <div class="page-top">
-            <div id="lang-switch">
-                <img src="/images/armenia.jpg" class="hy">
-                <img src="/images/english.jpg" class="en">
-                <img src="/images/russia.jpg" class="ru">
-            </div>
             <!-- END HEADER SEARCH BOX -->
             <!-- BEGIN TOP NAVIGATION MENU -->
             <div class="top-menu">
@@ -125,36 +87,3 @@
             </div>
         </div>
     @endif
-
-<script>
-    $(document).ready(function(){
-
-        $('#lang-switch .hy').addClass("active-flag");
-
-        // Function switch
-        $(function() {
-
-            $("#lang-switch .hy").click(function() {
-                $('input[name="lang"]').val('hy')
-                $('#lang-switch .hy').addClass("active-flag");
-                $('#lang-switch .en').removeClass("active-flag");
-                $('#lang-switch .ru').removeClass("active-flag");
-            });
-
-            // English button
-            $("#lang-switch .en").click(function() {
-                $('input[name="lang"]').val('en')
-                $('#lang-switch .en').addClass("active-flag");
-                $('#lang-switch .hy').removeClass("active-flag");
-                $('#lang-switch .ru').removeClass("active-flag");
-            });
-
-            $("#lang-switch .ru").click(function() {
-                $('input[name="lang"]').val('ru')
-                $('#lang-switch .ru').addClass("active-flag");
-                $('#lang-switch .hy').removeClass("active-flag");
-                $('#lang-switch .en').removeClass("active-flag");
-            });
-        });
-    });
-</script>

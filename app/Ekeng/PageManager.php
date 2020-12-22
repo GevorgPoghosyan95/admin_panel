@@ -29,6 +29,7 @@ class PageManager
 
         if (empty($request->input('search.value'))) {
             $pages = Page::offset($start)
+                ->where('lang',$request->get('lang'))
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -37,6 +38,7 @@ class PageManager
 
             $pages = Page::where('id', 'LIKE', "%{$search}%")
                 ->orWhere('title', 'LIKE', "%{$search}%")
+                ->where('lang',$request->get('lang'))
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)

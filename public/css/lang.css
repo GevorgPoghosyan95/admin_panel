@@ -1,0 +1,33 @@
+#lang-switch {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+#lang-switch img {
+    width: 30px;
+    height: 20px;
+    opacity: 0.5;
+    transition: all .5s;
+    margin: auto 3px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#lang-switch img:hover {
+    cursor: pointer;
+    opacity: 1;
+
+}
+
+/* Language */
+.active-lang {
+    display: flex !important;
+    transition: display .5s;
+}
+
+.active-flag {
+    transition: all .5s;
+    opacity: 1 !important;
+}

@@ -61,7 +61,8 @@ class PageController extends Controller
         Page::create([
             'title'=>$request->get('title'),
             'body'=>$request->get('content'),
-            'image'=>$image
+            'image'=>$image,
+            'lang'=>$request->get('lang')
         ]);
 
         return redirect('pages')->with('success', 'Page created successfully');
@@ -136,8 +137,4 @@ class PageController extends Controller
         return $this->pageManager->pages_table($request);
     }
 
-    public function search(Request $request)
-    {
-        return $this->pageManager->search($request);
-    }
 }

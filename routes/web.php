@@ -36,9 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('permissions_foreach', 'PermissionController@foreach')->name('permissions_foreach');
     Route::resource('pages','PageController');
     Route::post('pages_foreach', 'PageController@foreach')->name('permissions_foreach');
-    Route::post('pages_search', 'PageController@search')->name('posts_search');
 
     Route::get('menu','MenuController@index');
+    Route::post('menus_foreach','MenuController@foreach');
     Route::get('menu/edit/{id}', 'MenuController@edit')->name('menu_edit');
     Route::delete('menu/delete/{id}', 'MenuController@delete')->name('menu_delete');
     Route::get('menu/builder/{id}','MenuItemController@build')->name('menu_builder');

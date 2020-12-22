@@ -1,6 +1,6 @@
 @include('layout.app')
 <script src="/js/tinymce.min.js"></script>
-{{--<script src="/js/tiny.js"></script>--}}
+<link href="/css/lang.css" rel="stylesheet" type="text/css"/>
 <style>
     textarea {
         height: 400px;
@@ -28,6 +28,11 @@
 
 <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
+        <div id="lang-switch">
+            <img src="/images/armenia.png" class="hy">
+            <img src="/images/english.png" class="en">
+            <img src="/images/russia.png" class="ru">
+        </div>
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             {!! Form::open( ['method' => 'POST','route' => 'posts.store', 'files' => true]) !!}
@@ -73,3 +78,4 @@
         $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
     });
 </script>
+<script src="/js/posts/create.js"></script>

@@ -4,7 +4,13 @@
     .btn-group {position: relative!important;}
     table img{height: 100px;width:100px;object-fit: cover}
     tbody tr {height: 100px!important;}
+    .dropdown-menu.pull-left {
+        position: relative;
+        z-index: 1000;
+    }
 </style>
+<link href="/css/lang.css" rel="stylesheet" type="text/css"/>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
 <!-- BEGIN CONTAINER -->
@@ -16,6 +22,11 @@
     <!-- END SIDEBAR -->
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
+        <div id="lang-switch">
+            <img src="/images/armenia.png" class="hy">
+            <img src="/images/english.png" class="en">
+            <img src="/images/russia.png" class="ru">
+        </div>
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             @if ($message = Session::get('success'))
@@ -56,30 +67,4 @@
 </body>
 @include('layout.footer')
 <script src="/js/sweetAlert.js"></script>
-<script>
-    $(document).ready(function () {
-
-        $('#pages').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "searching": true,
-            "order": [[ 0, 'desc' ]],
-            "ajax": {
-                "url": "{{ url('pages_foreach') }}",
-                "dataType": "json",
-                "type": "POST",
-                "data": {_token: "{{csrf_token()}}"},
-            },
-            "columns": [
-                {"data": "id"},
-                {"data": "title"},
-                {"data": "body"},
-                {"data": "image"},
-                {"data": "created_at"},
-                {"data": "options"},
-            ]
-
-        });
-    });
-
-</script>
+<script src="/js/pages/index.js"></script>

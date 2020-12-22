@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ekeng\MenuManager;
 use App\Menu;
 use App\MenuItem;
 use App\Page;
@@ -12,19 +13,20 @@ use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
 {
-    function __construct()
+    protected $order = [];
+    protected $parents = [];
+    protected $depth = 0;
+    protected $root = null;
+    protected $menuManager;
+
+    function __construct(MenuManager $menuManager)
     {
+        $this->menuManager = $menuManager;
         $this->middleware('permission:menu-list|menu-create|menu-edit|menu-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:menu-create', ['only' => ['create_menu', 'store']]);
         $this->middleware('permission:menu-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
     }
-
-    protected $order = [];
-    protected $parents = [];
-    protected $depth = 0;
-    protected $root = null;
-
 
 
     public function index()
@@ -45,6 +47,7 @@ class MenuController extends Controller
             $menu = new Menu;
             $menu->name = $request->input('name');
             $menu->slug = $request->input('name');
+            $menu->lang = $request->input('lang');
             $menu->save();
 
             return back()->with('message', 'success');
@@ -66,5 +69,10 @@ class MenuController extends Controller
             'slug' => strtolower($request->get('menu_name'))
         ]);
         return redirect()->back()->with('success', 'Menu name changed!');
+    }
+
+    public function foreach(Request $request)
+    {
+        return $this->menuManager->menus_table($request);
     }
 }

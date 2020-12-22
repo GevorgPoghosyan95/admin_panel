@@ -1,5 +1,7 @@
 @include('layout.app')
 @include('layout.page_styles')
+<link href="/css/lang.css" rel="stylesheet" type="text/css"/>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .btn-group {
         position: relative !important;
@@ -9,6 +11,10 @@
         height: 100px;
         width: 100px;
         object-fit: cover
+    }
+    .dropdown-menu.pull-left {
+        position: relative;
+        z-index: 1000;
     }
 </style>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
@@ -22,6 +28,11 @@
     <!-- END SIDEBAR -->
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
+        <div id="lang-switch">
+            <img src="/images/armenia.png" class="hy">
+            <img src="/images/english.png" class="en">
+            <img src="/images/russia.png" class="ru">
+        </div>
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             @if ($message = Session::get('success'))
@@ -48,38 +59,15 @@
                     <div class="tools"></div>
                 </div>
                 <div class="portlet-body">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover" id="menus">
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th style="text-align: center">Actions</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($menus as $menu)
-                            <tr>
-                                <td width="60%">{{$menu->name}}</td>
-                                <td width="10%">
-                                    <!-- Delete form begin -->
-                                {!! Form::open(['method' => 'DELETE','route' => ['menu_delete', $menu->id]]) !!}
-                                {!! Form::submit('Delete',array('class' => 'btn btn-sm btn-danger pull-right')) !!}
-                                {!! Form::close() !!}
-                                <!-- Delete form end -->
-                                    <!-- Edit form begin -->
-                                {!! Form::open(['method' => 'GET','route' => ['menu_edit', $menu->id],'class' => 'dw']) !!}
-                                {!! Form::hidden('menu_name', $menu->name, array('class' => 'form-control')) !!}
-                                {!! Form::submit('Edit',array('class' => 'btn btn-sm btn-primary pull-right edit')) !!}
-                                {!! Form::submit('Save',array('class' => 'btn btn-sm btn-primary pull-right save','style'=>'display:none')) !!}
-                                {!! Form::close() !!}
-                                <!-- Edit form end -->
-                                    <!-- Builder form begin -->
-                                {!! Form::open(['method' => 'GET','route' => ['menu_builder', $menu->id],'class' => 'del']) !!}
-                                {!! Form::submit('Builder',array('class' => 'btn btn-sm btn-primary pull-right')) !!}
-                                {!! Form::close() !!}
-                                <!-- Builder form end -->
-                                </td>
-                            </tr>
-                        @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -106,6 +94,7 @@
                     <div class="form-group">
                         <label for="url">Menu name</label>
                         <input type="text" class="form-control" id="name" placeholder="name" name="name">
+                        <input type="hidden" name="lang" value="hy">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -117,33 +106,5 @@
     </div>
 </div>
 <script src="/js/sweetAlert.js"></script>
-<script>
-    var lots_of_stuff_already_done = false;
-    $(document).on('click','.edit', function(e) {
-        e.preventDefault();
-        let td = $(this).parents('td').siblings('td')
-        let val = td.text()
-        $(this).parents('td').find('.del').hide();
-        $(this).parents('td').append('<input class="btn btn-sm btn-success pull-right cancel" type="submit" value="Cancel" >');
-        td.empty()
-        td.append('<input type="text" name="menuName" class="form-control" value="'+ val +'"/>')
-        $(this).siblings('.save').css('display','block')
-        $(this).remove()
-        $('input[name="menuName"]').keyup(function () {
-            $('input[name="menu_name"]').val($(this).val())
-        });
-        $('.cancel').click(function () {
-            $(this).hide();
-            $(this).parents('td').siblings('td').find('input[name="menuName"]').remove();
-            $(this).parents('td').siblings('td').text(val);
-            $(this).parents('td').find('.save').css('display','none');
-            $(this).parents('td').find('.dw').append('<input class="btn btn-sm btn-primary pull-right edit" type="submit" value="Edit">')
-            $(this).parents('td').find('.del').show();
-        })
-    });
-    $(document).ready(function () {
-        $('.alert-success,.alert-danger').fadeOut(5000)
-    })
-
-</script>
 @include('layout.footer')
+<script src="/js/menus/index.js"></script>
