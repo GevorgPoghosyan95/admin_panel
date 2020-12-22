@@ -165,8 +165,8 @@ class PostManager
                                                         <a href="#">
                                                             <i class="icon-docs"></i>
                                                             <form method="POST" style="display:inline;" action="$delete">
-                                                                <input type="hidden" title="_method" value="DELETE"/>
-                                                                <input type="hidden" title="_token" value="$token">
+                                                                <input type="hidden" name="_method" value="DELETE"/>
+                                                                <input type="hidden" name="_token" value="$token">
                                                                 <input type="submit" value="Delete" class="btn btn-danger btn-xs">
                                                             </form>
                                                         </a>

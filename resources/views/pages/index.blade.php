@@ -3,6 +3,7 @@
 <style>
     .btn-group {position: relative!important;}
     table img{height: 100px;width:100px;object-fit: cover}
+    tbody tr {height: 100px!important;}
 </style>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
@@ -24,31 +25,31 @@
             @endif
             <a target="_self" type="button" class="btn btn-primary" href="pages/create">Create New Page</a>
             <br><br>
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-globe"></i>Posts
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-globe"></i>Posts
+                        </div>
+                        <div class="tools"></div>
                     </div>
-                    <div class="tools"></div>
-                </div>
-                <div class="portlet-body">
-                    <table class="table table-striped table-bordered table-hover" id="pages">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Image</th>
-                            <th>Created at</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="portlet-body">
+                        <table class="table table-striped table-bordered table-hover" id="pages">
+                            <thead>
+                            <tr >
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Image</th>
+                                <th>Created at</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

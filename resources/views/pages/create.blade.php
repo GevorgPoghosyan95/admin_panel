@@ -28,7 +28,7 @@
                 <label for="title" style="font-size: 26px">Title</label>
                 <input type="text" class="form-control" name="title" id="title"><br>
                 <label for="" style="font-size: 26px">Page Content</label>
-                <textarea id="full-featured-non-premium" name="content"></textarea><br>
+                <textarea class="tiny_area" name="content"></textarea><br>
                 <div class="input-images" style="width: 10%"></div>
                 <input type="submit" value="Save" class="btn btn-success"/>
            {!! Form::close() !!}
@@ -36,6 +36,11 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        tinymce.init({
+            selector: 'textarea.tiny_area',
+        });
+    })
     $('.input-images').imageUploader({
         imagesInputName: 'photos',
         maxFiles: 1,

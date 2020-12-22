@@ -1,9 +1,7 @@
 @include('layout.app')
-
 {{--<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>--}}
 <script src="/js/tinymce.min.js"></script>
 <script src="/js/tiny.js"></script>
-
 <style>
 
     textarea {
@@ -54,14 +52,14 @@
     $(document).ready(function () {
         let myImg = '{{($page->image)}}' ? 'data:image/png;base64,{{($page->image)}}' : '',
             pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-            tinymce.init({
+        tinymce.init({
+            selector: 'textarea.tiny_area',
             setup: function (editor) {
                 editor.on('init', function (e) {
                     editor.setContent(`{!! !empty($page->body) ? $page->body : '' !!}`);
                 });
             }
         });
-
         $('.input-images').imageUploader({
             imagesInputName: 'photos',
             maxFiles: 1,

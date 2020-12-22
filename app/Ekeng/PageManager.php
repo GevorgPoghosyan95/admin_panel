@@ -60,7 +60,8 @@ class PageManager
     }
 
 
-    public function create_data($pages,$token){
+    public function create_data($pages, $token)
+    {
         $data = array();
         if (!empty($pages)) {
             foreach ($pages as $page) {
@@ -84,9 +85,9 @@ class PageManager
                                                     <li>
                                                         <a href="#">
                                                             <i class="icon-docs"></i>
-                                                            <form method="POST" style="display:inline;" action="$delete">
-                                                                <input type="hidden" title="_method" value="DELETE"/>
-                                                                <input type="hidden" title="_token" value="$token">
+                                                           <form method="POST" style="display:inline;" action="$delete">
+                                                                <input type="hidden" name="_method" value="DELETE"/>
+                                                                <input type="hidden" name="_token" value="$token">
                                                                 <input type="submit" value="Delete" class="btn btn-danger btn-xs">
                                                             </form>
                                                         </a>
