@@ -37,7 +37,7 @@
             <label for="title" style="font-size: 18px">Category</label><br>
             {!! Form::select('category', $categories, null,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
             <label for="" style="font-size: 18px">Post Content</label>
-            <textarea id="full-featured-non-premium" name="content"></textarea><br>
+            <textarea class="tiny_area" name="content"></textarea><br>
             <div class="input-images" style="width: 10%"></div>
             <input type="submit" value="Save" class="btn btn-success"/>
             {!! Form::close() !!}
@@ -49,6 +49,11 @@
         imagesInputName: 'photos',
         maxFiles: 1,
     });
+    $(document).ready(function () {
+        tinymce.init({
+            selector: 'textarea.tiny_area',
+        });
+    })
 </script>
 </body>
 @include('layout.footer')
