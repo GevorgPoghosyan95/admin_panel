@@ -2,23 +2,22 @@
 
 namespace App\Ekeng;
 
+use App\Category;
 use Illuminate\Support\Facades\Request;
 use App\Page;
 
-class PageManager
+class CategoryManager
 {
 
-    public function pages_table($request)
+    public function categories_table($request)
     {
         $columns = array(
             0 => 'id',
-            1 => 'title',
-            2 => 'body',
+            1 => 'name',
             3 => 'updated_at',
             4 => 'created_at',
-            5 => 'image',
         );
-        $totalData = Page::count();
+        $totalData = Category::count();
 
         $totalFiltered = $totalData;
 
@@ -28,7 +27,7 @@ class PageManager
         $dir = $request->input('order.0.dir');
 
         if (empty($request->input('search.value'))) {
-            $pages = Page::offset($start)
+            $categories = Category::offset($start)
                 ->where('lang',$request->get('lang'))
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -36,7 +35,7 @@ class PageManager
         } else {
             $search = $request->input('search.value');
 
-            $pages = Page::where('id', 'LIKE', "%{$search}%")
+            $categories = Category::where('id', 'LIKE', "%{$search}%")
                 ->orWhere('title', 'LIKE', "%{$search}%")
                 ->where('lang',$request->get('lang'))
                 ->offset($start)
@@ -44,12 +43,12 @@ class PageManager
                 ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = Page::where('id', 'LIKE', "%{$search}%")
+            $totalFiltered = Category::where('id', 'LIKE', "%{$search}%")
                 ->orWhere('title', 'LIKE', "%{$search}%")
                 ->count();
         }
         $token = csrf_token();
-        $data = $this->create_data($pages, $token);
+        $data = $this->create_data($categories, $token);
 
         $json_data = array(
             "draw" => intval($request->input('draw')),
@@ -62,20 +61,18 @@ class PageManager
     }
 
 
-    public function create_data($pages, $token)
+    public function create_data($categories, $token)
     {
         $data = array();
-        if (!empty($pages)) {
-            foreach ($pages as $page) {
-                $delete = route('pages.destroy', $page->id);
-                $edit = route('pages.edit', $page->id);
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $delete = route('categories.destroy', $category->id);
+                $edit = route('categories.edit', $category->id);
+                $show = route('categories.show', $category->id);
 
-                $nestedData['id'] = $page->id;
-                $nestedData['title'] = $page->title;
-                $nestedData['body'] = substr(strip_tags($page->body),0,30);
-                $nestedData['image'] = $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '';
-                $nestedData['updated_at'] = date('Y-m-d H:i:s', strtotime($page->updated_at));
-                $nestedData['created_at'] = date('Y-m-d H:i:s', strtotime($page->created_at));
+                $nestedData['id'] = $category->id;
+                $nestedData['name'] = $category->name;
+                $nestedData['created_at'] = date('Y-m-d H:i:s', strtotime($category->created_at));
                 $nestedData['options'] = <<<EOD
                                             <div class="btn-group">
                                                 <button class="btn btn-xs green dropdown-toggle" type="button"
@@ -99,6 +96,14 @@ class PageManager
                                                             <i class="icon-tag"></i>
                                                             <form method="GET" style="display:inline;" action="$edit">
                                                                     <input type="submit" value="Edit" class="btn btn-primary btn-xs">
+                                                                </form>
+                                                            </a>
+                                                        </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="icon-tag"></i>
+                                                            <form method="GET" style="display:inline;" action="$show">
+                                                                    <input type="submit" value="Show All Posts" class="btn btn-primary btn-xs">
                                                                 </form>
                                                             </a>
                                                         </li>

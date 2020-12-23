@@ -6,6 +6,7 @@ use App\Ekeng\MenuManager;
 use App\Menu;
 use App\MenuItem;
 use App\Page;
+use App\User;
 use CodexShaper\Menu\Models\MenuSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,8 +32,7 @@ class MenuController extends Controller
 
     public function index()
     {
-        $menus = Menu::all();
-        return view('menu.index', compact('menus'));
+        return view('menu.index');
     }
 
     public function create_menu(Request $request)

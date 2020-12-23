@@ -11,10 +11,9 @@ class MenuItemController extends Controller
 {
     public function build(Request $request, $id)
     {
-
-        $pages = Page::all();
         $items = MenuItem::where('menu_id', $id)->get();
         $menu = Menu::find($id);
+        $pages = Page::where('lang',$menu->lang)->get();
         return view('menu.builder', compact('pages', 'items', 'menu'));
     }
 
@@ -71,7 +70,7 @@ class MenuItemController extends Controller
             $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
             return $ret;
         } else {
-            MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title') ]);
+            MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),'slug'=>strtolower($request->input('title'))]);
             return json_encode(['status' => 's', 'message' => 'Edit successfully', 'id' => $request->input('id'),'title' => $request->input('title')]);
         }
     }

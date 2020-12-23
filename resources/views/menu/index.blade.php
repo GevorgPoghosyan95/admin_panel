@@ -108,3 +108,4 @@
 <script src="/js/sweetAlert.js"></script>
 @include('layout.footer')
 <script src="/js/menus/index.js"></script>
+<script src="/js/menus/create.js"></script>

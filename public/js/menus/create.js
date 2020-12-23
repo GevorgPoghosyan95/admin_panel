@@ -1,5 +1,3 @@
-
-var lots_of_stuff_already_done = false;
 $(document).on('click','.edit', function(e) {
     e.preventDefault();
     let td = $(this).parents('td').siblings('td')
@@ -13,7 +11,7 @@ $(document).on('click','.edit', function(e) {
     $('input[name="menuName"]').keyup(function () {
         $('input[name="menu_name"]').val($(this).val())
     });
-    $('.cancel').click(function () {
+    $('.cancel').one('click',function () {
         $(this).hide();
         $(this).parents('td').siblings('td').find('input[name="menuName"]').remove();
         $(this).parents('td').siblings('td').text(val);

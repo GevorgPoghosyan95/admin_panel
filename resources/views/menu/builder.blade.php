@@ -83,7 +83,7 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-lg-3 pull-left">
-                    <span style="font-size: 24px;line-height: 26px"><i class="fa fa-bars" aria-hidden="true"></i> {{$menu->name}} (menu)</span>
+                    <span style="font-size: 24px;line-height: 26px"><i class="fa fa-bars" aria-hidden="true"></i> {!! $menu->name !!} (menu)</span>
                     <button type="button" class="btn btn-success"
                             style="margin-left: 15px;border-radius: 5px!important;" data-toggle="modal"
                             data-target="#menu_item_form">

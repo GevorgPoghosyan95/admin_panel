@@ -65,7 +65,7 @@ class MenuManager
             foreach ($menus as $menu) {
                 $delete = route('menu_delete', $menu->id);
                 $edit = route('menu_edit', $menu->id);
-                $builder = route('menu_builder', $menu->id);
+                $builder = route('menu_builder', ['id'=>$menu->id,'lang'=>$menu->lang]);
                 $nestedData['name'] = $menu->name;
                 $nestedData['options'] = <<<EOD
                                 <td width="10%">
@@ -93,7 +93,6 @@ class MenuManager
 EOD;
                 $nestedData['options'] .= <<<EOD
 <script src="/js/sweetAlert.js"></script>
-<script src="/js/menus/create.js"></script>
 EOD;
                 $data[] = $nestedData;
 

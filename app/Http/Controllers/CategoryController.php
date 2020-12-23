@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Ekeng\CategoryManager;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,9 +13,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    function __construct()
+    protected $categoryManager;
+    function __construct(CategoryManager $categoryManager)
     {
+        $this->categoryManager = $categoryManager;
         $this->middleware('permission:categories-list|categories-create|categories-edit|categories-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:categories-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:categories-edit', ['only' => ['edit', 'update']]);
@@ -45,7 +47,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create(['name'=>$request->get('name')]);
+        Category::create(['name'=>$request->get('name'),'lang'=>$request->get('lang')]);
         return redirect()->back()
             ->with('success', 'Category created successfully');
     }
@@ -58,7 +60,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $posts = $category->posts;
+        return view('categories.showPosts',compact('posts'));
     }
 
     /**
@@ -98,5 +101,10 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->back()
             ->with('success', 'Category deleted successfully');
+    }
+
+    public function foreach(Request $request)
+    {
+        return $this->categoryManager->categories_table($request);
     }
 }

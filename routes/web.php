@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('permissions', 'PermissionController');
     Route::resource('groups', 'GroupsController');
     Route::resource('categories', 'CategoryController');
+    Route::post('categories_foreach', 'CategoryController@foreach');
     Route::resource('posts', 'PostController');
     Route::post('posts_foreach', 'PostController@foreach')->name('posts_foreach');
     Route::post('posts_search', 'PostController@search')->name('posts_search');
@@ -35,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('change_password/{user}', 'Ekeng\ProfileController@change')->name('change_password');
     Route::post('permissions_foreach', 'PermissionController@foreach')->name('permissions_foreach');
     Route::resource('pages','PageController');
-    Route::post('pages_foreach', 'PageController@foreach')->name('permissions_foreach');
+    Route::post('pages_foreach', 'PageController@foreach');
 
     Route::get('menu','MenuController@index');
     Route::post('menus_foreach','MenuController@foreach');
