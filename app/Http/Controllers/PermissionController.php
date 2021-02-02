@@ -7,7 +7,7 @@ use App\Group;
 use App\Http\Requests\CreatePermissionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Permission;
+use App\Ekeng\Permission;
 
 class PermissionController extends Controller
 {
