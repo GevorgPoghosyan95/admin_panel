@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use App\Ekeng\Permission;
 use Spatie\Permission\Models\Role;
 
 class GroupsController extends Controller

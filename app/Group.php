@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Permission;
+use App\Ekeng\Permission;
 
 class Group extends Model
 {
