@@ -80,9 +80,6 @@
         $('.iui-close').click(function () {
             $('#img').val('')
         })
-        setTimeout(function () {
-            $('.alert').fadeOut('1000')
-        }, 2000)
     });
 </script>
 @include('layout.footer')

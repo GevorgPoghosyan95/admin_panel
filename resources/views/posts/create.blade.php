@@ -68,6 +68,7 @@
             autosave_retention: "2m",
             image_advtab: true,
             selector: 'textarea.tiny_area',
+            
         });
     })
 </script>
