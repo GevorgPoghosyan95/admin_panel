@@ -116,6 +116,7 @@
                 </div>
                 <div class="form-group">
                     <label for="page">Select page</label>
+
                     <select class="form-control" id="page">
                         <option  value="0" selected="selected">choose page</option>
                         @foreach($pages as $page)
@@ -186,7 +187,7 @@
             $('input[name="id"]').val($(this).data('id'));
             $('#title').val($(this).closest(".dd-item").data('title'));
             $('#url').val($(this).closest(".dd-item").data('path'));
-            $('#url').attr('readonly',true);
+            $('#url,#title').attr('readonly',true);
             $(this).closest(".dd-item").data('title');
             let text =  $(this).parents('.dd-item').data('title');
             $('#page option').filter(function() {

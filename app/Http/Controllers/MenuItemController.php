@@ -72,6 +72,7 @@ class MenuItemController extends Controller
             $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
             return $ret;
         } else {
+//            dd($request->all());
             MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),
                 'slug'=>strtolower($request->input('title'))]);
 //            Page::find($request->input('page_id'))->update(['path'=>$request->input('url')]);
