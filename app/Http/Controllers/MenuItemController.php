@@ -19,6 +19,7 @@ class MenuItemController extends Controller
 
     public function build_edit(Request $request, $id)
     {
+//        dd($this->getChilds($id));
         $itemsWithChildrens = $this->getChilds($id);
 
         return json_encode($itemsWithChildrens);
@@ -27,8 +28,8 @@ class MenuItemController extends Controller
 
     public function getChilds($menu_id, $parent_id = null, $orderBy = 'asc')
     {
-        return MenuItem::with('children')
-            ->where(['menu_id' => $menu_id, 'parent_id' => $parent_id])->select('id', 'order', 'title')
+        return MenuItem::with('children')->leftJoin('pages','pages.id','=','menu_items.page_id')
+            ->where(['menu_id' => $menu_id, 'parent_id' => $parent_id])->select('menu_items.id', 'order', 'menu_items.title','pages.path')
             ->orderBy('order', $orderBy)
             ->get();
     }
@@ -57,6 +58,7 @@ class MenuItemController extends Controller
 
     function menu_item_add(Request $request)
     {
+
         if ( $request->input('id') === '0') {
             $current_order = MenuItem::where('menu_id', $request->input('menu_id'))->max('order');
             $current_order ? $curr = $current_order : $curr = 1;
@@ -70,7 +72,9 @@ class MenuItemController extends Controller
             $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
             return $ret;
         } else {
-            MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),'slug'=>strtolower($request->input('title'))]);
+            MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),
+                'slug'=>strtolower($request->input('title'))]);
+//            Page::find($request->input('page_id'))->update(['path'=>$request->input('url')]);
             return json_encode(['status' => 's', 'message' => 'Edit successfully', 'id' => $request->input('id'),'title' => $request->input('title')]);
         }
     }

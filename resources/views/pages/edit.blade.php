@@ -33,6 +33,8 @@
             {!! Form::model($page, ['method' => 'PUT','route' => ['pages.update', $page->id], 'files' => true]) !!}
             <label for="title" style="font-size: 26px">Title</label>
             <input type="text" class="form-control" name="title" id="title" value="{!! !empty($page->title) ? $page->title : '' !!}"><br>
+            <label for="path" style="font-size: 26px">Path</label>
+            <input type="text" class="form-control" name="path" id="path" value="{!! !empty($page->path) ? $page->path : '' !!}"><br>
             <label for="" style="font-size: 26px">Page Content</label>
             <textarea class="tiny_area" name="content"></textarea> <br>
             <div class="input-images" style="width: 10%"></div>

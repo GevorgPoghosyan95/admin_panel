@@ -1,6 +1,8 @@
 <?php
 
 
+use App\MenuItem;
+
 function generate_sidebar_groups($array, $output)
 {
 
@@ -26,4 +28,49 @@ function generate_sidebar_groups($array, $output)
 function createPermission($group){
     $group = strtolower($group);
     return [$group.'-list',$group.'-create',$group.'-edit',$group.'-delete'];
+}
+
+//create menu dynamically
+
+ function showMenu($name){
+    $data = getChilds($name);
+    $html = '';
+    return recursion($data,$html);
+}
+
+ function recursion($data,$html){
+    $html .= '<ul>';
+    foreach ($data as $item) {
+        if($item->children()->exists()){
+            $class = 'parent';
+        }else{
+            if($item->parent_id == null){
+                $class = 'parent';
+            }else{
+                $class = 'children';
+            }
+        }
+        if($item->url == null){
+            $content = $item->title;
+        } else {
+            $content = "<a href='$item->url'>$item->title</a>";
+        }
+        if($item->children()->exists()){
+            $html .= '<li class="'.$class.'">'.$content;
+            $html = recursion($item->children,$html);
+            $html.='</li>';
+        }else {
+            $html .= '<li class="'.$class.'">'.$content.'</li>';
+        }
+    }
+    $html.='</ul>';
+    return $html;
+}
+
+ function getChilds($name, $parent_id = null, $orderBy = 'asc')
+{
+    return MenuItem::with('children')->leftJoin('menus','menus.id','=','menu_items.menu_id')
+        ->where(['name' => $name, 'parent_id' => $parent_id])->select('menu_items.id as id', 'menu_items.order as order', 'title')
+        ->orderBy('order', $orderBy)
+        ->get();
 }

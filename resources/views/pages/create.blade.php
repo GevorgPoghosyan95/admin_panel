@@ -40,6 +40,8 @@
             <label for="title" style="font-size: 26px">Title</label>
             <input type="hidden" name="lang" value="hy">
             <input type="text" class="form-control" name="title" id="title"><br>
+            <label for="path" style="font-size: 26px">Path</label>
+            <input type="text" class="form-control" name="path" id="path" ><br>
             <label for="" style="font-size: 26px">Page Content</label>
             <textarea class="tiny_area" name="content"></textarea><br>
             <div class="input-images" style="width: 10%"></div>

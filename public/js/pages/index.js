@@ -52,6 +52,7 @@ $(document).ready(function(){
                 {"data": "title"},
                 {"data": "body"},
                 {"data": "image"},
+                {"data": "path"},
                 {"data": "created_at"},
                 {"data": "options"},
             ]

@@ -51,22 +51,7 @@
             cursor: pointer
         }
 
-        .flash-modal {
-            position: fixed;
-            top: 75px;
-            right: -250px;
-            z-index: 1000;
-            max-width: 25%;
-            background-color: #ff6f36;
-            border-radius: 4px !important;
-        }
 
-        .flash-modal p {
-            padding: 10px 10px;
-            margin: 0;
-            color: #ffffff;
-            font-size: 20px;
-        }
 
         #menuItemModal, .close {
             float: left;
@@ -134,7 +119,7 @@
                     <select class="form-control" id="page">
                         <option  value="0" selected="selected">choose page</option>
                         @foreach($pages as $page)
-                            <option value="{{$page->id}}">{{$page->title}}</option>
+                            <option value="{{$page->id}}" >{{$page->title}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -160,14 +145,12 @@
             data = JSON.parse(data);
             let obj = {children: []};
             $.each(data, function (key, value) {
-                // console.log(value);
                 $('.dd').nestable('add', value);
             });
             $('.dd-item').each(function (i, v) {
-                // console.log(v.attributes['data-id'].value);
                 $(this).prepend('<div class="buttons">' +
                     '<div class="btn btn-sm btn-danger pull-right delete" data-id="' + v.attributes['data-id'].value + '"> Delete </div>' +
-                    '<div class="btn btn-sm btn-primary pull-right edit" data-id="' + v.attributes['data-id'].value + '" > Edit </div>' +
+                    '<div class="btn btn-sm btn-primary pull-right edit" data-id="' + v.attributes['data-id'].value + '"> Edit </div>' +
                     '</div>')
             });
             if ($('.outer .dd-item').length === 0) {
@@ -177,7 +160,7 @@
             }
         });
 
-        $('.dd').nestable({maxDepth: 3});
+        $('.dd').nestable({maxDepth: 5});
         $(document).on("click", ".delete", function () {
             var r = confirm("Delete item ?");
             if (r == true) {
@@ -200,10 +183,12 @@
             }
         });
         $(document).on("click", ".edit", function () {
-            console.log($(this).data('id'));
             $('input[name="id"]').val($(this).data('id'));
             $('#title').val($(this).closest(".dd-item").data('title'));
-            let text = $(this).closest(".dd-item").data('title');
+            $('#url').val($(this).closest(".dd-item").data('path'));
+            $('#url').attr('readonly',true);
+            $(this).closest(".dd-item").data('title');
+            let text =  $(this).parents('.dd-item').data('title');
             $('#page option').filter(function() {
                 return $(this).text() === text;
             }).prop('selected', true);
@@ -238,6 +223,7 @@
                 menu_id: '{{$menu->id}}',
                 page_id: page,
                 target : target,
+                // url:url,
                 _token: '{{ csrf_token() }}'
             }, function (data) {
                 $('.dd-empty').hide();
@@ -269,13 +255,7 @@
             });
         });
 
-        function flashMessage(message, color = '#ff6f36') {
-            $('.flash-modal p').html(message)
-            $('.flash-modal').css({'right': '35px', 'transition': '1s', 'background-color': color})
-            setTimeout(function () {
-                $('.flash-modal').css({'right': '-250px', 'transition': '1s'})
-            }, 3000)
-        }
+
 
         $('#page').change(function () {
             if($(this).val() !== 'choose page') {
@@ -283,6 +263,7 @@
                     res = JSON.parse(res);
                     if (res.status === "success") {
                         $('#menu_item_form').find('input[id="title"]').val(res.data.title);
+                        $('#menu_item_form').find('input[id="url"]').val(res.data.path);
                         // console.log(res.data.title);
                     } else {
                         alert("error")

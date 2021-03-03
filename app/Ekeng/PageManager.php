@@ -14,9 +14,10 @@ class PageManager
             0 => 'id',
             1 => 'title',
             2 => 'body',
-            3 => 'updated_at',
-            4 => 'created_at',
-            5 => 'image',
+            3 => 'path',
+            4 => 'updated_at',
+            5 => 'created_at',
+            6 => 'image',
         );
         $totalData = Page::count();
 
@@ -74,6 +75,7 @@ class PageManager
                 $nestedData['title'] = $page->title;
                 $nestedData['body'] = substr(strip_tags($page->body),0,30);
                 $nestedData['image'] = $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '';
+                $nestedData['path'] = $page->path ? $page->path : '';
                 $nestedData['updated_at'] = date('Y-m-d H:i:s', strtotime($page->updated_at));
                 $nestedData['created_at'] = date('Y-m-d H:i:s', strtotime($page->created_at));
                 $nestedData['options'] = <<<EOD

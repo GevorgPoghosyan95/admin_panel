@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//
+//Route::get('/', 'MediaController@test')->name('test');
 
 Route::get('login', 'LoginController@index')->name('login');
 Route::post('login', 'LoginController@login');
@@ -50,4 +52,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('menu/menu_item_edit', 'MenuItemController@menu_item_edit')->name('menu_item_edit');
     Route::post('menu/menu_item_delete', 'MenuItemController@menu_item_delete')->name('menu_item_delete');
     Route::get('menu/builder/edit/get_page/{id}','MenuItemController@get_page'); //ajax
+
+    Route::get('media','MediaController@index');
+    Route::post('media/upload','MediaController@upload');
+    Route::post('media/delete_file','MediaController@delete_file');
+    Route::post('media/create_folder','MediaController@create_folder')->name('create_folder');
+    Route::post('media/delete_folder','MediaController@delete_folder')->name('delete_folder');
+    Route::post('media/open_folder','MediaController@open_folder')->name('open_folder');
 });

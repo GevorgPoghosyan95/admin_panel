@@ -51,6 +51,7 @@
                                 <th>Title</th>
                                 <th>Content</th>
                                 <th>Image</th>
+                                <th>Path</th>
                                 <th>Created at</th>
                                 <th>Actions</th>
                             </tr>

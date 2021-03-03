@@ -61,6 +61,7 @@ class PageController extends Controller
         Page::create([
             'title'=>$request->get('title'),
             'body'=>$request->get('content'),
+            'path' => $request->get('path'),
             'image'=>$image,
             'lang'=>$request->get('lang')
         ]);
@@ -114,7 +115,7 @@ class PageController extends Controller
             $base64 = $page->image;
         }
 
-        $page->update(['title' => $request->input('title'),'body' => $request->input('content'),'image' => $base64]);
+        $page->update(['title' => $request->input('title'),'body' => $request->input('content'),'image' => $base64,'path' => $request->input('path')]);
         return redirect('pages')->with('success', 'Page Was Update Successfully');
     }
 
