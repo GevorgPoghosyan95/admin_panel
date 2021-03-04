@@ -9,4 +9,8 @@ class Page extends Model
     protected $fillable = [
         'title','body','image','document','lang','path'
     ];
+
+    public function menuItem(){
+        return $this->hasOne(MenuItem::class);
+    }
 }

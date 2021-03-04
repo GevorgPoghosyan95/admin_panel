@@ -38,4 +38,12 @@ class MenuItem extends Model
     {
         return $this->hasone('App\Menu', 'id', 'menu_id');
     }
+
+    public function menu(){
+        return $this->belongsTo(Menu::class,'menu_id');
+    }
+
+    public function page(){
+        return $this->belongsTo(Page::class,'page_id');
+    }
 }

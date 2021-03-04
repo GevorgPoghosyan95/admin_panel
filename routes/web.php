@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 //
-//Route::get('/', 'MediaController@test')->name('test');
 
 Route::get('login', 'LoginController@index')->name('login');
 Route::post('login', 'LoginController@login');
@@ -59,4 +55,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('media/create_folder','MediaController@create_folder')->name('create_folder');
     Route::post('media/delete_folder','MediaController@delete_folder')->name('delete_folder');
     Route::post('media/open_folder','MediaController@open_folder')->name('open_folder');
+
 });
+
+
+Route::get('/', 'Site\AllController@index')->name('home');
+Route::get('{route}', 'Site\AllController@page');

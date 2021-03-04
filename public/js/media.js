@@ -83,6 +83,7 @@ $('#folder_modal #save_f').click(function () {
                     '                       </div><div class="rem_fol">delete folder</div>\n' +
                     '                   </div>';
                 $('.folder_bl').append(fl);
+                window.location.reload()
             }else{
                 alert('folder not created');
             }
