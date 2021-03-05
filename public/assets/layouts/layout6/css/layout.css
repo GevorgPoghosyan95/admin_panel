@@ -398,7 +398,7 @@ html {
 .page-content.page-content-popup {
   background: #fff; }
 
-/* Set space for content */
+/* Set space for type */
 @media (max-width: 480px) {
   /* 480px */
   .page-content.page-content-popup {
@@ -505,7 +505,7 @@ html {
 /* Stylesheet design for max-width: 991px */
 @media (max-width: 991px) {
   /* 991px */
-  /* Page content */
+  /* Page type */
   .page-content .page-content-fixed-header {
     /* Content Header Menu */ }
     .page-content .page-content-fixed-header .page-breadcrumb > li {
@@ -536,7 +536,7 @@ html {
 /* Stylesheet design for min-width: 992px */
 @media (min-width: 992px) {
   /* 992px */
-  /* Page fixed main content */
+  /* Page fixed main type */
   .page-content .page-fixed-main-content {
     overflow: hidden;
     margin-left: 255px; } }
@@ -1129,10 +1129,10 @@ Quick Sidebar Layout
     right: 0; }
   .page-quick-sidebar-wrapper .page-quick-sidebar {
     background: #21282e;
-    /* Quick sidebar tabs content */
+    /* Quick sidebar tabs type */
     /* Quick sidebar general list heading */
     /* Quick sidebar general list-items */
-    /* Inner content */
+    /* Inner type */
     /* Quick sidebar list */
     /* Quick sidebar list item */
     /* Quick sidebar list item shown */

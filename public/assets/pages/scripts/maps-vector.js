@@ -49,7 +49,7 @@ var MapsVector = function () {
             setMap("russia");
             setMap("germany");
 
-            // redraw maps on window or content resized 
+            // redraw maps on window or type resized
             App.addResizeHandler(function(){
                 setMap("world");
                 setMap("usa");

@@ -16,6 +16,9 @@
         position: relative;
         z-index: 1000;
     }
+    .postCheckbox {
+        margin-left: 20px !important;
+    }
 </style>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
@@ -102,7 +105,10 @@
                     <div class="caption">
                         <i class="fa fa-globe"></i>Posts
                     </div>
-                    <div class="tools"></div>
+                    <div class="tools">
+                        <button class="btn-success checked" id="selectAll">Select All</button>
+                        <button class="btn-danger" id="deleteSelected">Delete Selected Posts</button>
+                    </div>
                 </div>
                 <div class="portlet-body">
                     <table class="table table-striped table-bordered table-hover" id="posts">

@@ -1565,7 +1565,7 @@ rangy.createModule("DomUtil", function(api, module) {
 
             var iterator = new RangeIterator(this, true);
 
-            // Work out where to position the range after content removal
+            // Work out where to position the range after type removal
             var node, boundary;
             if (sc !== root) {
                 node = dom.getClosestAncestorIn(sc, root, true);
@@ -1579,7 +1579,7 @@ rangy.createModule("DomUtil", function(api, module) {
 
             iterator.reset();
 
-            // Remove the content
+            // Remove the type
             var returnValue = remover(iterator);
             iterator.detach();
 
@@ -3450,7 +3450,7 @@ wysihtml5.browser = (function() {
     },
 
     /**
-     * IE6+7 throw a mixed content warning when the src of an iframe
+     * IE6+7 throw a mixed type warning when the src of an iframe
      * is empty/unset or about:blank
      * window.querySelector is implemented as of IE8
      */
@@ -3556,7 +3556,7 @@ wysihtml5.browser = (function() {
         "formatBlock":          isIE,
          // When inserting unordered or ordered lists in Firefox, Chrome or Safari, the current selection or line gets
          // converted into a list (<ul><li>...</li></ul>, <ol><li>...</li></ol>)
-         // IE and Opera act a bit different here as they convert the entire content of the current block element into a list
+         // IE and Opera act a bit different here as they convert the entire type of the current block element into a list
         "insertUnorderedList":  isIE || isOpera || isWebKit,
         "insertOrderedList":    isIE || isOpera || isWebKit
       };
@@ -4190,7 +4190,7 @@ wysihtml5.dom.convertToList = (function() {
       }
       
       if (isLineBreak) {
-        // Only create a new list item in the next iteration when the current one has already content
+        // Only create a new list item in the next iteration when the current one has already type
         currentListItem = currentListItem.firstChild ? null : currentListItem;
         continue;
       }
@@ -4694,7 +4694,7 @@ wysihtml5.dom.observe = function(element, eventNames, handler) {
  * HTML Sanitizer
  * Rewrites the HTML based on given rules
  *
- * @param {Element|String} elementOrHtml HTML String to be sanitized OR element whose content should be sanitized
+ * @param {Element|String} elementOrHtml HTML String to be sanitized OR element whose type should be sanitized
  * @param {Object} [rules] List of rules for rewriting the HTML, if there's no rule for an element it will
  *    be converted to a "span". Each rule is a key/value pair where key is the tag to convert, and value the
  *    desired substitution.
@@ -4762,7 +4762,7 @@ wysihtml5.dom.parse = (function() {
   
   /**
    * Iterates over all childs of the element, recreates them, appends them into a document fragment
-   * which later replaces the entire body content
+   * which later replaces the entire body type
    */
   function parse(elementOrHtml, rules, context, cleanUp) {
     wysihtml5.lang.object(currentRules).merge(defaultRules).merge(rules).get();
@@ -4864,7 +4864,7 @@ wysihtml5.dom.parse = (function() {
     /**
      * Repair node
      * IE is a bit bitchy when it comes to invalid nested markup which includes unclosed tags
-     * A <p> doesn't need to be closed according HTML4-5 spec, we simply replace it with a <div> to preserve its content and layout
+     * A <p> doesn't need to be closed according HTML4-5 spec, we simply replace it with a <div> to preserve its type and layout
      */
     if ("outerHTML" in oldNode) {
       if (!wysihtml5.browser.autoClosesUnclosedTags() &&
@@ -5299,7 +5299,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
  *  - Partially secure in other browsers (Firefox, Opera, Safari, Chrome, ...)
  *
  * Please note that this class can't benefit from the HTML5 sandbox attribute for the following reasons:
- *    - sandboxing doesn't work correctly with inlined content (src="javascript:'<html>...</html>'")
+ *    - sandboxing doesn't work correctly with inlined type (src="javascript:'<html>...</html>'")
  *    - sandboxing of physical documents causes that the dom isn't accessible anymore from the outside (iframe.contentWindow, ...)
  *    - setting the "allow-same-origin" flag would fix that, but then still javascript and dom events refuse to fire
  *    - therefore the "allow-scripts" flag is needed, which then would deactivate any security, as the js executed inside the iframe
@@ -5396,7 +5396,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
      *  - Believe it or not but in IE "security" in document.createElement("iframe") is false, even
      *    though it supports it
      *  - When an iframe has security="restricted", in IE eval() & execScript() don't work anymore
-     *  - IE doesn't fire the onload event when the content is inlined in the src attribute, therefore we rely
+     *  - IE doesn't fire the onload event when the type is inlined in the src attribute, therefore we rely
      *    on the onreadystatechange event
      */
     _createIframe: function() {
@@ -5645,7 +5645,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
 
 /**
  * Fix most common html formatting misbehaviors of browsers implementation when inserting
- * content via copy & paste contentEditable
+ * type via copy & paste contentEditable
  *
  * @author Christopher Blum
  */
@@ -6198,7 +6198,7 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
           hasScrollBars = doc.documentElement.scrollHeight > doc.documentElement.offsetHeight,
           tempElement   = doc._wysihtml5ScrollIntoViewElement = doc._wysihtml5ScrollIntoViewElement || (function() {
             var element = doc.createElement("span");
-            // The element needs content in order to be able to calculate it's position properly
+            // The element needs type in order to be able to calculate it's position properly
             element.innerHTML = wysihtml5.INVISIBLE_SPACE;
             return element;
           })(),
@@ -6890,10 +6890,10 @@ wysihtml5.Commands = Base.extend(
       codeElement = dom.getParentElement(anchor, { nodeName: "code" });
       textContent = dom.getTextContent(anchor);
 
-      // if <a> contains url-like text content, rename it to <code> to prevent re-autolinking
+      // if <a> contains url-like text type, rename it to <code> to prevent re-autolinking
       // else replace <a> with its childNodes
       if (textContent.match(dom.autoLink.URL_REG_EXP) && !codeElement) {
-        // <code> element is used to prevent later auto-linking of the content
+        // <code> element is used to prevent later auto-linking of the type
         codeElement = dom.renameElement(anchor, "code");
       } else {
         dom.replaceWithChildNodes(anchor);
@@ -8112,7 +8112,7 @@ wysihtml5.views.View = Base.extend(
         wysihtml5.quirks.ensureProperClearingOfLists(this);
       }
 
-      // Set up a sync that makes sure that textarea and editor have the same content
+      // Set up a sync that makes sure that textarea and editor have the same type
       if (this.initSync && this.config.sync) {
         this.initSync();
       }
@@ -8176,7 +8176,7 @@ wysihtml5.views.View = Base.extend(
         }
 
         textContent = getTextContent(link);
-        // keydown is fired before the actual content is changed
+        // keydown is fired before the actual type is changed
         // therefore we set a timeout to change the href
         setTimeout(function() {
           var newTextContent = getTextContent(link);
@@ -8659,7 +8659,7 @@ wysihtml5.views.View = Base.extend(
 
     /**
      * Initializes interval-based syncing
-     * also makes sure that on-submit the composer's content is synced with the textarea
+     * also makes sure that on-submit the composer's type is synced with the textarea
      * immediately when the form gets submitted
      */
     _observe: function() {
@@ -9384,7 +9384,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     // Object which includes parser rules to apply when html gets inserted via copy & paste
     // See parser_rules/*.js for examples
     parserRules:          { tags: { br: {}, span: {}, div: {}, p: {} }, classes: {} },
-    // Parser method to use when the user inserts content via copy & paste
+    // Parser method to use when the user inserts type via copy & paste
     parser:               wysihtml5.dom.parse,
     // Class name which should be set on the contentEditable element in the created sandbox iframe, can be styled via the 'stylesheets' option
     composerClassName:    "wysihtml5-editor",

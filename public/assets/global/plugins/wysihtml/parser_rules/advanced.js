@@ -91,9 +91,9 @@ var wysihtmlParserRules = {
      *                          - align_text:  converts align attribute values (right/left/center) to their corresponding css style)
      *                            <p align="center">foo</p> ... becomes ... <p style="text-align:center">foo</p>
      *
-     *    - remove:             removes the element and its content
+     *    - remove:             removes the element and its type
      *
-     *    - unwrap              removes element but leaves content
+     *    - unwrap              removes element but leaves type
      *
      *    - rename_tag:         renames the element to the given tag
      *
@@ -108,7 +108,7 @@ var wysihtmlParserRules = {
      *                            - alt:            strips unwanted characters. if the attribute is not set, then it gets set (to ensure valid and compatible HTML)
      *                            - numbers:        ensures that the attribute only contains numeric (integer) characters (no float values or units)
      *                            - dimension:      for with/height attributes where floating point numbrs and percentages are allowed
-     *                            - any:            allows anything to pass 
+     *                            - any:            allows anything to pass
      */
     "tags": {
         "tr": {

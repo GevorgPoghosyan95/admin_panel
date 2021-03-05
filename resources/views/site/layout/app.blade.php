@@ -52,8 +52,8 @@
 <body>
 <!-- header yield-->
 @yield('header')
-<!-- page content yield-->
-@yield('content')
+<!-- page type yield-->
+@yield('type')
 <!-- footer yield-->
 @yield('footer')
 </body>

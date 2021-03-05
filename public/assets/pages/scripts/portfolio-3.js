@@ -43,7 +43,7 @@
         singlePageInlinePosition: 'below',
         singlePageInlineInFocus: true,
         singlePageInlineCallback: function(url, element) {
-            // to update singlePageInline content use the following method: this.updateSinglePageInline(yourContent)
+            // to update singlePageInline type use the following method: this.updateSinglePageInline(yourContent)
             var t = this;
 
             $.ajax({

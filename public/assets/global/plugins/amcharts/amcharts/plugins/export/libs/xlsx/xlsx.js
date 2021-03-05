@@ -1444,7 +1444,7 @@ if(has_buf) {
     if(utf8read(corpus) == utf8readc(corpus)) utf8read = utf8readc;
 }
 
-// matches <foo>...</foo> extracts content
+// matches <foo>...</foo> extracts type
 var matchtag = (function() {
     var mtcache = {};
     return function matchtag(f,g) {

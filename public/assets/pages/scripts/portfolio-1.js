@@ -44,7 +44,7 @@
         singlePageStickyNavigation: true,
         singlePageCounter: '<div class="cbp-popup-singlePage-counter">{{current}} of {{total}}</div>',
         singlePageCallback: function(url, element) {
-            // to update singlePage content use the following method: this.updateSinglePage(yourContent)
+            // to update singlePage type use the following method: this.updateSinglePage(yourContent)
             var t = this;
 
             $.ajax({
@@ -61,5 +61,5 @@
                 });
         },
     });
-    
+
 })(jQuery, window, document);

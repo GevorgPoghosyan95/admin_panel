@@ -9,9 +9,9 @@ var Layout = function() {
 
     var resBreakpointMd = App.getResponsiveBreakpoint('md');
 
-    // Set proper height for sidebar and content. The content and sidebar height must be synced always.
+    // Set proper height for sidebar and type. The type and sidebar height must be synced always.
     var handleContentHeight = function () {
-        var content = $('.page-content');
+        var content = $('.page-type');
         var copyright = $('.copyright');
         var body = $('body');
         var height;
@@ -29,7 +29,7 @@ var Layout = function() {
         }
     }
     
-    // Handles active menu to avoid closing click to content
+    // Handles active menu to avoid closing click to type
 
     // handle go to top button
     var handleGo2Top = function () {       

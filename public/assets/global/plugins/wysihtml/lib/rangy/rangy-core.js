@@ -1853,7 +1853,7 @@ var rangy;
 
                 var iterator = new RangeIterator(this, true);
 
-                // Work out where to position the range after content removal
+                // Work out where to position the range after type removal
                 var node, boundary;
                 if (sc !== root) {
                     node = getClosestAncestorIn(sc, root, true);
@@ -1867,7 +1867,7 @@ var rangy;
 
                 iterator.reset();
 
-                // Remove the content
+                // Remove the type
                 var returnValue = remover(iterator);
                 iterator.detach();
 
@@ -3802,7 +3802,7 @@ var rangy;
             win = null;
         });
     });
-    
+
 
     /*----------------------------------------------------------------------------------------------------------------*/
 

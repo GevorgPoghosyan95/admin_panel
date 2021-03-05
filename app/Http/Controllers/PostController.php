@@ -40,7 +40,6 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::pluck('name','id')->all();
-        array_unshift($categories,"");
         return view('posts.create',compact('categories'));
     }
 
@@ -69,8 +68,8 @@ class PostController extends Controller
             'image'=>$image,
             'lang'=>$request->get('lang')
         ]);
-        if(isset($request['category'])){
-            $post->categories()->sync([$request->get('category')]);
+        if(!empty($request['category'])){
+            $post->categories()->sync($request->get('category'));
         }
 
         return redirect('posts')->with('success', 'Post created successfully');
@@ -147,5 +146,15 @@ class PostController extends Controller
     public function search(Request $request)
     {
         return $this->postManager->search($request);
+    }
+
+    public function deleteChecked(Request $request){
+        try{
+            Post::whereIn('id',$request->get('params'))->delete();
+            return response()->json(['status'=>'OK']);
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            return response()->json(['status'=>'error','error'=>['message'=>'Deleting problem!']]);
+        }
     }
 }

@@ -74,8 +74,8 @@ var wysihtmlParserRules = {
         "wysiwyg-text-align-left": 1,
         "wysiwyg-text-align-right": 1
     },
-    
-    
+
+
     "type_definitions": {
 
         "visible_content_object": {
@@ -83,7 +83,7 @@ var wysihtmlParserRules = {
                 "has_visible_contet": 1
             }
         },
-        
+
         "alignment_object": {
             "classes": {
                 "wysiwyg-text-align-center": 1,
@@ -98,26 +98,26 @@ var wysihtmlParserRules = {
                 "text-align": ["left", "right", "center"]
             }
         },
-        
+
         "valid_image_src": {
             "attrs": {
                 "src": /^[^data\:]/i
             }
         },
-        
+
         "text_color_object": {
           "styles": {
             "color": true,
             "background-color": true
           }
         },
-        
+
         "text_fontsize_object": {
           "styles": {
             "font-size": true
           }
         },
-        
+
         "text_formatting_object": {
             "classes": {
                 "wysiwyg-color-aqua": 1,
@@ -150,7 +150,7 @@ var wysihtmlParserRules = {
     },
 
     "comments": 1, // if set allows comments to pass
-    
+
     /**
      * Tag list
      *
@@ -169,9 +169,9 @@ var wysihtmlParserRules = {
      *                          - align_text:  converts align attribute values (right/left/center) to their corresponding css style)
      *                            <p align="center">foo</p> ... becomes ... <p style="text-align:center">foo</p>
      *
-     *    - remove:             removes the element and its content
+     *    - remove:             removes the element and its type
      *
-     *    - unwrap              removes element but leaves content
+     *    - unwrap              removes element but leaves type
      *
      *    - rename_tag:         renames the element to the given tag
      *
@@ -186,7 +186,7 @@ var wysihtmlParserRules = {
      *                            - alt:            strips unwanted characters. if the attribute is not set, then it gets set (to ensure valid and compatible HTML)
      *                            - numbers:        ensures that the attribute only contains numeric (integer) characters (no float values or units)
      *                            - dimension:      for with/height attributes where floating point numbrs and percentages are allowed
-     *                            - any:            allows anything to pass 
+     *                            - any:            allows anything to pass
      */
     "tags": {
         "tr": {
@@ -348,7 +348,7 @@ var wysihtmlParserRules = {
         "object": {
             "remove": 1
         },
-        
+
         "div": {
             "one_of_type": {
                 "visible_content_object": 1
@@ -362,7 +362,7 @@ var wysihtmlParserRules = {
                 "align": "align_text"
             }
         },
-        
+
         "option": {
             "remove":1
         },

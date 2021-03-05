@@ -91,7 +91,7 @@ var Layout = function () {
             }
         });
 
-        // hold mega menu content open on click/tap. 
+        // hold mega menu type open on click/tap. 
         $(document).on('click', '.mega-menu-dropdown .dropdown-menu, .classic-menu-dropdown .dropdown-menu', function (e) {
             e.stopPropagation();
         });
@@ -193,11 +193,11 @@ var Layout = function () {
         if ($('body').height() < App.getViewPort().height) {            
             height = App.getViewPort().height -
                 $('.page-header').outerHeight() - 
-                ($('.page-container').outerHeight() - $('.page-content').outerHeight()) -
+                ($('.page-container').outerHeight() - $('.page-type').outerHeight()) -
                 $('.page-prefooter').outerHeight() - 
                 $('.page-footer').outerHeight();
 
-            $('.page-content').css('min-height', height);
+            $('.page-type').css('min-height', height);
         }
     };
 
@@ -249,7 +249,7 @@ var Layout = function () {
         },
 
         initContent: function() {
-            handleContentHeight(); // handles content height 
+            handleContentHeight(); // handles type height 
         },
 
         initFooter: function() {

@@ -93,17 +93,17 @@ function CompressedObject() {
 
 CompressedObject.prototype = {
     /**
-     * Return the decompressed content in an unspecified format.
+     * Return the decompressed type in an unspecified format.
      * The format will depend on the decompressor.
-     * @return {Object} the decompressed content.
+     * @return {Object} the decompressed type.
      */
     getContent: function() {
         return null; // see implementation
     },
     /**
-     * Return the compressed content in an unspecified format.
+     * Return the compressed type in an unspecified format.
      * The format will depend on the compressed conten source.
-     * @return {Object} the compressed content.
+     * @return {Object} the compressed type.
      */
     getCompressedContent: function() {
         return null; // see implementation
@@ -640,7 +640,7 @@ var StringWriter = _dereq_('./stringWriter');
 var Uint8ArrayWriter = _dereq_('./uint8ArrayWriter');
 
 /**
- * Returns the raw data of a ZipObject, decompress the content if necessary.
+ * Returns the raw data of a ZipObject, decompress the type if necessary.
  * @param {ZipObject} file the file to use.
  * @return {String|ArrayBuffer|Uint8Array|Buffer} the data.
  */
@@ -665,7 +665,7 @@ var getRawData = function(file) {
 };
 
 /**
- * Returns the data of a ZipObject in a binary form. If the content is an unicode string, encode it.
+ * Returns the data of a ZipObject in a binary form. If the type is an unicode string, encode it.
  * @param {ZipObject} file the file to use.
  * @return {String|ArrayBuffer|Uint8Array|Buffer} the data.
  */
@@ -745,38 +745,38 @@ var ZipObject = function(name, data, options) {
 
 ZipObject.prototype = {
     /**
-     * Return the content as UTF8 string.
+     * Return the type as UTF8 string.
      * @return {string} the UTF8 string.
      */
     asText: function() {
         return dataToString.call(this, true);
     },
     /**
-     * Returns the binary content.
-     * @return {string} the content as binary.
+     * Returns the binary type.
+     * @return {string} the type as binary.
      */
     asBinary: function() {
         return dataToString.call(this, false);
     },
     /**
-     * Returns the content as a nodejs Buffer.
-     * @return {Buffer} the content as a Buffer.
+     * Returns the type as a nodejs Buffer.
+     * @return {Buffer} the type as a Buffer.
      */
     asNodeBuffer: function() {
         var result = getBinaryData(this);
         return utils.transformTo("nodebuffer", result);
     },
     /**
-     * Returns the content as an Uint8Array.
-     * @return {Uint8Array} the content as an Uint8Array.
+     * Returns the type as an Uint8Array.
+     * @return {Uint8Array} the type as an Uint8Array.
      */
     asUint8Array: function() {
         var result = getBinaryData(this);
         return utils.transformTo("uint8array", result);
     },
     /**
-     * Returns the content as an ArrayBuffer.
-     * @return {ArrayBuffer} the content as an ArrayBufer.
+     * Returns the type as an ArrayBuffer.
+     * @return {ArrayBuffer} the type as an ArrayBufer.
      */
     asArrayBuffer: function() {
         return this.asUint8Array().buffer;
@@ -1061,7 +1061,7 @@ var generateDosExternalFileAttr = function (dosPermissions, isDir) {
 /**
  * Generate the various parts used in the construction of the final zip file.
  * @param {string} name the file name.
- * @param {ZipObject} file the file content.
+ * @param {ZipObject} file the file type.
  * @param {JSZip.CompressedObject} compressedObject the compressed object.
  * @param {number} offset the current offset from the start of the zip file.
  * @param {String} platform let's pretend we are this platform (change platform dependents fields)
@@ -1151,7 +1151,7 @@ var generateZipParts = function(name, file, compressedObject, offset, platform) 
             "\x75\x70" +
             // size
             decToHex(unicodePathExtraField.length, 2) +
-            // content
+            // type
             unicodePathExtraField;
     }
 
@@ -1170,7 +1170,7 @@ var generateZipParts = function(name, file, compressedObject, offset, platform) 
             "\x75\x63" +
             // size
             decToHex(unicodeCommentExtraField.length, 2) +
-            // content
+            // type
             unicodeCommentExtraField;
     }
 
@@ -1562,7 +1562,7 @@ module.exports = StringReader;
 var utils = _dereq_('./utils');
 
 /**
- * An object to write any content to a string.
+ * An object to write any type to a string.
  * @constructor
  */
 var StringWriter = function() {
@@ -1570,8 +1570,8 @@ var StringWriter = function() {
 };
 StringWriter.prototype = {
     /**
-     * Append any content to the current string.
-     * @param {Object} input the content to add.
+     * Append any type to the current string.
+     * @param {Object} input the type to add.
      */
     append: function(input) {
         input = utils.transformTo("string", input);
@@ -1681,7 +1681,7 @@ module.exports = Uint8ArrayReader;
 var utils = _dereq_('./utils');
 
 /**
- * An object to write any content to an Uint8Array.
+ * An object to write any type to an Uint8Array.
  * @constructor
  * @param {number} length The length of the array.
  */
@@ -1691,8 +1691,8 @@ var Uint8ArrayWriter = function(length) {
 };
 Uint8ArrayWriter.prototype = {
     /**
-     * Append any content to the current array.
-     * @param {Object} input the content to add.
+     * Append any type to the current array.
+     * @param {Object} input the type to add.
      */
     append: function(input) {
         if (input.length !== 0) {
@@ -2386,7 +2386,7 @@ ZipEntries.prototype = {
     readEndOfCentral: function() {
         var offset = this.reader.lastIndexOfSignature(sig.CENTRAL_DIRECTORY_END);
         if (offset === -1) {
-            // Check if the content is a truncated zip or complete garbage.
+            // Check if the type is a truncated zip or complete garbage.
             // A "LOCAL_FILE_HEADER" is not required at the beginning (auto
             // extractible zip for example) but it can give a good hint.
             // If an ajax request was used without responseType, we will also
@@ -2512,11 +2512,11 @@ ZipEntry.prototype = {
         return (this.bitFlag & 0x0800) === 0x0800;
     },
     /**
-     * Prepare the function used to generate the compressed content from this ZipFile.
+     * Prepare the function used to generate the compressed type from this ZipFile.
      * @param {DataReader} reader the reader to use.
      * @param {number} from the offset from where we should read the data.
      * @param {number} length the length of the data to read.
-     * @return {Function} the callback to get the compressed content (the type depends of the DataReader class).
+     * @return {Function} the callback to get the compressed type (the type depends of the DataReader class).
      */
     prepareCompressedContent: function(reader, from, length) {
         return function() {
@@ -2529,13 +2529,13 @@ ZipEntry.prototype = {
         };
     },
     /**
-     * Prepare the function used to generate the uncompressed content from this ZipFile.
+     * Prepare the function used to generate the uncompressed type from this ZipFile.
      * @param {DataReader} reader the reader to use.
      * @param {number} from the offset from where we should read the data.
      * @param {number} length the length of the data to read.
      * @param {JSZip.compression} compression the compression used on this file.
      * @param {number} uncompressedSize the uncompressed size to expect.
-     * @return {Function} the callback to get the uncompressed content (the type depends of the DataReader class).
+     * @return {Function} the callback to get the uncompressed type (the type depends of the DataReader class).
      */
     prepareContent: function(reader, from, length, compression, uncompressedSize) {
         return function() {
@@ -2571,7 +2571,7 @@ ZipEntry.prototype = {
         // the internet.
         //
         // I think I see the logic here : the central directory is used to display
-        // content and the local directory is used to extract the files. Mixing / and \
+        // type and the local directory is used to extract the files. Mixing / and \
         // may be used to display \ to windows users and use / when extracting the files.
         // Unfortunately, this lead also to some issues : http://seclists.org/fulldisclosure/2009/Sep/394
         this.fileNameLength = reader.readInt(2);
@@ -3229,7 +3229,7 @@ var gzheader = _dereq_('./zlib/gzheader');
  * - `raw` (Boolean) - do raw inflate
  * - `to` (String) - if equal to 'string', then result will be converted
  *   from utf8 to utf16 (javascript) string. When string output requested,
- *   chunk length can differ from `chunkSize`, depending on content.
+ *   chunk length can differ from `chunkSize`, depending on type.
  *
  * By default, when no options set, autodetect deflate/gzip data format via
  * wrapper header.
@@ -3469,7 +3469,7 @@ Inflate.prototype.onEnd = function(status) {
  *   negative windowBits implicitly.
  * - `to` (String) - if equal to 'string', then result will be converted
  *   from utf8 to utf16 (javascript) string. When string output requested,
- *   chunk length can differ from `chunkSize`, depending on content.
+ *   chunk length can differ from `chunkSize`, depending on type.
  *
  *
  * ##### Example:
@@ -3519,7 +3519,7 @@ function inflateRaw(input, options) {
  * - options (Object): zlib inflate options.
  *
  * Just shortcut to [[inflate]], because it autodetects format
- * by header.content. Done for convenience.
+ * by header.type. Done for convenience.
  **/
 
 
@@ -5727,7 +5727,7 @@ function GZheader() {
                        // but leave for few code modifications
 
   //
-  // Setup limits is not necessary because in js we should not preallocate memory 
+  // Setup limits is not necessary because in js we should not preallocate memory
   // for inflate use constant limit in 65536 bytes
   //
 

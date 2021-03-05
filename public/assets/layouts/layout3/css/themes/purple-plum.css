@@ -8,7 +8,7 @@ body {
     background: white; }
 
 /******
-General 
+General
 ******/
 /* Theme Font Color */
 .theme-font {
@@ -32,7 +32,7 @@ General
       color: #fff; }
 
 /******
-Page Header 
+Page Header
 ******/
 .page-header {
   background-color: #fff;
@@ -150,7 +150,7 @@ Page Header
     .page-header .page-header-menu.fixed {
       box-shadow: 0px 1px 10px 0px rgba(68, 77, 88, 0.2); }
     .page-header .page-header-menu .hor-menu .navbar-nav {
-      /* Mega menu content */
+      /* Mega menu type */
       /* Classic menu */ }
       .page-header .page-header-menu .hor-menu .navbar-nav > li.mega-menu-dropdown > .dropdown-menu {
         box-shadow: 5px 5px rgba(85, 97, 111, 0.2); }
@@ -208,7 +208,7 @@ Page Header
       .page-header .page-header-menu .hor-menu .navbar-nav > li .dropdown-submenu > a:after {
         color: #6fa7d7; }
     .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav {
-      /* Mega menu content */
+      /* Mega menu type */
       /* Classic menu */ }
       .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav > li.mega-menu-dropdown > .dropdown-menu {
         box-shadow: 5px 5px rgba(85, 97, 111, 0.2); }
@@ -283,7 +283,7 @@ Page Header
           color: #616d7d; }
 
 /******
-Page Footer 
+Page Footer
 ******/
 .page-prefooter {
   background: #48525e;
@@ -369,7 +369,7 @@ Page Footer
     /* Horizontal mega menu */ }
     .page-header .page-header-menu .hor-menu .navbar-nav {
       background: #fff !important;
-      /* Mega menu content */
+      /* Mega menu type */
       /* Classic menu */ }
       .page-header .page-header-menu .hor-menu .navbar-nav > li.mega-menu-dropdown > .dropdown-menu {
         box-shadow: none; }

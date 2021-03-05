@@ -206,7 +206,7 @@ extend(Chart.prototype, {
 			.replace(/ (NS[0-9]+\:)?href=/g, ' xlink:href=') // #3567
 			.replace(/\n/, ' ')
 			// Any HTML added to the container after the SVG (#894)
-			.replace(/<\/svg>.*?$/, '</svg>') 
+			.replace(/<\/svg>.*?$/, '</svg>')
 			// Batik doesn't support rgba fills and strokes (#3095)
 			.replace(/(fill|stroke)="rgba\(([ 0-9]+,[ 0-9]+,[ 0-9]+),([ 0-9\.]+)\)"/g, '$1="rgb($2)" $1-opacity="$3"')
 			/* This fails in IE < 8
@@ -258,9 +258,9 @@ extend(Chart.prototype, {
 			html,
 			options = merge(chart.options, additionalOptions), // copy the options and add extra options
 			allowHTML = options.exporting.allowHTML; // docs: experimental, see #2473
-			
 
-		// IE compatibility hack for generating SVG content that it doesn't really understand
+
+		// IE compatibility hack for generating SVG type that it doesn't really understand
 		if (!doc.createElementNS) {
 			/*jslint unparam: true*//* allow unused parameter ns in function below */
 			doc.createElementNS = function (ns, tagName) {
@@ -357,7 +357,7 @@ extend(Chart.prototype, {
 				html = '<foreignObject x="0" y="0" width="200" height="200">' +
 					'<body xmlns="http://www.w3.org/1999/xhtml">' +
 					html[1] +
-					'</body>' + 
+					'</body>' +
 					'</foreignObject>';
 				svg = svg.replace('</svg>', html + '</svg>');
 			}
@@ -395,7 +395,7 @@ extend(Chart.prototype, {
 	 * @param {Object} chartOptions Additional chart options for the SVG representation of the chart
 	 */
 	exportChart: function (options, chartOptions) {
-		
+
 		var svg = this.getSVGForExport(options, chartOptions);
 
 		// merge the options
@@ -432,7 +432,7 @@ extend(Chart.prototype, {
 
 		fireEvent(chart, 'beforePrint');
 
-		// hide all body content
+		// hide all body type
 		each(childNodes, function (node, i) {
 			if (node.nodeType === 1) {
 				origDisplay[i] = node.style.display;
@@ -453,7 +453,7 @@ extend(Chart.prototype, {
 			// put the chart back in
 			origParent.appendChild(container);
 
-			// restore all body content
+			// restore all body type
 			each(childNodes, function (node, i) {
 				if (node.nodeType === 1) {
 					node.style.display = origDisplay[i];

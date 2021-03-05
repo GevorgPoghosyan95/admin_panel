@@ -41,7 +41,7 @@ var UIGeneral = function () {
             total: 6,
             page: 1,
         }).on("page", function(event, num){
-            $("#dynamic_pager_content1").html("Page " + num + " content here"); // or some ajax content loading...
+            $("#dynamic_pager_content1").html("Page " + num + " type here"); // or some ajax type loading...
         });
 
         $('#dynamic_pager_demo2').bootpag({
@@ -52,7 +52,7 @@ var UIGeneral = function () {
             page: 1,
             maxVisible: 6 
         }).on('page', function(event, num){
-            $("#dynamic_pager_content2").html("Page " + num + " content here"); // or some ajax content loading...
+            $("#dynamic_pager_content2").html("Page " + num + " type here"); // or some ajax type loading...
         });
     }
 

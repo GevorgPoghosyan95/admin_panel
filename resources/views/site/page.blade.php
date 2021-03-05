@@ -4,7 +4,7 @@
     @include('site.layout.header')
 @stop
 
-@section('content')
+@section('type')
     <!-- START CONTENT -->
 
     <div class="line1">

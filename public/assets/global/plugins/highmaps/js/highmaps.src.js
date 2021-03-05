@@ -4830,7 +4830,7 @@ VMLElement = {
 	 * Set the rotation of a span with oldIE's filter
 	 */
 	setSpanRotation: function () {
-		// Adjust for alignment and rotation. Rotation of useHTML content is not yet implemented
+		// Adjust for alignment and rotation. Rotation of useHTML type is not yet implemented
 		// but it can probably be implemented for Firefox 3.5+ on user request. FF3.5+
 		// has support for CSS3 transform. The getBBox method also needs to be updated
 		// to compensate for the rotation, like it currently does for SVG.
@@ -11533,7 +11533,7 @@ Chart.prototype = {
 			}, extend({
 				position: RELATIVE,
 				overflow: HIDDEN, // needed for context menu (avoid scrollbars) and
-					// content overflow in IE
+					// type overflow in IE
 				width: chartWidth + PX,
 				height: chartHeight + PX,
 				textAlign: 'left',

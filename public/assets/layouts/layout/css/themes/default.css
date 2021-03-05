@@ -1,5 +1,5 @@
 /* Cubic Bezier Transition */
-/*********** 
+/***********
     Page Header
     ***********/
 /* Header search bar, toggler button & top menu */
@@ -130,7 +130,7 @@
   /* Default Mega Menu */
   /* Light Mega Menu */ }
   .page-header.navbar .hor-menu .navbar-nav {
-    /* Mega menu content */
+    /* Mega menu type */
     /* Classic menu */ }
     .page-header.navbar .hor-menu .navbar-nav > li.mega-menu-dropdown > .dropdown-menu {
       box-shadow: 5px 5px rgba(57, 57, 57, 0.2); }
@@ -186,7 +186,7 @@
     .page-header.navbar .hor-menu .navbar-nav > li .dropdown-submenu > a:after {
       color: #b8b8b8; }
   .page-header.navbar .hor-menu.hor-menu-light .navbar-nav {
-    /* Mega menu content */
+    /* Mega menu type */
     /* Classic menu */ }
     .page-header.navbar .hor-menu.hor-menu-light .navbar-nav > li.mega-menu-dropdown > .dropdown-menu {
       box-shadow: 5px 5px rgba(102, 102, 102, 0.1); }
@@ -484,7 +484,7 @@
       border-right: 4px solid #d64635; }
 
 /******
-    Page Footer 
+    Page Footer
     ******/
 .page-footer .page-footer-inner {
   color: #a3a3a3; }

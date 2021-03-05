@@ -16,7 +16,7 @@ jQuery.fn.gantt = function (options) {
 		dow: ["N", "Pn", "Wt", "Śr", "Cz", "Pt", "So"],
 		startPos: new Date()
 	};
-	var options = jQuery.extend(defaults, options);	
+	var options = jQuery.extend(defaults, options);
 	var data = null;        // Recived data
 	var pageNum = 0;        // Current page number
 	var pageCount = 0;      // Aviable pages count
@@ -25,7 +25,7 @@ jQuery.fn.gantt = function (options) {
 	var hPosition = 0;      // Current position on diagram (Horizontal)
 	var dateStart = null;
 	var dateEnd = null;
-	
+
 	var create = function(jQuerythis) {
 		if (!options.source)
 			return;
@@ -35,7 +35,7 @@ jQuery.fn.gantt = function (options) {
 			rowsNum = data.length;
 			pageCount = Math.ceil(rowsNum/options.itemsPerPage);
 			rowsOnLastPage = rowsNum - (Math.floor(rowsNum/options.itemsPerPage) * options.itemsPerPage);
-			
+
 			dateStart = tools.getMinDate();
 			dateEnd = tools.getMaxDate();
 
@@ -47,7 +47,7 @@ jQuery.fn.gantt = function (options) {
 				height: jQuery(".fn-gantt").height() + "px"
 			});
 			jQuery('.fn-gantt .dataPanel').css({'margin-left': hPosition+'px'});
-			
+
 			var d = Math.round((options.startPos/1000 - dateStart/1000) / 86400 )-2;
 			if (d > 0)
 			{
@@ -122,7 +122,7 @@ jQuery.fn.gantt = function (options) {
 			var gantt = jQuery('<div class="fn-gantt" />');
 			gantt
 				.append(
-					jQuery('<div class="fn-content"/>')
+					jQuery('<div class="fn-type"/>')
 					.append(ganttLeftPanel)
 					.append(
 						jQuery('<div class="rightPanel"/>')
@@ -145,13 +145,13 @@ jQuery.fn.gantt = function (options) {
 			var months = jQuery("<div class='row'/>");
 			var month = range[0].getMonth();
 			var daysInMonth = 0;
-			
+
 			var days = jQuery('<div class="row"/>');
 			var dow = jQuery('<div class="row"/>');
-			
+
 			var today = new Date();
 			today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-			
+
 			jQuery.each(range, function(i, rday) {
 				if (rday.getFullYear() != year) {
 					years.append(jQuery('<div class="row header year"/>')
@@ -161,7 +161,7 @@ jQuery.fn.gantt = function (options) {
 					daysInYear = 0;
 				}
 				daysInYear++;
-				
+
 				if (rday.getMonth() != month) {
 					months.append(jQuery('<div class="row header month"/>')
 						.css("width", tools.getCellSize()*daysInMonth + "px")
@@ -173,7 +173,7 @@ jQuery.fn.gantt = function (options) {
 				var day_class = (today - rday == 0) ? ' today' : (options.hollydays && options.hollydays.join().indexOf(rday.getTime())>-1) ? "hollyday"  : rday.getDay() == 6 ? "sa" : (rday.getDay() == 0 ? "sn" : "wd");
 				days.append(jQuery('<div class="row day '+day_class+'" />').html(rday.getDate()));
 				dow.append(jQuery('<div class="row day '+day_class+'" />').html( options.dow[rday.getDay()] ));
-				
+
 			});
 
 			years.append(jQuery('<div class="row header year"/>')
@@ -189,7 +189,7 @@ jQuery.fn.gantt = function (options) {
 			dataPanel.append(months);
 			dataPanel.append(days);
 			dataPanel.append(dow);
-						
+
 			jQuery.each(data, function(i, entry) {
 				if (i >= pageNum*options.itemsPerPage && i < (pageNum*options.itemsPerPage+options.itemsPerPage))
 				{
@@ -202,8 +202,8 @@ jQuery.fn.gantt = function (options) {
 					dataPanel.append(dRow);
 				}
 			});
-			
-			return dataPanel; 
+
+			return dataPanel;
 		};
 
 		createProgressBar = function(days, cls, desc) {
@@ -303,26 +303,26 @@ jQuery.fn.gantt = function (options) {
 
 		repositionLabel = function() {
 			jQuery('.fn-gantt .dataPanel').stop();
-			
+
 			var wrapper = { offset: jQuery('.fn-gantt .rightPanel').offset(),
 							width: jQuery('.fn-gantt .rightPanel').width(),
 							height: jQuery('.fn-gantt .rightPanel').height()};
-			
+
 			jQuery(".fn-gantt .rightPanel .year, .fn-gantt .rightPanel .month").each(function(i, obj) {
 				var objDim = { offset: jQuery(obj).offset(),
 							width: jQuery(obj).width(),
 							height: jQuery(obj).height()};
-				
+
 				if (objDim.offset.left + objDim.width > wrapper.offset.left
 				        && objDim.offset.left < wrapper.offset.left+wrapper.width)
 				    {
 				    	var viewArea = {
 				    		left: objDim.offset.left > wrapper.offset.left ? objDim.offset.left : wrapper.offset.left,
-				    		right: objDim.offset.left+objDim.width < wrapper.offset.left + wrapper.width ? objDim.offset.left+objDim.width : wrapper.offset.left + wrapper.width 
+				    		right: objDim.offset.left+objDim.width < wrapper.offset.left + wrapper.width ? objDim.offset.left+objDim.width : wrapper.offset.left + wrapper.width
 				    	};
 				    	jQuery(obj).children(".label").css("float", "left");
 				    	var labelWidth = jQuery(obj).children(".label").width();
-				    	
+
 				    	var objMarg = objDim.offset.left < wrapper.offset.left ? wrapper.offset.left-objDim.offset.left : 0;
 						if (viewArea.right-viewArea.left > labelWidth)
 					    	jQuery(obj).children(".label")

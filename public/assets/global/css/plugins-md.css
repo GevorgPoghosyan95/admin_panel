@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /******************************
- 3RD PARTY PLUGIN CUSTOMIZATION 
+ 3RD PARTY PLUGIN CUSTOMIZATION
 ******************************/
 /* Cubic Bezier Transition */
 /***
@@ -266,7 +266,7 @@ Error state for WYSIWYG Editors
 /***
 Bootstrap Modal
 ***/
-/* fix: content shifting to the right on modal open */
+/* fix: type shifting to the right on modal open */
 .modal-open.page-overflow .page-container,
 .modal-open.page-overflow .page-container .navbar-fixed-top,
 .modal-open.page-overflow .page-container .navbar-fixed-bottom,
@@ -370,7 +370,7 @@ Bootstrap Select
   z-index: 10050 !important; }
 
 /***
-Bootstrap Switch 
+Bootstrap Switch
 ***/
 .bootstrap-switch {
   border-color: #c2cad8; }

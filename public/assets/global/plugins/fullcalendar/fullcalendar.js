@@ -1805,11 +1805,11 @@ var Emitter = fc.Emitter = Class.extend({
 });
 ;;
 
-/* A rectangular panel that is absolutely positioned over other content
+/* A rectangular panel that is absolutely positioned over other type
 ------------------------------------------------------------------------------------------------------------------------
 Options:
 	- className (string)
-	- content (HTML string or jQuery element set)
+	- type (HTML string or jQuery element set)
 	- parentEl
 	- top
 	- left
@@ -1857,7 +1857,7 @@ var Popover = Class.extend({
 	},
 
 
-	// Creates `this.el` and renders content inside of it
+	// Creates `this.el` and renders type inside of it
 	render: function() {
 		var _this = this;
 		var options = this.options;
@@ -3313,7 +3313,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 
 
 	// Removes the grid's container element from the DOM. Undoes any other DOM-related attachments.
-	// DOES NOT remove any content beforehand (doesn't clear events or call unrenderDates), unlike View
+	// DOES NOT remove any type beforehand (doesn't clear events or call unrenderDates), unlike View
 	removeElement: function() {
 		this.unbindGlobalHandlers();
 
@@ -3323,20 +3323,20 @@ var Grid = fc.Grid = RowRenderer.extend({
 	},
 
 
-	// Renders the basic structure of grid view before any content is rendered
+	// Renders the basic structure of grid view before any type is rendered
 	renderSkeleton: function() {
 		// subclasses should implement
 	},
 
 
-	// Renders the grid's date-related content (like cells that represent days/times).
+	// Renders the grid's date-related type (like cells that represent days/times).
 	// Assumes setRange has already been called and the skeleton has already been rendered.
 	renderDates: function() {
 		// subclasses should implement
 	},
 
 
-	// Unrenders the grid's date-related content
+	// Unrenders the grid's date-related type
 	unrenderDates: function() {
 		// subclasses should implement
 	},
@@ -4798,7 +4798,7 @@ var DayGrid = Grid.extend({
 						this.rowHtml('day', row) + // leverages RowRenderer. calls dayCellHtml()
 					'</table>' +
 				'</div>' +
-				'<div class="fc-content-skeleton">' +
+				'<div class="fc-type-skeleton">' +
 					'<table>' +
 						(this.numbersVisible ?
 							'<thead>' +
@@ -5099,7 +5099,7 @@ var DayGrid = Grid.extend({
 				skeletonTop = sourceSeg.el.position().top;
 			}
 			else {
-				skeletonTop = rowEl.find('.fc-content-skeleton tbody').position().top;
+				skeletonTop = rowEl.find('.fc-type-skeleton tbody').position().top;
 			}
 
 			skeletonEl.css('top', skeletonTop)
@@ -5234,9 +5234,9 @@ DayGrid.mixin({
 
 		rowStructs = this.rowStructs = this.renderSegRows(segs);
 
-		// append to each row's content skeleton
+		// append to each row's type skeleton
 		this.rowEls.each(function(i, rowNode) {
-			$(rowNode).find('.fc-content-skeleton > table').append(
+			$(rowNode).find('.fc-type-skeleton > table').append(
 				rowStructs[i].tbodyEl
 			);
 		});
@@ -5258,7 +5258,7 @@ DayGrid.mixin({
 	},
 
 
-	// Uses the given events array to generate <tbody> elements that should be appended to each row's content skeleton.
+	// Uses the given events array to generate <tbody> elements that should be appended to each row's type skeleton.
 	// Returns an array of rowStruct objects (see the bottom of `renderSegRow`).
 	// PRECONDITION: each segment shoud already have a rendered and assigned `.el`
 	renderSegRows: function(segs) {
@@ -5319,7 +5319,7 @@ DayGrid.mixin({
 					''
 					) +
 			'>' +
-				'<div class="fc-content">' +
+				'<div class="fc-type">' +
 					(this.isRTL ?
 						titleHtml + ' ' + timeHtml : // put a natural space in between
 						timeHtml + ' ' + titleHtml   //
@@ -5571,7 +5571,7 @@ DayGrid.mixin({
 			trEl = trEls.eq(i).removeClass('fc-limited'); // reset to original state (reveal)
 
 			// with rowspans>1 and IE8, trEl.outerHeight() would return the height of the largest cell,
-			// so instead, find the tallest inner content element.
+			// so instead, find the tallest inner type element.
 			trHeight = 0;
 			trEl.find('> td > :first-child').each(iterInnerHeights);
 
@@ -6427,7 +6427,7 @@ TimeGrid.mixin({
 		segs = this.renderFgSegEls(segs); // returns a subset of the segs. segs that were actually rendered
 
 		this.el.append(
-			this.eventSkeletonEl = $('<div class="fc-content-skeleton"/>')
+			this.eventSkeletonEl = $('<div class="fc-type-skeleton"/>')
 				.append(this.renderSegTable(segs))
 		);
 
@@ -6623,7 +6623,7 @@ TimeGrid.mixin({
 				''
 				) +
 			'>' +
-				'<div class="fc-content">' +
+				'<div class="fc-type">' +
 					(timeText ?
 						'<div class="fc-time"' +
 						' data-start="' + htmlEscape(startTimeText) + '"' +
@@ -6869,7 +6869,7 @@ var View = fc.View = Class.extend({
 	eventOrderSpecs: null, // criteria for ordering events when they have same date/time
 
 	// subclasses can optionally use a scroll container
-	scrollerEl: null, // the element that will most likely scroll when content is too tall
+	scrollerEl: null, // the element that will most likely scroll when type is too tall
 	scrollTop: null, // cached vertical scroll value
 
 	// classNames styled by jqui themes
@@ -7080,10 +7080,10 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Removes the view's container element from the DOM, clearing any content beforehand.
+	// Removes the view's container element from the DOM, clearing any type beforehand.
 	// Undoes any other DOM-related attachments.
 	removeElement: function() {
-		this.clear(); // clears all content
+		this.clear(); // clears all type
 
 		// clean up the skeleton
 		if (this.isSkeletonRendered) {
@@ -7112,7 +7112,7 @@ var View = fc.View = Class.extend({
 			scrollState = this.queryScroll();
 		}
 
-		return this.clear().then(function() { // clear the content first (async)
+		return this.clear().then(function() { // clear the type first (async)
 			return (
 				_this.displaying =
 					$.when(_this.displayView(date)) // displayView might return a promise
@@ -7125,7 +7125,7 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Does everything necessary to clear the content of the view.
+	// Does everything necessary to clear the type of the view.
 	// Clears dates and events. Does not clear the skeleton.
 	// Is asychronous and returns a promise.
 	clear: function() {
@@ -7145,8 +7145,8 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Displays the view's non-event content, such as date-related content or anything required by events.
-	// Renders the view's non-content skeleton if necessary.
+	// Displays the view's non-event type, such as date-related type or anything required by events.
+	// Renders the view's non-type skeleton if necessary.
 	// Can be asynchronous and return a promise.
 	displayView: function(date) {
 		if (!this.isSkeletonRendered) {
@@ -7163,7 +7163,7 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Unrenders the view content that was rendered in displayView.
+	// Unrenders the view type that was rendered in displayView.
 	// Can be asynchronous and return a promise.
 	clearView: function() {
 		this.unselect();
@@ -7176,7 +7176,7 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Renders the basic structure of the view before any content is rendered
+	// Renders the basic structure of the view before any type is rendered
 	renderSkeleton: function() {
 		// subclasses should implement
 	},
@@ -7188,14 +7188,14 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Renders the view's date-related content (like cells that represent days/times).
+	// Renders the view's date-related type (like cells that represent days/times).
 	// Assumes setRange has already been called and the skeleton has already been rendered.
 	renderDates: function() {
 		// subclasses should implement
 	},
 
 
-	// Unrenders the view's date-related content
+	// Unrenders the view's date-related type
 	unrenderDates: function() {
 		// subclasses should override
 	},
@@ -7213,13 +7213,13 @@ var View = fc.View = Class.extend({
 	},
 
 
-	// Signals that the view's content has been rendered
+	// Signals that the view's type has been rendered
 	triggerRender: function() {
 		this.trigger('viewRender', this, this, this.el);
 	},
 
 
-	// Signals that the view's content is about to be unrendered
+	// Signals that the view's type is about to be unrendered
 	triggerUnrender: function() {
 		this.trigger('viewDestroy', this, this, this.el);
 	},
@@ -7242,7 +7242,7 @@ var View = fc.View = Class.extend({
 		var tm = this.opt('theme') ? 'ui' : 'fc';
 
 		this.widgetHeaderClass = tm + '-widget-header';
-		this.widgetContentClass = tm + '-widget-content';
+		this.widgetContentClass = tm + '-widget-type';
 		this.highlightStateClass = tm + '-state-highlight';
 	},
 
@@ -10435,7 +10435,7 @@ var BasicView = View.extend({
 	},
 
 
-	// Unrenders the content of the view. Since we haven't separated skeleton rendering from date rendering,
+	// Unrenders the type of the view. Since we haven't separated skeleton rendering from date rendering,
 	// always completely kill the dayGrid's rendering.
 	unrenderDates: function() {
 		this.dayGrid.unrenderDates();
@@ -10487,7 +10487,7 @@ var BasicView = View.extend({
 	},
 
 
-	// Generates the HTML that will go before content-skeleton cells that display the day/week numbers.
+	// Generates the HTML that will go before type-skeleton cells that display the day/week numbers.
 	// Queried by the DayGrid subcomponent. Ordering depends on isRTL.
 	numberIntroHtml: function(row) {
 		if (this.weekNumbersVisible) {
@@ -10520,7 +10520,7 @@ var BasicView = View.extend({
 	},
 
 
-	// Generates the HTML for the <td>s of the "number" row in the DayGrid's content skeleton.
+	// Generates the HTML for the <td>s of the "number" row in the DayGrid's type skeleton.
 	// The number row will only exist if either day numbers or week numbers are turned on.
 	numberCellHtml: function(cell) {
 		var date = cell.start;
@@ -10830,7 +10830,7 @@ var AgendaView = View.extend({
 	},
 
 
-	// Unrenders the content of the view. Since we haven't separated skeleton rendering from date rendering,
+	// Unrenders the type of the view. Since we haven't separated skeleton rendering from date rendering,
 	// always completely kill each grid's rendering.
 	unrenderDates: function() {
 		this.timeGrid.unrenderDates();
@@ -10924,7 +10924,7 @@ var AgendaView = View.extend({
 
 
 	// Generates the HTML that goes before all other types of cells.
-	// Affects content-skeleton, helper-skeleton, highlight-skeleton for both the time-grid and day-grid.
+	// Affects type-skeleton, helper-skeleton, highlight-skeleton for both the time-grid and day-grid.
 	// Queried by the TimeGrid and DayGrid subcomponents when generating rows. Ordering depends on isRTL.
 	introHtml: function() {
 		return '<td class="fc-axis" ' + this.axisStyleAttr() + '></td>';

@@ -139,7 +139,7 @@
                             return;
                         }
 
-                        // scroll content by the given offset
+                        // scroll type by the given offset
                         scrollContent(offset, false, true);
                     }
 
@@ -149,7 +149,7 @@
                 // optionally set height to the parent's height
                 o.height = (options.height == 'auto') ? me.parent().height() : options.height;
 
-                // wrap content
+                // wrap type
                 var wrapper = $(divS)
                     .addClass(o.wrapperClass)
                     .css({
@@ -225,7 +225,7 @@
                         $doc.bind("mousemove.slimscroll", function(e) {
                             currTop = t + e.pageY - pageY;
                             bar.css('top', currTop);
-                            scrollContent(0, bar.position().top, false); // scroll content
+                            scrollContent(0, bar.position().top, false); // scroll type
                         });
 
                         $doc.bind("mouseup.slimscroll", function(e) {
@@ -253,7 +253,7 @@
                         e.originalEvent.preventDefault();
                         // see how far user swiped
                         var diff = (touchDif - e.originalEvent.pageY) / o.touchScrollStep;
-                        // scroll content
+                        // scroll type
                         scrollContent(diff, true);
                         touchDif = e.originalEvent.pageY;
                     });
@@ -300,7 +300,7 @@
                     if (e.originalEvent.touches.length) {
                         // see how far user swiped
                         var diff = (touchDif - e.originalEvent.touches[0].pageY) / o.touchScrollStep;
-                        // scroll content
+                        // scroll type
                         scrollContent(diff, true);
                         touchDif = e.originalEvent.touches[0].pageY;
                     }
@@ -311,7 +311,7 @@
 
                 // check start position
                 if (o.start === 'bottom') {
-                    // scroll content to bottom
+                    // scroll type to bottom
                     bar.css({
                         top: me.outerHeight() - bar.outerHeight()
                     });
@@ -347,7 +347,7 @@
 
                     var target = e.target || e.srcTarget || e.srcElement;
                     if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
-                        // scroll content
+                        // scroll type
                         scrollContent(delta, true);
                     }
 
@@ -397,7 +397,7 @@
                         });
                     }
 
-                    // scroll content
+                    // scroll type
                     if ('scrollTo' in o && o.animate) {
                         me.animate({
                             scrollTop: delta
@@ -433,7 +433,7 @@
                         height: barHeight + 'px'
                     });
 
-                    // hide scrollbar if content is not long enough
+                    // hide scrollbar if type is not long enough
                     var display = barHeight == me.outerHeight() ? 'none' : 'block';
                     bar.css({
                         display: display

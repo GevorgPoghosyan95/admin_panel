@@ -24,17 +24,23 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('groups', 'GroupsController');
     Route::resource('categories', 'CategoryController');
     Route::post('categories_foreach', 'CategoryController@foreach');
+    //posts
     Route::resource('posts', 'PostController');
     Route::post('posts_foreach', 'PostController@foreach')->name('posts_foreach');
     Route::post('posts_search', 'PostController@search')->name('posts_search');
+    Route::post('posts/deleteChecked', 'PostController@deleteChecked');
+
+
     Route::get('personal', 'LoginController@personal')->name('personal');
     Route::get('logout', 'LoginController@logout');
     Route::get('profile/{user}', 'Ekeng\ProfileController@index');
     Route::patch('update_personal/{user}', 'Ekeng\ProfileController@update')->name('update_personal');
     Route::patch('change_password/{user}', 'Ekeng\ProfileController@change')->name('change_password');
     Route::post('permissions_foreach', 'PermissionController@foreach')->name('permissions_foreach');
+    //pages
     Route::resource('pages','PageController');
     Route::post('pages_foreach', 'PageController@foreach');
+    Route::post('pages/deleteChecked', 'PageController@deleteChecked');
 
     Route::get('menu','MenuController@index');
     Route::post('menus_foreach','MenuController@foreach');

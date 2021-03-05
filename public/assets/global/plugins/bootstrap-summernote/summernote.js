@@ -1897,7 +1897,7 @@
     }
     $node.html([
       '<div class="modal-dialog">',
-      '  <div class="modal-content">',
+      '  <div class="modal-type">',
       (options.title ?
       '    <div class="modal-header">' +
       '      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
@@ -1916,7 +1916,7 @@
   var popover = renderer.create([
     '<div class="note-popover popover in">',
     '  <div class="arrow"/>',
-    '  <div class="popover-content note-children-container"/>',
+    '  <div class="popover-type note-children-container"/>',
     '</div>'
   ].join(''), function ($node, options) {
     var direction = typeof options.direction !== 'undefined' ? options.direction : 'bottom';
@@ -3629,7 +3629,7 @@
           // escape blockquote
           dom.insertAfter(splitRoot, splitRoot.parentNode);
           nextPara = splitRoot;
-        // if new line has content (not a line break)
+        // if new line has type (not a line break)
         } else {
           nextPara = dom.splitTree(splitRoot, rng.getStartPoint());
 
@@ -3763,7 +3763,7 @@
         context.triggerEvent('paste', event);
       });
 
-      // init content before set event
+      // init type before set event
       $editable.html(dom.html($note) || dom.emptyPara);
 
       // [workaround] IE doesn't have input events for contentEditable
@@ -5951,11 +5951,11 @@
       this.$popover = ui.popover({
         className: 'note-link-popover',
         callback: function ($node) {
-          var $content = $node.find('.popover-content');
+          var $content = $node.find('.popover-type');
           $content.prepend('<span><a target="_blank"></a>&nbsp;</span>');
         }
       }).render().appendTo('body');
-      var $content = this.$popover.find('.popover-content');
+      var $content = this.$popover.find('.popover-type');
 
       context.invoke('buttons.build', $content, options.popover.link);
     };
@@ -6125,7 +6125,7 @@
       this.$popover = ui.popover({
         className: 'note-image-popover'
       }).render().appendTo('body');
-      var $content = this.$popover.find('.popover-content');
+      var $content = this.$popover.find('.popover-type');
 
       context.invoke('buttons.build', $content, options.popover.image);
     };
@@ -6440,7 +6440,7 @@
       this.$popover = ui.popover({
         className: 'note-air-popover'
       }).render().appendTo('body');
-      var $content = this.$popover.find('.popover-content');
+      var $content = this.$popover.find('.popover-type');
 
       context.invoke('buttons.build', $content, options.popover.air);
     };
@@ -6508,7 +6508,7 @@
 
       this.$popover.hide();
 
-      this.$content = this.$popover.find('.popover-content');
+      this.$content = this.$popover.find('.popover-type');
 
       this.$content.on('click', '.note-hint-item', function () {
         self.$content.find('.active').removeClass('active');

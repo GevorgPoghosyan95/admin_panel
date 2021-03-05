@@ -1,12 +1,27 @@
 @include('layout.app')
 @include('layout.page_styles')
 <style>
-    .btn-group {position: relative!important;}
-    table img{height: 100px;width:100px;object-fit: cover}
-    tbody tr {height: 100px!important;}
+    .btn-group {
+        position: relative !important;
+    }
+
+    table img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover
+    }
+
+    tbody tr {
+        height: 100px !important;
+    }
+
     .dropdown-menu.pull-left {
         position: relative;
         z-index: 1000;
+    }
+
+    .pageCheckbox {
+        margin-left: 20px !important;
     }
 </style>
 <link href="/css/lang.css" rel="stylesheet" type="text/css"/>
@@ -36,36 +51,38 @@
             @endif
             <a target="_self" type="button" class="btn btn-primary" href="pages/create">Create New Page</a>
             <br><br>
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-globe"></i>Posts
-                        </div>
-                        <div class="tools"></div>
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-globe"></i>Pages
                     </div>
-                    <div class="portlet-body">
-                        <table class="table table-striped table-bordered table-hover" id="pages">
-                            <thead>
-                            <tr >
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Content</th>
-                                <th>Image</th>
-                                <th>Path</th>
-                                <th>Created at</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </table>
+                    <div class="tools">
+                        <button class="btn-success checked" id="selectAll">Select All</button>
+                        <button class="btn-danger" id="deleteSelected">Delete Selected Pages</button>
                     </div>
                 </div>
+                <div class="portlet-body">
+                    <table class="table table-striped table-bordered table-hover" id="pages">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Image</th>
+                            <th>Path</th>
+                            <th>Created at</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </body>
 @include('layout.footer')
-<script src="/js/sweetAlert.js"></script>
 <script src="/js/pages/index.js"></script>

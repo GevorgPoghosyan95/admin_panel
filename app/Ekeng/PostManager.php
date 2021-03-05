@@ -14,7 +14,7 @@ class PostManager
             0 => 'id',
             1 => 'title',
             2 => 'content',
-            3 => 'updated_at',
+            3 => 'content',
             4 => 'created_at',
             5 => 'image',
         );
@@ -156,18 +156,19 @@ class PostManager
                 $nestedData['image'] = $post->image ? "<img src='data:image/png;base64,$post->image' alt=''>" : '';
                 $nestedData['updated_at'] = date('Y-m-d H:i:s', strtotime($post->updated_at));
                 $nestedData['created_at'] = date('Y-m-d H:i:s', strtotime($post->created_at));
-                $nestedData['options'] = <<<EOD
+                $nestedData['options'] = $nestedData['options'] = <<<EOD
                                             <div class="btn-group">
                                                 <button class="btn btn-xs green dropdown-toggle" type="button"
                                                         data-toggle="dropdown"
                                                         aria-expanded="false"> Actions
                                                     <i class="fa fa-angle-down"></i>
                                                 </button>
+                                                <input type="checkbox" name="postCheckbox" class="postCheckbox" type="checkbox" value="$post->id"> 
                                                 <ul class="dropdown-menu pull-left" role="menu">
                                                     <li>
                                                         <a href="#">
                                                             <i class="icon-docs"></i>
-                                                            <form method="POST" style="display:inline;" action="$delete">
+                                                           <form method="POST" style="display:inline;" action="$delete">
                                                                 <input type="hidden" name="_method" value="DELETE"/>
                                                                 <input type="hidden" name="_token" value="$token">
                                                                 <input type="submit" value="Delete" class="btn btn-danger btn-xs">

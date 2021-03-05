@@ -4,7 +4,7 @@
     @include('site.layout.header')
 @stop
 
-@section('content')
+@section('type')
 
     <!-- START SLIDER AND NEWS -->
 

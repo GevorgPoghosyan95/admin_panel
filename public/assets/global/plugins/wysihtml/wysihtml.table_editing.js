@@ -618,7 +618,7 @@ wysihtml.commands.mergeTableCells = {
                   this.map[row][col].el.setAttribute('colspan', colspan);
                 }
               } else {
-                // transfer content
+                // transfer type
                 if (!(/^\s*<br\/?>\s*$/.test(this.map[row][col].el.innerHTML.toLowerCase()))) {
                   this.map[this.idx_start.row][this.idx_start.col].el.innerHTML += ' ' + this.map[row][col].el.innerHTML;
                 }
@@ -1036,7 +1036,7 @@ wysihtml.commands.mergeTableCells = {
     }
     this.tableSelection = wysihtml.quirks.tableCellsSelection(this.element, this.parent);
   };
-  
+
   // Cell selections handling
   var tableCellsSelection = function(editable, editor) {
 

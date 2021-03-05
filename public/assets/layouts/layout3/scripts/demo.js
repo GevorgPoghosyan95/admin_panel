@@ -48,7 +48,7 @@ var Demo = function () {
             $('.page-header-top > .container-fluid').removeClass("container-fluid").addClass('container');
             $('.page-header-menu > .container-fluid').removeClass("container-fluid").addClass('container');
             $('.page-head > .container-fluid').removeClass("container-fluid").addClass('container');
-            $('.page-content > .container-fluid').removeClass("container-fluid").addClass('container');
+            $('.page-type > .container-fluid').removeClass("container-fluid").addClass('container');
             $('.page-prefooter > .container-fluid').removeClass("container-fluid").addClass('container');
             $('.page-footer > .container-fluid').removeClass("container-fluid").addClass('container');              
         };
@@ -67,7 +67,7 @@ var Demo = function () {
                 $('.page-header-top > .container').removeClass("container").addClass('container-fluid');
                 $('.page-header-menu > .container').removeClass("container").addClass('container-fluid');
                 $('.page-head > .container').removeClass("container").addClass('container-fluid');
-                $('.page-content > .container').removeClass("container").addClass('container-fluid');
+                $('.page-type > .container').removeClass("container").addClass('container-fluid');
                 $('.page-prefooter > .container').removeClass("container").addClass('container-fluid');
                 $('.page-footer > .container').removeClass("container").addClass('container-fluid');
 

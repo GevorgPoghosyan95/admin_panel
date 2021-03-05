@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Ekeng\PageManager;
 use App\MenuItem;
 use App\Page;
+use App\Statics\PageTypes;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -36,7 +38,9 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('pages.create');
+        $pageTypes = PageTypes::All;
+        $categories = Category::where('name','<>','FAQ')->get();
+        return view('pages.create',compact('pageTypes','categories'));
     }
 
     /**
@@ -60,7 +64,7 @@ class PageController extends Controller
         }
         Page::create([
             'title'=>$request->get('title'),
-            'body'=>$request->get('content'),
+            'body'=>$request->get('type'),
             'path' => $request->get('path'),
             'image'=>$image,
             'lang'=>$request->get('lang')
@@ -115,7 +119,7 @@ class PageController extends Controller
             $base64 = $page->image;
         }
 
-        $page->update(['title' => $request->input('title'),'body' => $request->input('content'),'image' => $base64,'path' => $request->input('path')]);
+        $page->update(['title' => $request->input('title'),'body' => $request->input('type'),'image' => $base64,'path' => $request->input('path')]);
         return redirect('pages')->with('success', 'Page Was Update Successfully');
     }
 
@@ -136,6 +140,16 @@ class PageController extends Controller
     public function foreach(Request $request)
     {
         return $this->pageManager->pages_table($request);
+    }
+
+    public function deleteChecked(Request $request){
+        try{
+            MenuItem::whereIn('page_id',$request->get('params'))->delete();
+            Page::whereIn('id',$request->get('params'))->delete();
+            return response()->json(['status'=>'OK']);
+        }catch(\Exception $e){
+            return response()->json(['status'=>'error','error'=>['message'=>'Deleting problem!']]);
+        }
     }
 
 }

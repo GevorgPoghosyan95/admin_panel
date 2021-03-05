@@ -138,8 +138,8 @@ var Layout = function() {
 
             var url = $(this).attr("href");
             var menuContainer = $('.page-sidebar ul');
-            var pageContent = $('.page-content');
-            var pageContentBody = $('.page-content .page-content-body');
+            var pageContent = $('.page-type');
+            var pageContentBody = $('.page-type .page-type-body');
 
             menuContainer.children('li.active').removeClass('active');
             menuContainer.children('arrow.open').removeClass('open');
@@ -171,24 +171,24 @@ var Layout = function() {
 
                     App.stopPageLoading();
                     pageContentBody.html(res);
-                    Layout.fixContentHeight(); // fix content height
+                    Layout.fixContentHeight(); // fix type height
                     App.initAjax(); // initialize core stuff
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     App.stopPageLoading();
-                    pageContentBody.html('<h4>Could not load the requested content.</h4>');
+                    pageContentBody.html('<h4>Could not load the requested type.</h4>');
                 }
             });
         });
 
-        // handle ajax link within main content
-        $('.page-content').on('click', '.ajaxify', function(e) {
+        // handle ajax link within main type
+        $('.page-type').on('click', '.ajaxify', function(e) {
             e.preventDefault();
             App.scrollTop();
 
             var url = $(this).attr("href");
-            var pageContent = $('.page-content');
-            var pageContentBody = $('.page-content .page-content-body');
+            var pageContent = $('.page-type');
+            var pageContentBody = $('.page-type .page-type-body');
 
             App.startPageLoading();
 
@@ -204,11 +204,11 @@ var Layout = function() {
                 success: function(res) {
                     App.stopPageLoading();
                     pageContentBody.html(res);
-                    Layout.fixContentHeight(); // fix content height
+                    Layout.fixContentHeight(); // fix type height
                     App.initAjax(); // initialize core stuff
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    pageContentBody.html('<h4>Could not load the requested content.</h4>');
+                    pageContentBody.html('<h4>Could not load the requested type.</h4>');
                     App.stopPageLoading();
                 }
             });

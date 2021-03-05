@@ -114,7 +114,7 @@
       '<div class="popover confirmation">' +
         '<div class="arrow"></div>' +
         '<h3 class="popover-title"></h3>' +
-        '<div class="popover-content text-center">'+
+        '<div class="popover-type text-center">'+
           '<div class="btn-group">'+
             '<a class="btn" data-apply="confirmation"></a>'+
             '<a class="btn" data-dismiss="confirmation"></a>'+
@@ -233,7 +233,7 @@
       }
       if (typeof option == 'string') {
         data[option]();
-        
+
         if (option == 'hide' && data.inState) { //data.inState doesn't exist in Bootstrap < 3.3.5
           data.inState.click = false;
         }

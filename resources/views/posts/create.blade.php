@@ -40,7 +40,7 @@
             <input type="hidden" name="lang" value="hy">
             <input type="text" class="form-control" name="title" id="title">
             <label for="title" style="font-size: 18px">Category</label><br>
-            {!! Form::select('category', $categories, null,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
+            {!! Form::select('category[]', $categories, null,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
             <label for="" style="font-size: 18px">Post Content</label>
             <textarea class="tiny_area" name="content"></textarea><br>
             <div class="input-images" style="width: 10%"></div>
@@ -49,29 +49,7 @@
         </div>
     </div>
 </div>
-<script>
-    $('.input-images').imageUploader({
-        imagesInputName: 'photos',
-        maxFiles: 1,
-    });
-    $(document).ready(function () {
-        tinymce.init({
-            plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-            imagetools_cors_hosts: ['picsum.photos'],
-            menubar: 'file edit view insert format tools table help',
-            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-            toolbar_sticky: true,
-            autosave_ask_before_unload: true,
-            autosave_interval: "30s",
-            autosave_prefix: "{path}{query}-{id}-",
-            autosave_restore_when_empty: false,
-            autosave_retention: "2m",
-            image_advtab: true,
-            selector: 'textarea.tiny_area',
-            
-        });
-    })
-</script>
+
 </body>
 @include('layout.footer')
 <script>

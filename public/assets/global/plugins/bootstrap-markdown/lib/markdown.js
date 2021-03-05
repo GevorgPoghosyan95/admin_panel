@@ -249,7 +249,7 @@ Markdown.prototype.toTree = function toTree( source, custom_root ) {
     while ( blocks.length ) {
       var b = this.processBlock( blocks.shift(), blocks );
 
-      // Reference blocks and the like won't return any content
+      // Reference blocks and the like won't return any type
       if ( !b.length ) continue blocks;
 
       this.tree.push.apply( this.tree, b );
@@ -341,7 +341,7 @@ Markdown.dialects.Gruber = {
           re = /^(?: {0,3}\t| {4})(.*)\n?/,
           lines;
 
-      // 4 spaces + content
+      // 4 spaces + type
       if ( !block.match( re ) ) return undefined;
 
       block_search:
@@ -436,8 +436,8 @@ Markdown.dialects.Gruber = {
         return input.replace( / {0,3}\t/g, "    " );
       }
 
-      // Add inline content `inline` to `li`. inline comes from processInline
-      // so is an array of content
+      // Add inline type `inline` to `li`. inline comes from processInline
+      // so is an array of type
       function add(li, loose, inline, nl) {
         if (loose) {
           li.push( [ "para" ].concat(inline) );
@@ -448,7 +448,7 @@ Markdown.dialects.Gruber = {
                    ? li[li.length -1]
                    : li;
 
-        // If there is already some content in this list, add the new line in
+        // If there is already some type in this list, add the new line in
         if (nl && li.length > 1) inline.unshift(nl);
 
         for (var i=0; i < inline.length; i++) {
@@ -604,7 +604,7 @@ Markdown.dialects.Gruber = {
               nl = "";
             }
 
-            // Add content
+            // Add type
             if (l.length > m[0].length) {
               li_accumulate += nl + l.substr( m[0].length );
             }
@@ -845,7 +845,7 @@ Markdown.dialects.Gruber.inline = {
     "[": function link( text ) {
 
       var orig = String(text);
-      // Inline content is possible inside `link text`
+      // Inline type is possible inside `link text`
       var res = Markdown.DialectHelpers.inline_until_char.call( this, text.substr(1), ']' );
 
       // No closing ']' found. Just consume the [
@@ -1199,7 +1199,7 @@ Markdown.dialects.Maruku.block.document_meta = function document_meta( block, ne
     this.tree[ 1 ][ key ] = value;
   }
 
-  // document_meta produces no content!
+  // document_meta produces no type!
   return [];
 };
 

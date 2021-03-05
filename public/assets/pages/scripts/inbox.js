@@ -1,6 +1,6 @@
 var AppInbox = function () {
 
-    var content = $('.inbox-content');
+    var content = $('.inbox-type');
     var loading = $('.inbox-loading');
     var listListing = '';
 
@@ -18,7 +18,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
+            success: function(res)
             {
                 toggleButton(el);
 
@@ -56,15 +56,15 @@ var AppInbox = function () {
         content.html('');
         toggleButton(el);
 
-        var message_id = el.parent('tr').attr("data-messageid");  
-        
+        var message_id = el.parent('tr').attr("data-messageid");
+
         $.ajax({
             type: "GET",
             cache: false,
             url: url,
             dataType: "html",
             data: {'message_id': message_id},
-            success: function(res) 
+            success: function(res)
             {
                 toggleButton(el);
 
@@ -127,7 +127,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
+            success: function(res)
             {
                 toggleButton(el);
 
@@ -155,7 +155,7 @@ var AppInbox = function () {
     var loadReply = function (el) {
         var messageid = $(el).attr("data-messageid");
         var url = 'app_inbox_reply.html&messageid=' + messageid;
-        
+
         loading.show();
         content.html('');
         toggleButton(el);
@@ -166,7 +166,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
+            success: function(res)
             {
                 toggleButton(el);
 
@@ -204,7 +204,7 @@ var AppInbox = function () {
             cache: false,
             url: url,
             dataType: "html",
-            success: function(res) 
+            success: function(res)
             {
                 toggleButton(el);
 
@@ -279,7 +279,7 @@ var AppInbox = function () {
             });
 
             // handle view message
-            $('.inbox-content').on('click', '.view-message', function () {
+            $('.inbox-type').on('click', '.view-message', function () {
                 loadMessage($(this));
             });
 
@@ -304,16 +304,16 @@ var AppInbox = function () {
             });
 
             //handle compose/reply cc input toggle
-            $('.inbox-content').on('click', '.mail-to .inbox-cc', function () {
+            $('.inbox-type').on('click', '.mail-to .inbox-cc', function () {
                 handleCCInput();
             });
 
             //handle compose/reply bcc input toggle
-            $('.inbox-content').on('click', '.mail-to .inbox-bcc', function () {
+            $('.inbox-type').on('click', '.mail-to .inbox-bcc', function () {
                 handleBCCInput();
             });
 
-            //handle loading content based on URL parameter
+            //handle loading type based on URL parameter
             if (App.getURLParameter("a") === "view") {
                 loadMessage();
             } else if (App.getURLParameter("a") === "compose") {
