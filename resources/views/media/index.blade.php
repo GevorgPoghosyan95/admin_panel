@@ -1,6 +1,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="stylesheet" href="/css/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
-<script src="/js/cropper.js" integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/cropper.css" />
+<script src="/js/cropper.js" ></script>
 
 <link href="/css/lang.css" rel="stylesheet" type="text/css"/>
 <style>

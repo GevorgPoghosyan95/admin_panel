@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Page extends Model
 {
     protected $fillable = [
-        'title','body','image','document','lang','path','categoryID','type','menuID'
+        'title','body','image','document','lang','path','categoryID','type','menuID','style'
     ];
 
     public function menuItem(){

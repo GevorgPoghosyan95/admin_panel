@@ -87,10 +87,6 @@ $(document).ready(function () {
                 $('.news').show();
                 $('.content').hide();
                 break;
-            case "Faq":
-                $('.news').hide();
-                $('.content').hide();
-                break;
             default:
             // code block
         }

@@ -42,7 +42,7 @@ class PageController extends Controller
     public function create()
     {
         $pageTypes = PageTypes::All;
-        $categories = Category::where('name', '<>', 'FAQ')->get();
+        $categories = Category::all();
         $menus = Menu::where('name', '<>', 'Main')->get();
         return view('pages.create', compact('pageTypes', 'categories','menus'));
     }
@@ -65,7 +65,7 @@ class PageController extends Controller
         $pageData = $request->all();
         $pageData['image'] = $image;
         Page::create($pageData);
-        return redirect('pages')->with('success', 'Page created successfully');
+        return redirect()->back()->with('success', 'Page created successfully');
     }
 
     /**
@@ -88,7 +88,7 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::where('id', $id)->first();
-        $categories = Category::where('name', '<>', 'FAQ')->pluck('name','id');
+        $categories = Category::where('name','<>',null);
         $menus = Menu::where('name', '<>', 'Main')->get();
         $pageTypes = PageTypes::All;
         return view('pages.edit', compact('page','categories','menus','pageTypes'));
@@ -103,6 +103,11 @@ class PageController extends Controller
      */
     public function update(PageRequest $request, Page $page)
     {
+        if($request->get("type") == "News"){
+            $request->validate([
+                'categoryID' => 'required',
+            ]);
+        }
         $pageData = $request->all();
         $file = $request->file('photos')[0];
         $base64 = '';
@@ -119,7 +124,7 @@ class PageController extends Controller
         }
         $pageData['img'] = $base64;
         $page->update($pageData);
-        return redirect('pages')->with('success', 'Page Was Update Successfully');
+        return redirect()->back()->with('success', 'Page Was Update Successfully');
     }
 
 

@@ -51,6 +51,7 @@
             </select><br>
             <label for="path" style="font-size: 26px">Page Type</label>
             <select class="form-control form-control-lg" name="type">
+                <option disabled selected hidden>Choose Type</option>
                 @foreach($pageTypes as  $type)
                     <option value="{{$type}}">{{$type}}</option>
                 @endforeach
