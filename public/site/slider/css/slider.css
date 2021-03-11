@@ -1,0 +1,32 @@
+.nivoSlider { position:relative; background:#fff url(loading.gif) no-repeat 50% 50%;  border-radius: 5px; width: 100%;  }
+.nivoSlider img { position:absolute; top:0px; left:0px; display:none; }
+.nivoSlider a { border:0; display:block; }
+
+.nivo-controlNav { text-align:right; position: relative; margin-top: -30px;  margin-right:24px; z-index: 10;  padding-bottom: 22px; }
+.nivo-controlNav a { border:1px solid #fff; display:inline-block; width:16px; height:15px;  background-color:#ffa82b; margin: 0 5px; text-indent: 100%; white-space: nowrap;  overflow: hidden; cursor:pointer; transition: all 600ms;}
+.nivo-controlNav a:hover { background-color:#afbbce;  }
+.nivo-controlNav a.active { background-color:#139c00; }
+
+.nivo-directionNav a { position:absolute; top:45%; z-index:9; cursor:pointer; display:block; width:30px; height:30px; background:url(arrows.png) no-repeat; text-indent:-9999px; border:0; opacity: 0; -webkit-transition: all 200ms ease-in-out;  -moz-transition: all 200ms ease-in-out; -o-transition: all 200ms ease-in-out; transition: all 200ms ease-in-out; }
+.nivoSlider:hover .nivo-directionNav a { opacity: 1; }
+.nivoSlider a.nivo-nextNav { background-position:-30px 0; right:15px;}
+.nivoSlider a.nivo-prevNav { left:15px;}
+
+.nivoSlider { position:relative; width:100%; height:auto; overflow: hidden; }
+.nivoSlider img { position:absolute; top:0px; left:0px; max-width: none; }
+.nivo-main-image { display: block !important; position: relative !important; width: 100% !important; }
+
+.nivoSlider a.nivo-imageLink { position:absolute; top:0px; left:0px; width:100%; height:100%; border:0; padding:0; margin:0; z-index:6; display:none; background:white; filter:alpha(opacity=0); opacity:0;}
+
+.nivo-slice { display:block; position:absolute; z-index:5; height:100%; top:0;}
+.nivo-box { display:block; position:absolute; z-index:5; overflow:hidden;}
+.nivo-box img { display:block; }
+
+.nivo-caption { position:absolute; left:30px; margin-right:100px; bottom:30px; color:#fff; z-index:8; overflow: hidden; display: none; background-color: rgba(0, 0, 0, 0.5); padding: 8px 20px; }
+.nivo-caption p { padding:5px; margin:0; color:#fff; font-family: GHEAGrpalatReg;  font-weight:normal;  }
+.nivo-caption a { display:inline !important; }
+.nivo-html-caption { display:none; }
+
+.slider-wrapper { display: table-cell; padding-right: 20px; width: 65%; }
+
+@media (max-width: 560px)  { .nivo-controlNav { margin-right:10px; } .nivo-caption { font-size:12px; left:10px; bottom:10px; } .slider-wrapper {  margin-top: 16px; margin-bottom:38px; }}

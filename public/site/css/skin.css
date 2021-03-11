@@ -1,0 +1,8 @@
+#carousel { float:left; }
+#prev, #next { height: 160px; position: relative;  }
+#carousel div { margin: 14px 14px; padding:16px; display: block; float: left;}
+#prev { display: block; float:left; width: 40px;}
+#next { display:block; float: right; width: 40px;}
+#prev:hover, #next:hover {}
+#prev {background: url(../img/gui-prev.png) no-repeat 0px 50px; height: 160px; }
+#next {background: url(../img/gui-next.png) no-repeat 26px 50px; height: 160px;}

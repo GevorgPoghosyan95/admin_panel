@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Menu;
 use App\MenuItem;
 
 function generate_sidebar_groups($array, $output)
@@ -39,7 +40,7 @@ function createPermission($group){
 }
 
  function recursion($data,$html){
-    $html .= '<ul>';
+    $html .= '<ul class="menu">';
     foreach ($data as $item) {
         if($item->children()->exists()){
             $class = 'parent';
@@ -50,10 +51,10 @@ function createPermission($group){
                 $class = 'children';
             }
         }
-        if($item->url == null){
+        if($item->path == null){
             $content = $item->title;
         } else {
-            $content = "<a href='$item->url'>$item->title</a>";
+            $content = "<a href='$item->path'>$item->title</a>";
         }
         if($item->children()->exists()){
             $html .= '<li class="'.$class.'">'.$content;
@@ -70,7 +71,19 @@ function createPermission($group){
  function getChilds($name, $parent_id = null, $orderBy = 'asc')
 {
     return MenuItem::with('children')->leftJoin('menus','menus.id','=','menu_items.menu_id')
-        ->where(['name' => $name, 'parent_id' => $parent_id])->select('menu_items.id as id', 'menu_items.order as order', 'title')
+        ->leftJoin('pages','pages.id','=','menu_items.page_id')
+        ->where(['name' => $name, 'parent_id' => $parent_id])->select('menu_items.id as id', 'menu_items.order as order', 'menu_items.title as title','pages.path as path')
         ->orderBy('order', $orderBy)
         ->get();
+}
+
+function showSubMenu($menu){
+    $menu = Menu::where('name',$menu)->first();
+    $menuHtml = '';
+    foreach($menu->menuItems as $item){
+        $url = $item->page->path;
+        $title = $item->page->title;
+        $menuHtml.= '<a href="'.$url.'">'.$title.'</a>';
+    }
+    return $menuHtml;
 }

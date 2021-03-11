@@ -1,5 +1,4 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js" integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
 
@@ -30,11 +29,6 @@
 <div class="page-container">
 @include('layout.sidebar')
     <div class="page-content-wrapper">
-        <div id="lang-switch">
-            <img src="/images/armenia.png" class="hy">
-            <img src="/images/english.png" class="en">
-            <img src="/images/russia.png" class="ru">
-        </div>
         <div class="page-content media_content">
             <div class="row">
                 <div class="col-lg-12 margin-tb">
