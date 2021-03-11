@@ -26,64 +26,69 @@ function generate_sidebar_groups($array, $output)
     return $output;
 }
 
-function createPermission($group){
+function createPermission($group)
+{
     $group = strtolower($group);
-    return [$group.'-list',$group.'-create',$group.'-edit',$group.'-delete'];
+    return [$group . '-list', $group . '-create', $group . '-edit', $group . '-delete'];
 }
 
 //create menu dynamically
 
- function showMenu($name){
+function showMenu($name)
+{
     $data = getChilds($name);
     $html = '';
-    return recursion($data,$html);
+    return recursion($data, $html);
 }
 
- function recursion($data,$html){
+function recursion($data, $html)
+{
     $html .= '<ul class="menu">';
     foreach ($data as $item) {
-        if($item->children()->exists()){
+        if ($item->children()->exists()) {
             $class = 'parent';
-        }else{
-            if($item->parent_id == null){
+        } else {
+            if ($item->parent_id == null) {
                 $class = 'parent';
-            }else{
+            } else {
                 $class = 'children';
             }
         }
-        if($item->path == null){
+        if ($item->path == null) {
             $content = $item->title;
         } else {
             $content = "<a href='$item->path'>$item->title</a>";
         }
-        if($item->children()->exists()){
-            $html .= '<li class="'.$class.'">'.$content;
-            $html = recursion($item->children,$html);
-            $html.='</li>';
-        }else {
-            $html .= '<li class="'.$class.'">'.$content.'</li>';
+        if ($item->children()->exists()) {
+            $html .= '<li class="' . $class . '">' . $content;
+            $html = recursion($item->children, $html);
+            $html .= '</li>';
+        } else {
+            $html .= '<li class="' . $class . '">' . $content . '</li>';
         }
     }
-    $html.='</ul>';
+    $html .= '</ul>';
     return $html;
 }
 
- function getChilds($name, $parent_id = null, $orderBy = 'asc')
+function getChilds($name, $parent_id = null, $orderBy = 'asc')
 {
-    return MenuItem::with('children')->leftJoin('menus','menus.id','=','menu_items.menu_id')
-        ->leftJoin('pages','pages.id','=','menu_items.page_id')
-        ->where(['name' => $name, 'parent_id' => $parent_id])->select('menu_items.id as id', 'menu_items.order as order', 'menu_items.title as title','pages.path as path')
+    return MenuItem::with('children')->leftJoin('menus', 'menus.id', '=', 'menu_items.menu_id')
+        ->leftJoin('pages', 'pages.id', '=', 'menu_items.page_id')
+        ->where(['name' => $name, 'parent_id' => $parent_id])->select('menu_items.id as id', 'menu_items.order as order', 'menu_items.title as title', 'pages.path as path')
         ->orderBy('order', $orderBy)
         ->get();
 }
 
-function showSubMenu($menu){
-    $menu = Menu::where('name',$menu)->first();
+function showSubMenu($menu)
+{
+    $menu = Menu::where('name', $menu)->first();
     $menuHtml = '';
-    foreach($menu->menuItems as $item){
+    foreach ($menu->menuItems as $item) {
         $url = $item->page->path;
         $title = $item->page->title;
-        $menuHtml.= '<a href="'.$url.'">'.$title.'</a>';
+        $menuHtml .= '<a href="' . $url . '">' . $title . '</a>';
     }
     return $menuHtml;
 }
+

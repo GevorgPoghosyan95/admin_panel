@@ -39,6 +39,10 @@
             <label for="title" style="font-size: 18px">Title</label>
             <input type="hidden" name="lang" value="hy">
             <input type="text" class="form-control" name="title" id="title">
+            <label for="title" style="font-size: 18px">Video Link</label>
+            <input type="text" class="form-control" name="video_link">
+            <label for="title" style="font-size: 18px">Video</label>
+            <input type="file" class="form-control" name="video">
             <label for="title" style="font-size: 18px">Category</label><br>
             {!! Form::select('category[]', $categories, null,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
             <label for="" style="font-size: 18px">Post Content</label>

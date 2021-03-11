@@ -72,7 +72,7 @@ $(document).ready(function () {
     });
 
     //select page type
-    $('select[name = "page_type"]').on('change', function () {
+    $('select[name = "type"]').on('change', function () {
         type = this.value;
         showType(type)
     });

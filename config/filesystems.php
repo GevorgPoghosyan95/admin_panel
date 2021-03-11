@@ -69,6 +69,12 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+        'post_videos' => [
+            'driver' => 'local',
+            'root' => public_path().'/site/post/videos',
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
 
     ],
 

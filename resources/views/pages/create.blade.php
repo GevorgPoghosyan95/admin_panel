@@ -42,9 +42,15 @@
             <input type="text" class="form-control" name="title" id="title"><br>
             <label for="path" style="font-size: 26px">Path</label>
             <input type="text" class="form-control" name="path" id="path"><br>
+            <label for="path" style="font-size: 26px">Left Sidebar Menu</label>
+            <select class="form-control form-control-lg" name="menuID">
+                <option value="" selected>Without menu</option>
+                @foreach($menus as  $menu)
+                    <option value="{{$menu->id}}">{{$menu->name}}</option>
+                @endforeach
+            </select><br>
             <label for="path" style="font-size: 26px">Page Type</label>
-            <select class="form-control form-control-lg" name="page_type">
-                <option value="" selected disabled>Choose here</option>
+            <select class="form-control form-control-lg" name="type">
                 @foreach($pageTypes as  $type)
                     <option value="{{$type}}">{{$type}}</option>
                 @endforeach

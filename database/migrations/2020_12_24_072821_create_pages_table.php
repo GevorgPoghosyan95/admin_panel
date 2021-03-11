@@ -21,7 +21,8 @@ class CreatePagesTable extends Migration
             $table->string('lang');
             $table->string('document');
             $table->longText('body');
-            $table->string('category');
+            $table->int('categoryID');
+            $table->int('menuID');
             $table->longText('image')->nullable();
             $table->timestamps();
         });

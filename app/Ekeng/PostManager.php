@@ -152,7 +152,7 @@ class PostManager
 
                 $nestedData['id'] = $post->id;
                 $nestedData['title'] = $post->title;
-                $nestedData['content'] = substr(strip_tags($post->content),0,30);
+                $nestedData['content'] = mb_substr(strip_tags($post->content),0,100, "utf-8");
                 $nestedData['image'] = $post->image ? "<img src='data:image/png;base64,$post->image' alt=''>" : '';
                 $nestedData['updated_at'] = date('Y-m-d H:i:s', strtotime($post->updated_at));
                 $nestedData['created_at'] = date('Y-m-d H:i:s', strtotime($post->created_at));
