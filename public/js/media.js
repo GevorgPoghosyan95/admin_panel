@@ -1,5 +1,5 @@
 // upload picture
-$('#med_pic').on('input',function () {
+/*$('#med_pic').on('input',function () {
     let fd = new FormData(),
         file = $(this)[0].files,
         _self =$(this)[0],
@@ -43,7 +43,7 @@ $('#med_pic').on('input',function () {
             console.log((xhr));
         }
     });
-});
+});*/
 
 // function readURL(input) {
 //     if (input.files && input.files[0]) {
@@ -58,6 +58,168 @@ $('#med_pic').on('input',function () {
 //     }
 // }
 
+let $modal = $('#modal');
+let image = document.getElementById('image');
+let cropper;
+let send_data= [];
+$(document).on('click', '.blah', function (e) {
+    let url = $(this).attr('src');
+    $modal.modal('show');
+    image.src = url;
+    let fname = url.replace(/^.*[\\\/]/, ''),
+    id = $(this).parent().data('id');
+    fetch(url)
+        .then(function (response) {
+            return response.blob()
+        })
+        .then(function (blob) {
+            // send('k', blob,fname,id)
+            send_data.push('k')
+            send_data.push(blob)
+            send_data.push(fname)
+            send_data.push(id)
+        });
+
+});
+
+
+
+$("body").on("change", ".image", function(e){
+    let files = e.target.files;
+    const file11 = this.files[0];
+    const fileType = file11['type'];
+    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+    console.log(file11);
+    let done = function (url) {
+        image.src = url;
+        $modal.modal('show');
+      //  send()
+    };
+    let reader;
+    let file;
+    let url;
+    if (files && files.length > 0 && validImageTypes.includes(fileType)) {
+        file = files[0];
+        if (URL) {
+            done(URL.createObjectURL(file));
+        } else if (FileReader) {
+            reader = new FileReader();
+            reader.onload = function (e) {
+                done(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    else {
+        flashMessage('unsupported media type !','red');
+    }
+});
+
+$modal.on('shown.bs.modal', function () {
+    cropper = new Cropper(image, {
+        // aspectRatio: 1,
+        viewMode:3,
+        preview: '.preview',
+        crop(event) {
+            cropImage(
+                event.detail.x,
+                event.detail.y,
+                event.detail.width,
+                event.detail.height,
+                event.detail.scaleX,
+                event.detail.scaleY);
+            $('.w_value').html(Math.round(event.detail.width) + 'px');
+            $('.h_value').html(Math.round(event.detail.height) + 'px');
+        },
+    });
+    // console.log(x);
+}).on('hidden.bs.modal', function () {
+    cropper.destroy();
+    cropper = null;
+    send_data = [];
+});
+let arr = {};
+function cropImage(x,y,w,h,X,Y){
+    arr = {
+        'x':x,
+        'y':y,
+        'w':w,
+        'h':h,
+        'X':X,
+        'Y':Y,
+    };
+    return arr;
+}
+
+// console.log(arr);
+// function send(param,blob,fname,id) {
+
+//     console.log(param,blob,fname,id);
+
+    $("#crop").on('click',function(){
+        console.log(send_data[2]);
+        let fd = new FormData(),
+            // _self =$('#med_pic')[0],
+            fol = $('#fldr').val(),
+            file;
+        if(send_data.length > 1 && send_data[0] == 'k'){
+            fd.append('param',send_data[0]);
+            fd.append('file',send_data[1],send_data[2]);
+        } else{
+            file = $('#med_pic')[0].files[0];
+            fd.append('file',file);
+        }
+        fd.append('folder',fol);
+        fd.append('prop',JSON.stringify(arr));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: 'media/upload',
+            type: 'post',
+            // dataType: "json",
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+
+                // console.log(response);
+                if(response.status == 'success' && response.edited !== true){
+                    let div = '<div class="img_box" data-id="'+response.id +'">' +
+                        '<span aria-hidden="true" class="rem">' +
+                        '<i class="fa fa-close img_del"></i></span>' +
+                        '<p class="vert">' + readableBytes(response.size) +'</p>'+
+                        '<img class="blah" src="'+response.path +'" />' +
+                        '<a href="javascript:void(0) " style="margin-top: 1px" data-path="' + response.public_url + '">copy public path</a>' +
+                        '</div>';
+                    if(fol == '0'){
+                        $('.img_bl').append(div);
+                    } else{
+                        $('.f_box[data-id='+fol+']').find('.count').text(response.cnt);
+                        $('.f_data').append(div);
+                    }
+                    $('.modal').modal('hide');
+                    flashMessage(response.message)
+                    fol = 0;
+                }else if(response.edited == true){
+                    let d = new Date();
+                    $(".img_box[data-id='" + send_data[3] + "']").find('img').attr('src', response.path+'?'+d.getTime());
+                    $(".img_box[data-id='" + send_data[3] + "']").find('.vert').text(readableBytes(response.size));
+                    $('.modal').modal('hide');
+                    flashMessage(response.message);
+                    send_data = [];
+                } else{
+                    flashMessage(response.error.file,'red')
+                }
+            },
+            error: function (xhr) {
+                console.log((xhr));
+            }
+        });
+    })
+// }
 
 // add folder modal
 $('.toolbar_m').click(function () {
@@ -239,3 +401,4 @@ function readableBytes(bytes) {
         sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + sizes[i];
 }
+

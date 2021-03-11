@@ -124,4 +124,4 @@
     .folder_box .count{position: absolute;
         top: 15px;right: 20px}
 
-    .rem_fol:hover, .f_box:hover {cursor: pointer}
+    .rem_fol:hover{cursor: pointer}

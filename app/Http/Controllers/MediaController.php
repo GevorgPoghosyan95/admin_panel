@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
+
 
 class MediaController extends Controller
 {
@@ -20,7 +22,7 @@ class MediaController extends Controller
     }
 
     public function upload(Request $request){
-
+        $cord = json_decode($request->input('prop'));
         if($request->hasFile('file')){
             $validator = Validator::make($request->all(),[
                 'file' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -30,14 +32,32 @@ class MediaController extends Controller
                 return response()->json(['status' => 'fail', 'error' => $validator->getMessageBag()->toArray()]);
             }
             $file = $request->file('file');
+            if($request->input('param')){
+               $name = preg_replace('/\?[^?]*$/', '',$file->getClientOriginalName());
+                if($request->input('folder') == '0'){
+                    $path= 'uploads/files/'.$name;
+                    Image::make(public_path($path))->crop(intval($cord->w), intval($cord->h), intval($cord->x), intval($cord->y))->save(public_path($path));
+                }else{
+                    $p = Folder::where('id',$request->input('folder'))->first();
+                    $path= 'uploads/files/'.$p->name.'/'.$name;
+                    Image::make(public_path($path))->crop(intval($cord->w), intval($cord->h), intval($cord->x), intval($cord->y))->save(public_path($path));
+                }
+             return response()->json(['status' => 'success','size' => filesize($path),'path' => $path,'message' => 'edited successfully','public_url' => asset($path),'edited' => true]);
+            }else {
             if($request->input('folder') == '0'){
+//                dd(public_path('uploads/files/'.$file->getClientOriginalName()));
                 Storage::disk('files')->put($file->getClientOriginalName(),File::get($file));
                 $path = '/uploads/files/' . $file->getClientOriginalName();
+                $img = Image::make(public_path($path));
+                $img->crop(intval($cord->w), intval($cord->h), intval($cord->x), intval($cord->y));
+                $img->save(public_path($path));
             } else {
                 $p = Folder::where('id',$request->input('folder'))->first();
                 Storage::disk('files')->put($p->name.'/'.$file->getClientOriginalName(),File::get($file));
                 $path = '/uploads/files/'.$p->name.'/'. $file->getClientOriginalName();
-//                dd('/uploads/files/'.$p->name.'/'.$file->getClientOriginalName(),File::get($file));
+                $img = Image::make(public_path($path));
+                $img->crop(intval($cord->w), intval($cord->h), intval($cord->x), intval($cord->y));
+                $img->save(public_path($path));
             }
             $data = new Media;
             $data->path = $path;
@@ -45,6 +65,7 @@ class MediaController extends Controller
             $data->created_at = Carbon::now();
             $data->save();
             $cnt = Media::where('folder_id',$request->input('folder'))->count();
+            }
             return response()->json(['status' => 'success','size' => \File::size(public_path($data->path)),'path' => $data->path,'id' => $data->id,'message' => 'uploaded successfully','cnt' => $cnt,'public_url' => asset($data->path)]);
         } else {
             return 0;

@@ -1,5 +1,28 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js" integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
+
 <link href="/css/lang.css" rel="stylesheet" type="text/css"/>
+<style>
+    img {
+        display: block;
+        max-width: 100%;
+    }
+    .preview {
+        overflow: hidden;
+        width: 100%;
+        height: 200px;
+        margin: 10px;
+        border: 1px solid red;
+    }
+    .modal-lg{
+        max-width: 1000px !important;
+    }
+    /*.cord {padding: 15px}*/
+    .cord p {margin: 2px}
+    .cord span {font-weight: 600 ;font-size: 14px}
+</style>
 @include('layout.app')
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
@@ -23,7 +46,8 @@
             <div class="row">
                 <div class="col-lg-12 m-toolbar">
                     <div class="col-lg-1">
-                        <input type="file" name="pic" id="med_pic">
+{{--                        <input type="file" name="image" class="image">--}}
+                        <input type="file" name="pic" id="med_pic" class="image" accept="image/x-png,image/gif,image/jpeg" >
                         <input type="hidden" name="fldr" id="fldr" value="0">
                         <label for="med_pic">
                             <i class="fa fa-cloud-upload" aria-hidden="true"></i>
@@ -118,8 +142,51 @@ function humanFileSize($size,$unit="") {
         </div>
     </div>
 </div>
+
+{{--crop image--}}
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel" style="width: 65%;float: left">recomend size 600x600</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="cord" style="width: 35%;float: right;text-align: center">
+                    <p class="height">width : <span class="w_value"></span></p>
+                    <p class="width">height : <span class="h_value"></span></p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img id="image" src="https://avatars0.githubusercontent.com/u/3456749">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="preview" id="preview"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 @include('layout.footer')
 
 {{--<script src="/js/menus/index.js"></script>--}}
+
+<script>
+
+</script>
+
 <script src="/js/media.js" type="text/javascript"></script>
