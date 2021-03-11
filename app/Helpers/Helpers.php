@@ -84,7 +84,7 @@ function showSubMenu($menu)
 {
     $menu = Menu::where('name', $menu)->first();
     $menuHtml = '';
-    foreach ($menu->menuItems as $item) {
+    foreach ($menu->menuItems()->orderBy('order','asc')->get() as $item) {
         $url = $item->page->path;
         $title = $item->page->title;
         $menuHtml .= '<a href="' . $url . '">' . $title . '</a>';

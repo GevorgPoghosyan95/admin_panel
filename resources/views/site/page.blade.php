@@ -58,8 +58,8 @@
                         <br>
 
                     @elseif($page->style == 'accordion')
-                        {!! $page->body !!}
                         <h1>{!! $page->title !!}</h1>
+                        {!! $page->body !!}
                         @if($page->categories->posts()->exists())
                             @foreach($page->categories->posts as $post)
                                 {!! \App\Ekeng\Post\PostRepository::faq($post) !!}
