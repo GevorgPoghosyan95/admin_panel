@@ -15,6 +15,7 @@
 
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/site/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/site/css/paginate.css" type="text/css">
     <link rel="stylesheet" href="/site/css/ico.css" type="text/css">
 
     <script src="/site/js/jquery.min.js"></script>
@@ -37,7 +38,6 @@
             display: none !important;
         }</style>
 
-    <script async src="/https://www.googletagmanager.com/gtag/js?id=UA-177383913-1"></script>
     <script>window.dataLayer = window.dataLayer || [];
 
         function gtag() {
@@ -52,8 +52,8 @@
 <body>
 <!-- header yield-->
 @yield('header')
-<!-- page content yield-->
-@yield('content')
+<!-- page type yield-->
+@yield('type')
 <!-- footer yield-->
 @yield('footer')
 </body>

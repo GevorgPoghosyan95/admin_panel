@@ -140,7 +140,7 @@
 				wrap     : '<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
 				image    : '<img class="fancybox-image" src="{href}" alt="" />',
 				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen' + (IE ? ' allowtransparency="true"' : '') + '></iframe>',
-				error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+				error    : '<p class="fancybox-error">The requested type cannot be loaded.<br/>Please try again later.</p>',
 				closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>',
 				next     : '<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
 				prev     : '<a title="Previous" class="fancybox-nav fancybox-prev" href="javascript:;"><span></span></a>'
@@ -241,7 +241,7 @@
 				group = isQuery(group) ? $(group).get() : [group];
 			}
 
-			// Recheck if the type of each element is `object` and set content type (image, ajax, etc)
+			// Recheck if the type of each element is `object` and set type type (image, ajax, etc)
 			$.each(group, function(i, element) {
 				var obj = {},
 					href,
@@ -291,7 +291,7 @@
 				}
 
 				if (isString(href)) {
-					// Try to guess the content type
+					// Try to guess the type type
 					if (!type) {
 						if (F.isImage(href)) {
 							type = 'image';
@@ -308,7 +308,7 @@
 						}
 					}
 
-					// Split url into two pieces with source url and content selector, e.g,
+					// Split url into two pieces with source url and type selector, e.g,
 					// "/mypage.html #my_id" will load "/mypage.html" and display element having id "my_id"
 					if (type === 'ajax') {
 						hrefParts = href.split(/\s+/, 2);
@@ -583,7 +583,7 @@
 			}, (anyway && !isTouch ? 0 : 300));
 		},
 
-		// Shrink content to fit inside viewport or restore if resized
+		// Shrink type to fit inside viewport or restore if resized
 		toggle: function ( action ) {
 			if (F.isOpen) {
 				F.current.fitToView = $.type(action) === "boolean" ? action : !F.current.fitToView;
@@ -856,7 +856,7 @@
 			if (!type) {
 				F.coming = null;
 
-				//If we can not determine content type then drop silently or display next/prev item if looping through gallery
+				//If we can not determine type type then drop silently or display next/prev item if looping through gallery
 				if (F.current && F.router && F.router !== 'jumpto') {
 					F.current.index = index;
 
@@ -896,7 +896,7 @@
 
 			F.trigger('onReady');
 
-			// Check before try to load; 'inline' and 'html' types need content, others - href
+			// Check before try to load; 'inline' and 'html' types need type, others - href
 			if (type === 'inline' || type === 'html') {
 				if (!coming.content || !coming.content.length) {
 					return F._error( 'content' );
@@ -1207,7 +1207,7 @@
 			wPadding = getScalar(skin.outerWidth(true)  - skin.width());
 			hPadding = getScalar(skin.outerHeight(true) - skin.height());
 
-			// Any space between content and viewport (margin, padding, border, title)
+			// Any space between type and viewport (margin, padding, border, title)
 			wSpace = wMargin + wPadding;
 			hSpace = hMargin + hPadding;
 
@@ -1262,7 +1262,7 @@
 
 			ratio  = origWidth / origHeight;
 
-			// Calculations for the content
+			// Calculations for the type
 			minWidth  = getScalar(isPercentage(minWidth) ? getScalar(minWidth, 'w') - wSpace : minWidth);
 			maxWidth  = getScalar(isPercentage(maxWidth) ? getScalar(maxWidth, 'w') - wSpace : maxWidth);
 
@@ -1691,9 +1691,9 @@
 		defaults : {
 			closeClick : true,      // if true, fancyBox will be closed when user clicks on the overlay
 			speedOut   : 200,       // duration of fadeOut animation
-			showEarly  : true,      // indicates if should be opened immediately or wait until the content is ready
+			showEarly  : true,      // indicates if should be opened immediately or wait until the type is ready
 			css        : {},        // custom CSS properties
-			locked     : !isTouch,  // if true, the content will be locked into overlay
+			locked     : !isTouch,  // if true, the type will be locked into overlay
 			fixed      : true       // if false, the overlay CSS position property will not be set to "fixed"
 		},
 

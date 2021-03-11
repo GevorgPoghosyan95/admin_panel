@@ -27,8 +27,8 @@
   var Markdown = function (element, options) {
     // @TODO : remove this BC on next major release
     // @see : https://github.com/toopay/bootstrap-markdown/issues/109
-    var opts = ['autofocus', 'savable', 'hideable', 'width', 
-      'height', 'resize', 'iconlibrary', 'language', 
+    var opts = ['autofocus', 'savable', 'hideable', 'width',
+      'height', 'resize', 'iconlibrary', 'language',
       'footer', 'fullscreen', 'hiddenButtons', 'disabledButtons'];
     $.each(opts,function(_, opt){
       if (typeof $(element).data(opt) !== 'undefined') {
@@ -258,7 +258,7 @@
         if (options.additionalButtons.length > 0) {
           // iterate the additional button groups
           $.each(options.additionalButtons[0], function(idx, buttonGroup){
-            
+
             // see if the group name of the addional group matches an existing group
             var matchingGroups = $.grep(allBtnGroups, function(allButtonGroup, allIdx){
               return allButtonGroup.name === buttonGroup.name;
@@ -267,12 +267,12 @@
             // if it matches add the addional buttons to that group, if not just add it to the all buttons group
             if(matchingGroups.length > 0) {
               matchingGroups[0].data = matchingGroups[0].data.concat(buttonGroup.data);
-            } else {              
+            } else {
               allBtnGroups.push(options.additionalButtons[0][idx]);
             }
 
           });
-        } 
+        }
 
         // Reduce and/or reorder the button groups
         if (options.reorderButtonGroups.length > 0) {
@@ -311,7 +311,7 @@
           var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
               currentContent = $.trim(rawContent);
 
-          // This is some arbitrary content that could be edited
+          // This is some arbitrary type that could be edited
           textarea = $('<textarea/>', {
                        'class': 'md-input',
                        'val' : currentContent
@@ -489,15 +489,15 @@
         // @see https://github.com/toopay/bootstrap-markdown/issues/170
         return this;
       }
-      
+
       // Give flag that tell the editor enter preview mode
       this.$isPreview = true;
       // Disable all buttons
       this.disableButtons('all').enableButtons('cmdPreview');
 
-      // Try to get the content from callback
+      // Try to get the type from callback
       callbackContent = options.onPreview(this);
-      // Set the content based from the callback content if string otherwise parse value from textarea
+      // Set the type based from the callback type if string otherwise parse value from textarea
       content = typeof callbackContent == 'string' ? callbackContent : this.parseContent();
 
       // Build preview element
@@ -781,7 +781,7 @@
             var cursor = this.getSelection();
 
             if (cursor.start == cursor.end && cursor.end == this.getContent().length) {
-              // The cursor already reach the end of the content
+              // The cursor already reach the end of the type
               blocked = false;
             } else {
               // Put the cursor to the end
@@ -871,7 +871,7 @@
               oldElement.attr(editable.attrKeys[k],editable.attrValues[k]);
             });
 
-            // Get the editor content
+            // Get the editor type
             oldElement.html(currentContent);
 
             editor.replaceWith(oldElement);

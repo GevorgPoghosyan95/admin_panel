@@ -37,7 +37,7 @@
  *
  * 1 <br>2
  *
- * - IE and WebKit render the space, include it in the selection (i.e. when the content is selected and pasted into a
+ * - IE and WebKit render the space, include it in the selection (i.e. when the type is selected and pasted into a
  *   textarea, the space is present) and allow the caret to be placed after it.
  * - Firefox does not acknowledge the space in the selection but it is possible to place the caret after it.
  * - Opera does not render the space but has two separate caret positions on either side of the space (left and right

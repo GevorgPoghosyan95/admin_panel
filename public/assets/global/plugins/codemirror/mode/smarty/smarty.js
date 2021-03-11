@@ -71,7 +71,7 @@
       return token;
     }
 
-    // parsing Smarty content
+    // parsing Smarty type
     function tokenSmarty(stream, state) {
       if (stream.match(rightDelimiter, true)) {
         if (version === 3) {

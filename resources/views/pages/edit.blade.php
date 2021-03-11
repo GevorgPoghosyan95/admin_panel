@@ -12,9 +12,15 @@
         margin-top: 10px;
         float: right;
     }
-    .image-uploader .uploaded .uploaded-image {width: calc(100% - 1rem);
-        padding-bottom: calc(100% - 1rem);}
-    .image-uploader .uploaded .uploaded-image img{object-fit: contain}
+
+    .image-uploader .uploaded .uploaded-image {
+        width: calc(100% - 1rem);
+        padding-bottom: calc(100% - 1rem);
+    }
+
+    .image-uploader .uploaded .uploaded-image img {
+        object-fit: contain
+    }
 </style>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 @include('layout.header')
@@ -31,16 +37,39 @@
                 </div>
             @endif
             {!! Form::model($page, ['method' => 'PUT','route' => ['pages.update', $page->id], 'files' => true]) !!}
+            <input type="hidden" name="pageID" value="{{$page->id}}">
             <label for="title" style="font-size: 26px">Title</label>
-            <input type="text" class="form-control" name="title" id="title" value="{!! !empty($page->title) ? $page->title : '' !!}"><br>
+            <input type="text" class="form-control" name="title" id="title"
+                   value="{!! !empty($page->title) ? $page->title : '' !!}"><br>
             <label for="path" style="font-size: 26px">Path</label>
-            <input type="text" class="form-control" name="path" id="path" value="{!! !empty($page->path) ? $page->path : '' !!}"><br>
-            <label for="" style="font-size: 26px">Page Content</label>
-            <textarea class="tiny_area" name="content"></textarea> <br>
-            <div class="input-images" style="width: 10%"></div>
-            <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
-            {{--                <input type="file" name="doc" >--}}
-            <input type="hidden" name="img" value="{{$page->image}}" id="img">
+            <input type="text" class="form-control" name="path" id="path"
+                   value="{!! !empty($page->path) ? $page->path : '' !!}"><br>
+            <label for="path" style="font-size: 26px">Left Sidebar Menu</label>
+
+            <select class="form-control form-control-lg" name="menuID">
+                <option value="">Without menu</option>
+                @foreach($menus as  $menu)
+                    @if($page->menuID == $menu->id)
+                        <option value="{{$menu->id}}" selected>{{$menu->name}}</option>
+                    @else
+                        <option value="{{$menu->id}}">{{$menu->name}}</option>
+                    @endif
+                @endforeach
+            </select><br>
+
+            <label for="path" style="font-size: 26px">Page Type</label>
+            {!! Form::select('type', $pageTypes, $page->type,['class' => 'form-control']); !!}<br>
+            @if($page->type == 'Content')
+                <label for="" style="font-size: 26px">Page Content</label>
+                <textarea class="tiny_area" name="content"></textarea> <br>
+                <div class="input-images" style="width: 10%"></div>
+                <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
+                {{--                <input type="file" name="doc" >--}}
+                <input type="hidden" name="img" value="{{$page->image}}" id="img">
+            @elseif($page->type == 'News')
+                <label for="" style="font-size: 26px">Page News Category</label>
+                {!! Form::select('categoryID', $categories, $page->categoryID,['class' => 'form-control']); !!}<br>
+            @endif
             <input type="submit" value="Save" class="btn btn-success"/>
             <div class="clearfix"></div>
             {!! Form::close() !!}
@@ -71,6 +100,28 @@
                 editor.on('init', function (e) {
                     editor.setContent(`{!! !empty($page->body) ? $page->body : '' !!}`);
                 });
+            },
+            file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.onchange = function () {
+                    var file = this.files[0];
+
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+
+                        /* call the callback and populate the Title field with the file name */
+                        cb(blobInfo.blobUri(), {title: file.name});
+                    };
+                    reader.readAsDataURL(file);
+                };
+                input.click();
             }
         });
         $('.input-images').imageUploader({

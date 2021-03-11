@@ -10,7 +10,7 @@ function onClick() {
             var marginTop = 20;
             var index = 0;
 
-var utf_8_string_to_render = $('#content').html();
+var utf_8_string_to_render = $('#type').html();
 
 Promise.all(
 [
@@ -46,7 +46,7 @@ Promise.all(
 };
 
     function printContent() {
-        var divContents = $("#content").html();
+        var divContents = $("#type").html();
         var printWindow = window.open('', '', 'height=400,width=800');
         printWindow.document.write('<html><head>');
         printWindow.document.write('</head><body >');

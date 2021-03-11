@@ -31,6 +31,8 @@
             {!! Form::model($post, ['method' => 'PUT','route' => ['posts.update', $post->id], 'files' => true]) !!}
                 <label for="title" style="font-size: 18px">Title</label>
                 <input type="text" class="form-control" name="title" id="title" value="{!! !empty($post->title) ? $post->title : '' !!}"><br>
+                <button class="btn btn-success" id="change_video">Change Video Link</button>
+                <div class="video"></div>
                 <label for="title" style="font-size: 18px">Category</label><br>
                 {!! Form::select('category[]', $categories, $post->categories,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}<br>
                 <label for="" style="font-size: 26px">Page Content</label>
@@ -48,39 +50,10 @@
 </div>
 
 </body>
-<script>
-    $(document).ready(function () {
-        $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
-        let myImg = '{{($post->image)}}' ? 'data:image/png;base64,{{($post->image)}}' : '',
-            pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-        tinymce.init({
-            selector: 'textarea.tiny_area',
-            plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-            imagetools_cors_hosts: ['picsum.photos'],
-            menubar: 'file edit view insert format tools table help',
-            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-            toolbar_sticky: true,
-            autosave_ask_before_unload: true,
-            autosave_interval: "30s",
-            autosave_prefix: "{path}{query}-{id}-",
-            autosave_restore_when_empty: false,
-            autosave_retention: "2m",
-            image_advtab: true,
-            setup: function (editor) {
-                editor.on('init', function (e) {
-                    editor.setContent(`{!! !empty($post->content) ? $post->content : '' !!}`);
-                });
-            }
-        });
-        $('.input-images').imageUploader({
-            imagesInputName: 'photos',
-            maxFiles: 1,
-            preloaded: pre
-        });
-        $('.iui-close').click(function () {
-            $('#img').val('')
-        })
-    });
+<script>  let myImg = '{{($post->image)}}' ? 'data:image/png;base64,{{($post->image)}}' : '',
+        pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
+    let post_content = `{!! !empty($post->content) ? $post->content : '' !!}`
 </script>
+<script src="/js/posts/edit.js"></script>
 @include('layout.footer')
 

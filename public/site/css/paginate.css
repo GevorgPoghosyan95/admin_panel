@@ -1,0 +1,8 @@
+.pagination { display:inline-block; padding-left:0; margin-top:0; margin-bottom:0; border-radius:4px; font-size:14px;}
+.pagination li { display:inline; }
+.pagination li a { position:relative; float:left; padding:7px 15px; margin-left:-1px; color:#65473c; text-decoration:none; background-color: #f9fafd; border:1px solid #aeb7c4;  }
+.pagination li a:focus, .pagination li a:hover { background: #ffa82b; color: #fff; }
+.pagination .active a, .pagination .active a:focus, .pagination .active a:hover { z-index:3; color: #fff; cursor:default; background-color: #1576cb; border-color: #166fe2; }
+.pagination li span { position:relative; float:left; padding:7px 15px; margin-left:-1px; color:#65473c; text-decoration:none; background-color: #f9fafd; border:1px solid #aeb7c4;  }
+.pagination li span:focus, .pagination li span:hover { background: #ffa82b; color: #fff; }
+.pagination .active span, .pagination .active span:focus, .pagination .active a:hover { z-index:3; color: #fff; cursor:default; background-color: #1576cb; border-color: #166fe2; }

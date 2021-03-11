@@ -48,7 +48,7 @@
             return "<li>" +
               "<div class='bootstrap-wysihtml5-insert-link-modal modal fade'>" +
               ($.fn.modalmanager ? "" : "<div class='modal-dialog'>") +
-              " <div class='modal-content'>" +
+              " <div class='modal-type'>" +
                 "<div class='modal-header'>" +
                   "<a class='close' data-dismiss='modal'>&times;</a>" +
                   "<h3>" + locale.link.insert + "</h3>" +
@@ -73,7 +73,7 @@
             return "<li>" +
               "<div class='bootstrap-wysihtml5-insert-image-modal modal fade'>" +
               ($.fn.modalmanager ? "" : "<div class='modal-dialog'>") +
-              " <div class='modal-content'>" +
+              " <div class='modal-type'>" +
                 "<div class='modal-header'>" +
                   "<a class='close' data-dismiss='modal'>&times;</a>" +
                   "<h3>" + locale.image.insert + "</h3>" +
@@ -155,7 +155,7 @@
 
         createEditor: function(options) {
             options = options || {};
-            
+
             // Add the toolbar to a clone of the options object so multiple instances
             // of the WYISYWG don't break because "toolbar" is already defined
             options = $.extend(true, {}, options);
@@ -388,7 +388,7 @@
             return methods.init.apply( this, arguments );
         } else {
             $.error( 'Method ' +  method + ' does not exist on jQuery.wysihtml5' );
-        }    
+        }
     };
 
     $.fn.wysihtml5.Constructor = Wysihtml5;

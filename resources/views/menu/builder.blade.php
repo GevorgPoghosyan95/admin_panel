@@ -237,7 +237,7 @@
                         '</div><div class="dd-handle"> ' + title + '</div></li>');
                     data.status === 'success' ? flashMessage(data.message) : flashMessage(data.message, 'red');
                 } else if(data.status === 's') {
-                    $('.dd').find(`[data-id='${data.id}']`).find('.dd-content:first').text(data.title);
+                    $('.dd').find(`[data-id='${data.id}']`).find('.dd-type:first').text(data.title);
                     flashMessage(data.message);
                 }
             });

@@ -1554,8 +1554,8 @@ jQuery.fn.cubeportfolio.options = {
     caption: 'pushTop',
 
     /**
-     *  The plugin will display his content based on the following values.
-     *  Values: - default (the content will be displayed without any animation)
+     *  The plugin will display his type based on the following values.
+     *  Values: - default (the type will be displayed without any animation)
      *          - fadeIn (the plugin will fully preload the images before displaying the items with a fadeIn effect)
      *          - fadeInToTop (the plugin will fully preload the images before displaying the items with a fadeIn effect from bottom to top)
      *          - sequentially (the plugin will fully preload the images before displaying the items with a sequentially effect)
@@ -1626,14 +1626,14 @@ jQuery.fn.cubeportfolio.options = {
     singlePageAnimation: 'left',
 
     /**
-     *  Use this callback to update singlePage content.
+     *  Use this callback to update singlePage type.
      *  The callback will trigger after the singlePage popup will open.
      *  @param url = the href attribute of the item clicked
      *  @param element = the item clicked
      *  Values: function
      */
     singlePageCallback: function(url, element) {
-        // to update singlePage content use the following method: this.updateSinglePage(yourContent)
+        // to update singlePage type use the following method: this.updateSinglePage(yourContent)
     },
 
     /**
@@ -1664,14 +1664,14 @@ jQuery.fn.cubeportfolio.options = {
     singlePageInlineInFocus: true,
 
     /**
-     *  Use this callback to update singlePage Inline content.
+     *  Use this callback to update singlePage Inline type.
      *  The callback will trigger after the singlePage Inline will open.
      *  @param url = the href attribute of the item clicked
      *  @param element = the item clicked
      *  Values: function
      */
     singlePageInlineCallback: function(url, element) {
-        // to update singlePage Inline content use the following method: this.updateSinglePageInline(yourContent)
+        // to update singlePage Inline type use the following method: this.updateSinglePageInline(yourContent)
     },
 
     /**
@@ -3894,9 +3894,9 @@ if (typeof Object.create !== 'function') {
                 }
             });
 
-            // content element
+            // type element
             t.content = $('<div/>', {
-                'class': 'cbp-popup-content'
+                'class': 'cbp-popup-type'
             }).appendTo(t.wrap);
 
             // append loading div
@@ -4014,9 +4014,9 @@ if (typeof Object.create !== 'function') {
                 }
             });
 
-            // content element
+            // type element
             t.content = $('<div/>', {
-                'class': 'cbp-popup-content'
+                'class': 'cbp-popup-type'
             }).appendTo(t.wrap);
 
             // append loading div
@@ -4460,7 +4460,7 @@ if (typeof Object.create !== 'function') {
 
             t.wrap[0].style.height = t.wrap.outerHeight(true) + 'px';
 
-            // debouncer for inline content
+            // debouncer for inline type
             t.deferredInline = $.Deferred();
 
             if (t.options.singlePageInlineInFocus) {
@@ -4592,10 +4592,10 @@ if (typeof Object.create !== 'function') {
                 counterMarkup,
                 animationFinish;
 
-            t.content.addClass('cbp-popup-content').removeClass('cbp-popup-content-basic');
+            t.content.addClass('cbp-popup-type').removeClass('cbp-popup-type-basic');
 
             if (isWrap === false) {
-                t.content.removeClass('cbp-popup-content').addClass('cbp-popup-content-basic');
+                t.content.removeClass('cbp-popup-type').addClass('cbp-popup-type-basic');
             }
 
             // update counter navigation
@@ -4997,7 +4997,7 @@ if (typeof Object.create !== 'function') {
             var t = this;
 
             function finishClose() {
-                // reset content
+                // reset type
                 t.content.html('');
 
                 // hide the wrap
@@ -5081,7 +5081,7 @@ if (typeof Object.create !== 'function') {
                     t.wrap.removeClass('cbp-popup-singlePage-open cbp-popup-singlePage-sticky');
 
                     if (CubePortfolio.private.browser === 'ie8' || CubePortfolio.private.browser === 'ie9') {
-                        // reset content
+                        // reset type
                         t.content.html('');
 
                         // hide the wrap
@@ -5104,7 +5104,7 @@ if (typeof Object.create !== 'function') {
                 });
 
                 t.wrap.one(CubePortfolio.private.transitionend, function() {
-                    // reset content
+                    // reset type
                     t.content.html('');
 
                     // hide the wrap
@@ -5125,7 +5125,7 @@ if (typeof Object.create !== 'function') {
 
                 $(window).scrollTop(t.scrollTop);
 
-                // reset content
+                // reset type
                 t.content.html('');
 
                 // hide the wrap

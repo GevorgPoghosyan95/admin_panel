@@ -63,7 +63,7 @@
             // Create timeout warning dialog
             $('body').append('<div class="modal fade" id="session-timeout-dialog"> \
               <div class="modal-dialog"> \
-                <div class="modal-content"> \
+                <div class="modal-type"> \
                   <div class="modal-header"> \
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> \
                     <h4 class="modal-title">' + opt.title + '</h4> \

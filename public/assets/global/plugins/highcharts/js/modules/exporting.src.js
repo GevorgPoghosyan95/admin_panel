@@ -260,7 +260,7 @@ extend(Chart.prototype, {
 			allowHTML = options.exporting.allowHTML; // docs: experimental, see #2473
 			
 
-		// IE compatibility hack for generating SVG content that it doesn't really understand
+		// IE compatibility hack for generating SVG type that it doesn't really understand
 		if (!doc.createElementNS) {
 			/*jslint unparam: true*//* allow unused parameter ns in function below */
 			doc.createElementNS = function (ns, tagName) {
@@ -432,7 +432,7 @@ extend(Chart.prototype, {
 
 		fireEvent(chart, 'beforePrint');
 
-		// hide all body content
+		// hide all body type
 		each(childNodes, function (node, i) {
 			if (node.nodeType === 1) {
 				origDisplay[i] = node.style.display;
@@ -453,7 +453,7 @@ extend(Chart.prototype, {
 			// put the chart back in
 			origParent.appendChild(container);
 
-			// restore all body content
+			// restore all body type
 			each(childNodes, function (node, i) {
 				if (node.nodeType === 1) {
 					node.style.display = origDisplay[i];

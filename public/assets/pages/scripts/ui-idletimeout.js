@@ -9,9 +9,9 @@ var UIIdleTimeout = function () {
             var $countdown;
 
             $('body').append('');
-                    
+
             // start the idle timer plugin
-            $.idleTimeout('#idle-timeout-dialog', '.modal-content button:last', {
+            $.idleTimeout('#idle-timeout-dialog', '.modal-type button:last', {
                 idleAfter: 5, // 5 seconds
                 timeout: 30000, //30 seconds to timeout
                 pollingInterval: 5, // 5 seconds
@@ -24,11 +24,11 @@ var UIIdleTimeout = function () {
                     $('#idle-timeout-dialog').modal('show');
                     $countdown = $('#idle-timeout-counter');
 
-                    $('#idle-timeout-dialog-keepalive').on('click', function () { 
+                    $('#idle-timeout-dialog-keepalive').on('click', function () {
                         $('#idle-timeout-dialog').modal('hide');
                     });
 
-                    $('#idle-timeout-dialog-logout').on('click', function () { 
+                    $('#idle-timeout-dialog-logout').on('click', function () {
                         $('#idle-timeout-dialog').modal('hide');
                         $.idleTimeout.options.onTimeout.call(this);
                     });
@@ -37,13 +37,13 @@ var UIIdleTimeout = function () {
                     $countdown.html(counter); // update the counter
                 }
             });
-            
+
         }
 
     };
 
 }();
 
-jQuery(document).ready(function() {    
+jQuery(document).ready(function() {
    UIIdleTimeout.init();
 });

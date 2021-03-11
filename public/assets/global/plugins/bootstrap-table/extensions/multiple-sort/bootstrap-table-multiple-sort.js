@@ -21,7 +21,7 @@
         if (!$(_id).hasClass("modal")) {
             var sModal = '  <div class="modal fade" id="' + _id + '" tabindex="-1" role="dialog" aria-labelledby="' + _id + 'Label" aria-hidden="true">';
             sModal += '         <div class="modal-dialog">';
-            sModal += '             <div class="modal-content">';
+            sModal += '             <div class="modal-type">';
             sModal += '                 <div class="modal-header">';
             sModal += '                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
             sModal += '                     <h4 class="modal-title" id="' + _id + 'Label">' + that.options.formatMultipleSort() + '</h4>';

@@ -15,9 +15,9 @@ var Layout = function() {
     //* BEGIN:CORE HANDLERS *//
     // this function handles responsive layout on screen size resize or mobile device rotate.
 
-    // Set proper height for sidebar and content. The content and sidebar height must be synced always.
+    // Set proper height for sidebar and type. The type and sidebar height must be synced always.
     var handleSidebarAndContentHeight = function () {
-        var content = $('.page-content');
+        var content = $('.page-type');
         var sidebar = $('.page-sidebar');
         var body = $('body');
         var height;
@@ -59,7 +59,7 @@ var Layout = function() {
     var handleSidebarMenuActiveLink = function (mode, el, $state) {
         var url = location.hash.toLowerCase();
         var menu = $('.page-sidebar-menu');
- 
+
         if (mode === 'click' || mode === 'set') {
             el = $(el);
         } else if (mode === 'match') {
@@ -73,7 +73,7 @@ var Layout = function() {
                 } else {
                     var path = $(this).attr('href');
                     if (path) {
-                        // url match condition         
+                        // url match condition
                         path = path.toLowerCase();
                         if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
                             el = $(this);
@@ -83,11 +83,11 @@ var Layout = function() {
                 }
             });
         }
- 
+
         if (!el || el.size() == 0) {
             return;
         }
- 
+
         if (el.attr('href') == 'javascript:;' ||
             el.attr('ui-sref') == 'javascript:;' ||
             el.attr('href') == '#' ||
@@ -95,10 +95,10 @@ var Layout = function() {
             ) {
             return;
         }
- 
+
         var slideSpeed = parseInt(menu.data('slide-speed'));
         var keepExpand = menu.data('keep-expanded');
- 
+
         // begin: handle active state
         if (menu.hasClass('page-sidebar-menu-hover-submenu') === false) {
             menu.find('li.nav-item.open').each(function () {
@@ -115,11 +115,11 @@ var Layout = function() {
                         return;
                     }
                 });
- 
+
                 if (match === true) {
                     return;
                 }
- 
+
                 $(this).removeClass('open');
                 $(this).find('> a > .arrow.open').removeClass('open');
                 $(this).find('> .sub-menu').slideUp();
@@ -127,26 +127,26 @@ var Layout = function() {
         } else {
             menu.find('li.open').removeClass('open');
         }
- 
+
         menu.find('li.active').removeClass('active');
         menu.find('li > a > .selected').remove();
         // end: handle active state
- 
+
         el.parents('li').each(function () {
             $(this).addClass('active');
             $(this).find('> a > span.arrow').addClass('open');
- 
+
             if ($(this).parent('ul.page-sidebar-menu').size() === 1) {
                 $(this).find('> a').append('<span class="selected"></span>');
             }
- 
+
             if ($(this).children('ul.sub-menu').size() === 1) {
                 $(this).addClass('open');
             }
         });
- 
+
         if (mode === 'click') {
-            if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass('in')) { // close the menu on mobile view while laoding a page 
+            if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass('in')) { // close the menu on mobile view while laoding a page
                 $('.page-header .responsive-toggler').click();
             }
         }
@@ -161,12 +161,12 @@ var Layout = function() {
             }
 
             if ($(this).next().hasClass('sub-menu') === false) {
-                if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page 
+                if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
                     $('.page-header .responsive-toggler').click();
                 }
                 return;
             }
-            
+
             var parent = $(this).parent().parent();
             var the = $(this);
             var menu = $('.page-sidebar-menu');
@@ -245,15 +245,15 @@ var Layout = function() {
             });
             $(this).parents('li').addClass('active');
 
-            if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page 
+            if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
                 $('.page-header .responsive-toggler').click();
             }
 
             Layout.loadAjaxContent(url, $(this));
         });
 
-        // handle ajax link within main content
-        $('.page-content').on('click', '.ajaxify', function(e) {
+        // handle ajax link within main type
+        $('.page-type').on('click', '.ajaxify', function(e) {
             e.preventDefault();
             App.scrollTop();
 
@@ -262,7 +262,7 @@ var Layout = function() {
 
             App.startPageLoading();
 
-            if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page 
+            if (App.getViewPort().width < resBreakpointMd && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
                 $('.page-header .responsive-toggler').click();
             }
 
@@ -272,7 +272,7 @@ var Layout = function() {
         // handle scrolling to top on responsive menu toggler click when header is fixed for mobile view
         $(document).on('click', '.page-header-fixed-mobile .responsive-toggler', function(){
             App.scrollTop();
-        });      
+        });
     };
 
     var _calculateFixedSidebarViewportHeight = function () {
@@ -404,7 +404,7 @@ var Layout = function() {
 
     // Handles the horizontal menu
     var handleHeader = function() {
-        // handle search box expand/collapse        
+        // handle search box expand/collapse
         $('.page-header').on('click', '.search-form', function(e) {
             $(this).addClass("open");
             $(this).find('.form-control').focus();
@@ -444,7 +444,7 @@ var Layout = function() {
                     $('.scroll-to-top').fadeOut(duration);
                 }
             });
-        } else { // general 
+        } else { // general
             $(window).scroll(function() {
                 if ($(this).scrollTop() > offset) {
                     $('.scroll-to-top').fadeIn(duration);
@@ -470,7 +470,7 @@ var Layout = function() {
         // IMPORTANT!!!: Do not modify the core handlers call order.
 
         initHeader: function() {
-            handleHeader(); // handles horizontal menu    
+            handleHeader(); // handles horizontal menu
         },
 
         setSidebarMenuActiveLink: function(mode, el) {
@@ -487,22 +487,22 @@ var Layout = function() {
             handleSidebarMenu(); // handles main menu
             handleSidebarToggler(); // handles sidebar hide/show
 
-            if (App.isAngularJsApp()) {      
-                handleSidebarMenuActiveLink('match', null, $state); // init sidebar active links 
+            if (App.isAngularJsApp()) {
+                handleSidebarMenuActiveLink('match', null, $state); // init sidebar active links
             }
 
             App.addResizeHandler(handleFixedSidebar); // reinitialize fixed sidebar on window resize
         },
 
         initContent: function() {
-            return; 
+            return;
         },
 
         initFooter: function() {
             handleGoTop(); //handles scroll to top functionality in the footer
         },
 
-        init: function () {            
+        init: function () {
             this.initHeader();
             this.initSidebar(null);
             this.initContent();
@@ -510,16 +510,16 @@ var Layout = function() {
         },
 
         loadAjaxContent: function(url, sidebarMenuLink) {
-            var pageContent = $('.page-content .page-content-body');    
+            var pageContent = $('.page-type .page-type-body');
 
             App.startPageLoading({animate: true});
-            
+
             $.ajax({
                 type: "GET",
                 cache: false,
                 url: url,
                 dataType: "html",
-                success: function (res) {    
+                success: function (res) {
                     App.stopPageLoading();
                     pageContent.html(res);
 
@@ -530,17 +530,17 @@ var Layout = function() {
                     if (sidebarMenuLink.size() > 0 && sidebarMenuLink.parents('li.open').size() === 0) {
                         $('.page-sidebar-menu > li.open > a').click();
                     }
-                    
-                    Layout.fixContentHeight(); // fix content height
+
+                    Layout.fixContentHeight(); // fix type height
                     App.initAjax(); // initialize core stuff
                 },
                 error: function (res, ajaxOptions, thrownError) {
                     App.stopPageLoading();
-                    pageContent.html('<h4>Could not load the requested content.</h4>');
+                    pageContent.html('<h4>Could not load the requested type.</h4>');
 
                     for (var i = 0; i < ajaxContentErrorCallbacks.length; i++) {
                         ajaxContentErrorCallbacks[i].call(res);
-                    }                    
+                    }
                 }
             });
         },
@@ -553,7 +553,7 @@ var Layout = function() {
             ajaxContentErrorCallbacks.push(callback);
         },
 
-        //public function to fix the sidebar and content height accordingly
+        //public function to fix the sidebar and type height accordingly
         fixContentHeight: function() {
             return;
         },
@@ -578,7 +578,7 @@ var Layout = function() {
 }();
 
 if (App.isAngularJsApp() === false) {
-    jQuery(document).ready(function() {    
+    jQuery(document).ready(function() {
        Layout.init(); // init metronic core componets
     });
 }

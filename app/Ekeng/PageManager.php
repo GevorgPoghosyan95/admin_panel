@@ -85,6 +85,7 @@ class PageManager
                                                         aria-expanded="false"> Actions
                                                     <i class="fa fa-angle-down"></i>
                                                 </button>
+                                                    <input type="checkbox" name="pageCheckbox" class="pageCheckbox" type="checkbox" value="$page->id"> 
                                                 <ul class="dropdown-menu pull-left" role="menu">
                                                     <li>
                                                         <a href="#">

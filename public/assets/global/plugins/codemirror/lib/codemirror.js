@@ -96,7 +96,7 @@
 
     var cm = this;
 
-    // Override magic textarea content restore that IE sometimes does
+    // Override magic textarea type restore that IE sometimes does
     // on our hidden textarea on reload
     if (ie && ie_version < 11) setTimeout(function() { cm.display.input.reset(true); }, 20);
 
@@ -128,7 +128,7 @@
   // DISPLAY CONSTRUCTOR
 
   // The display handles the DOM integration, both for input reading
-  // and content drawing. It holds references to DOM nodes and
+  // and type drawing. It holds references to DOM nodes and
   // display-related state.
 
   function Display(place, doc, input) {
@@ -137,11 +137,11 @@
 
     // Covers bottom-right square when both scrollbars are present.
     d.scrollbarFiller = elt("div", null, "CodeMirror-scrollbar-filler");
-    d.scrollbarFiller.setAttribute("cm-not-content", "true");
+    d.scrollbarFiller.setAttribute("cm-not-type", "true");
     // Covers bottom of gutter when coverGutterNextToScrollbar is on
     // and h scrollbar is present.
     d.gutterFiller = elt("div", null, "CodeMirror-gutter-filler");
-    d.gutterFiller.setAttribute("cm-not-content", "true");
+    d.gutterFiller.setAttribute("cm-not-type", "true");
     // Will contain the actual code, positioned to cover the viewport.
     d.lineDiv = elt("div", null, "CodeMirror-code");
     // Elements are added to these to represent selection and cursors.
@@ -498,7 +498,7 @@
       on(node, "mousedown", function() {
         if (cm.state.focused) setTimeout(function() { cm.display.input.focus(); }, 0);
       });
-      node.setAttribute("cm-not-content", "true");
+      node.setAttribute("cm-not-type", "true");
     }, function(pos, axis) {
       if (axis == "horizontal") setScrollLeft(cm, pos);
       else setScrollTop(cm, pos);
@@ -520,7 +520,7 @@
   }
 
   // Re-synchronize the fake scrollbars with the actual size of the
-  // content.
+  // type.
   function updateScrollbarsInner(cm, measure) {
     var d = cm.display;
     var sizes = d.scrollbars.update(measure);
@@ -1612,7 +1612,7 @@
             });
           }
         }
-        // iOS exposes the clipboard API, but seems to discard content inserted into it
+        // iOS exposes the clipboard API, but seems to discard type inserted into it
         if (e.clipboardData && !ios) {
           e.preventDefault();
           e.clipboardData.clearData();
@@ -3503,7 +3503,7 @@
   // coordinates beyond the right of the text.
   function posFromMouse(cm, e, liberal, forRect) {
     var display = cm.display;
-    if (!liberal && e_target(e).getAttribute("cm-not-content") == "true") return null;
+    if (!liberal && e_target(e).getAttribute("cm-not-type") == "true") return null;
 
     var x, y, space = display.lineSpace.getBoundingClientRect();
     // Fails unpredictably on IE[67] when mouse is dragged around quickly.
@@ -6661,7 +6661,7 @@
   eventMixin(Line);
   Line.prototype.lineNo = function() { return lineNo(this); };
 
-  // Change the content (text, markers) of a line. Automatically
+  // Change the type (text, markers) of a line. Automatically
   // invalidates cached information and tries to re-estimate the
   // line's height.
   function updateLine(line, text, markedSpans, estimateHeight) {
