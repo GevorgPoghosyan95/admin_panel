@@ -22,6 +22,14 @@ class MediaController extends Controller
     }
 
     public function upload(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'file' => 'required|max:10000|mimes:jpeg,jpg,png'
+        ]);
+        if($validator->fails()){
+            return 0;
+        }
+
         $cord = json_decode($request->input('prop'));
         if($request->hasFile('file')){
             $validator = Validator::make($request->all(),[
@@ -35,15 +43,15 @@ class MediaController extends Controller
             if($request->input('param')){
                $name = preg_replace('/\?[^?]*$/', '',$file->getClientOriginalName());
                 if($request->input('folder') == '0'){
-                    $path= 'uploads/files/'.$name;
+                    $path= 'site/uploads/files/'.$name;
                     Image::make(public_path($path))->crop(intval($cord->w), intval($cord->h), intval($cord->x), intval($cord->y))->save(public_path($path));
                 }else{
                     $p = Folder::where('id',$request->input('folder'))->first();
-                    $path= 'uploads/files/'.$p->name.'/'.$name;
+                    $path= 'site/uploads/files/'.$p->name.'/'.$name;
                     Image::make(public_path($path))->crop(intval($cord->w), intval($cord->h), intval($cord->x), intval($cord->y))->save(public_path($path));
                 }
              return response()->json(['status' => 'success','size' => filesize($path),'path' => $path,'message' => 'edited successfully','public_url' => asset($path),'edited' => true]);
-            }else {
+            }/*else {
             if($request->input('folder') == '0'){
 //                dd(public_path('uploads/files/'.$file->getClientOriginalName()));
                 Storage::disk('files')->put($file->getClientOriginalName(),File::get($file));
@@ -61,12 +69,15 @@ class MediaController extends Controller
             }
             $data = new Media;
             $data->path = $path;
+            $data->type = 'image';
             $data->folder_id = $request->input('folder');
             $data->created_at = Carbon::now();
             $data->save();
             $cnt = Media::where('folder_id',$request->input('folder'))->count();
+
             }
             return response()->json(['status' => 'success','size' => \File::size(public_path($data->path)),'path' => $data->path,'id' => $data->id,'message' => 'uploaded successfully','cnt' => $cnt,'public_url' => asset($data->path)]);
+            */
         } else {
             return 0;
         }
@@ -86,7 +97,7 @@ class MediaController extends Controller
     }
 
     public function create_folder(Request $request){
-        $path = public_path('/uploads/files/'.$request->input('name'));
+        $path = public_path('/site/uploads/files/'.$request->input('name'));
         if(!File::exists($path)){
            Storage::disk('files')->makeDirectory( $request->input('name'));
            $data = new Folder;
@@ -102,7 +113,7 @@ class MediaController extends Controller
     public function delete_folder(Request $request)
     {
         $name = Folder::where('id',$request->input('id'))->first();
-        $path = public_path('/uploads/files/'.$name->name);
+        $path = public_path('/site//uploads/files/'.$name->name);
         File::deleteDirectory($path);
         Folder::where('id',$request->input('id'))->delete();
         Media::where('folder_id',$request->input('id'))->delete();
@@ -123,6 +134,37 @@ class MediaController extends Controller
         return response()->json(['status' => 'success','id' =>$request->input('id'),'images' => $images1,'f_name' => $folder->name]);
     }
 
+    public function file_upload(Request $request){
+        $data = $request->all();
+        $x = $data['fol'];
+        $return_array = [];
+       foreach($request['file'] as $file){
+           if($file->extension() == 'jpeg' || $file->extension() == 'jpg' || $file->extension() == 'png'  || $file->extension() == 'gif'){
+                $ext = 'image';
+           } else {
+               $ext = $file->extension();
+           }
 
+           if($x == '0'){
+                $path = '/site/uploads/files/'. $file->getClientOriginalName();
+                Storage::disk('files')->put($file->getClientOriginalName(),File::get($file));
+            }else{
+                $p = Folder::where('id',$x)->first();
+                $path = '/site/uploads/files/'.$p->name.'/'. $file->getClientOriginalName();
+                Storage::disk('files')->put($p->name.'/'.$file->getClientOriginalName(),File::get($file));
+            }
+            $data = new Media;
+            $data->path = $path;
+            $data->folder_id = $x;
+            $data->type = $ext;
+            $data->created_at = Carbon::now();
+            $data->save();
+            $cnt = Media::where('folder_id',$x)->count();
+            $return_array[] = ['status' => 'success','size' => \File::size(public_path($data->path)),
+                'path' => $data->path,'id' => $data->id,'message' => 'uploaded successfully','cnt' => $cnt,'public_url' => asset($data->path),'type' => $ext];
+
+       }
+        return response()->json($return_array);
+    }
 
 }

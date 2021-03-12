@@ -1,6 +1,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="stylesheet" href="/css/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
-<script src="/js/cropper.js" integrity="sha256-CgvH7sz3tHhkiVKh05kSUgG97YtzYNnWt6OXcmYzqHY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/cropper.css"/>
+<script src="/js/cropper.js"></script>
 
 <link href="/css/lang.css" rel="stylesheet" type="text/css"/>
 <style>
@@ -40,13 +40,15 @@
             <div class="row">
                 <div class="col-lg-12 m-toolbar">
                     <div class="col-lg-1">
+                        <form action="">
 {{--                        <input type="file" name="image" class="image">--}}
-                        <input type="file" name="pic" id="med_pic" class="image" accept="image/x-png,image/gif,image/jpeg" >
+                        <input type="file" name="pic" id="med_pic" class="image" multiple{{--accept="image/x-png,image/gif,image/jpeg"--}} >
                         <input type="hidden" name="fldr" id="fldr" value="0">
                         <label for="med_pic">
                             <i class="fa fa-cloud-upload" aria-hidden="true"></i>
                             <span style="display: block;margin-top: 10px"> upload file</span>
                         </label>
+                        </form>
                     </div>
                     <div class="col-lg-1">
                         <div class="toolbar_m">
@@ -82,10 +84,14 @@
             <div class="row r_level">
                 <div class="col-lg-12 img_bl">
                     @foreach($data as $item)
-                        <div class='img_box' data-id="{{$item->id}}">
+                        <div class='img_box' data-id="{{$item->id}}" >
                             <span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>
-                            <p class="vert"> {{humanFileSize(\File::size(public_path($item->path)))}} </p>
+                            <p class="vert"> {{humanFileSize(\File::size(public_path($item->path)))}}  {{$item->type == 'image'? '': '.'.$item->type}}</p>
+                            @if($item->type == 'image')
                             <img class='blah' src="{{$item->path}}" />
+                            @else
+                                <img class='blah blank' src="/images/doc.png" />
+                            @endif
                             <a href="javascript:void(0) " style="margin-top: 1px" data-path="{{asset($item->path)}}">copy public path </a>
                         </div>
                     @endforeach
