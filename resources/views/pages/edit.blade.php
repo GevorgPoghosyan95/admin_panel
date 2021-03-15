@@ -99,11 +99,9 @@
                 @endforeach
             </select><br>
             @if($page->type == 'Content')
-                <label for="" style="font-size: 26px">Page Content</label>
-                <textarea class="tiny_area" name="body"></textarea> <br>
-                <div class="input-images" style="width: 10%"></div>
-                <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
-                {{--                <input type="file" name="doc" >--}}
+                <div class="content">
+                    @include('pages.type.content')
+                </div>
                 <input type="hidden" name="img" value="{{$page->image}}" id="img">
             @elseif($page->type == 'News')
                 <div class="news">
@@ -117,14 +115,23 @@
             @elseif($page->type == 'VideoGallery')
                 @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
             @endif
+
+
             @if($page->type !== 'News')
                 <div class="news" style="display: none">
                     @include('pages.type.news',['categories'=>$categories->get()])
                 </div>
             @endif
+            @if($page->type !== 'VideoGallery')
                 <div class="videoGallery" style="display: none">
                     @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
                 </div>
+            @endif
+            @if($page->type !== 'Content')
+                <div class="content" style="display: none">
+                    @include('pages.type.content')
+                </div>
+            @endif
             <input type="submit" value="Save" class="btn btn-success"/>
             <div class="clearfix"></div>
             {!! Form::close() !!}

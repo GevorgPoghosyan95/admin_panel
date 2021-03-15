@@ -51,6 +51,7 @@ class StandardPageCreator implements PageCreator {
         }
         $pageData = $this->request->all();
         $file = $this->request->file('photos')[0];
+
         $base64 = '';
         if ($file !== null) {
             $imagedata = file_get_contents($file);
@@ -63,7 +64,7 @@ class StandardPageCreator implements PageCreator {
         if ($this->request->input('img') !== null) {
             $base64 = $this->page->image;
         }
-        $pageData['img'] = $base64;
+        $pageData['image'] = $base64;
         $this->page->update($pageData);
         $this->page->folders()->sync($this->request->get('folders'));
     }
