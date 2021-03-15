@@ -20,6 +20,8 @@
 
     <script src="/site/js/jquery.min.js"></script>
     <script src="/site/js/menu.js"></script>
+    <link rel='stylesheet' href='/site/css/gallery.css' type='text/css'>
+    <script src="/site/js/gallery.js"></script>
 
     <link rel="stylesheet" href="/site/slider/css/slider.css" type="text/css">
     <script src="/site/slider/js/jquery.nivo.slider.js"></script>

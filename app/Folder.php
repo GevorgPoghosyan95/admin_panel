@@ -10,8 +10,12 @@ class Folder extends Model
     protected $fillable = [
         'name'
     ];
-    public function picture()
+    public function files()
     {
         return $this->hasMany(Media::class, 'folder_id', 'id');
+    }
+
+    public function pages(){
+        return $this->belongsToMany(Page::class,'page_2_folder')->withTimestamps();
     }
 }

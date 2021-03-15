@@ -87,8 +87,15 @@ function showSubMenu($menu)
     foreach ($menu->menuItems()->orderBy('order','asc')->get() as $item) {
         $url = $item->page->path;
         $title = $item->page->title;
-        $menuHtml .= '<a href="' . $url . '">' . $title . '</a>';
+        strpos(request()->url(),$url) == false ? $class="":$class = "active";
+        $menuHtml .= '<a class="'.$class.'" href="' . $url . '">' . $title . '</a>';
     }
     return $menuHtml;
+}
+
+function getFileNameByPath($path,$type){
+    $parts = explode('/',$path);
+    return str_replace('.'.$type,'',$parts[count($parts) - 1]);
+
 }
 

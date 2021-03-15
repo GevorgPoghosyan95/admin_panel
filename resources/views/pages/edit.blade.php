@@ -56,6 +56,37 @@
                     @endif
                 @endforeach
             </select><br>
+            <label for="" style="font-size: 26px">Folders</label>
+            {!! Form::select('folders[]', $folders, $page->folders,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}
+            <div class="btn-group" style="float:right">
+                <div class="galleryType">
+                    <div class="btn-group" style="float:right">
+                        <div class="galleryType">
+                            <button type="button" class="btn blue">Select Gallery Type</button>
+                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <div class="dropdown-menu hold-on-click dropdown-radiobuttons" role="menu">
+                                @php $types = ["video"=>"VideoGallery","photo"=>"PhotoGallery","file"=>"FileGallery"]; @endphp
+                                @if($page->galleryType)
+                                    @foreach ($types as $type=>$value)
+                                        @if($type == $page->galleryType)
+                                            <label>
+                                                <input type="radio" name="galleryType" value="{{$type}}"
+                                                       checked>{{$value}}</label>
+                                        @else
+                                            <label>
+                                                <input type="radio" name="galleryType"
+                                                       value="{{$type}}">{{$value}}</label>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <label for="path" style="font-size: 26px">Page Type</label>
             <select class="form-control form-control-lg" name="type">
@@ -68,9 +99,6 @@
                 @endforeach
             </select><br>
             @if($page->type == 'Content')
-                <div class="news" style="display: none">
-                    @include('pages.type.news',['categories'=>$categories->get()])
-                </div>
                 <label for="" style="font-size: 26px">Page Content</label>
                 <textarea class="tiny_area" name="body"></textarea> <br>
                 <div class="input-images" style="width: 10%"></div>
@@ -78,21 +106,25 @@
                 {{--                <input type="file" name="doc" >--}}
                 <input type="hidden" name="img" value="{{$page->image}}" id="img">
             @elseif($page->type == 'News')
-                <label for="" style="font-size: 26px">Page News Category</label>
-                {!! Form::select('categoryID', $categories->pluck('name','id'), $page->categoryID,['class' => 'form-control']); !!}
-                <br>
-                <div class="content" style="display: none">
-                    @include('pages.type.content')
+                <div class="news">
+                    <label for="" style="font-size: 26px">Page News Category</label>
+                    {!! Form::select('categoryID', $categories->pluck('name','id'), $page->categoryID,['class' => 'form-control']); !!}
+                    <br>
+                    <label for="path" style="font-size: 26px">News Style</label>
+                    {!! Form::select('style', ['accordion'=>'Accordion','classic'=>'Classic'], $page->style,['class' => 'form-control']); !!}
+                    <br>
                 </div>
-            @elseif($page->type == 'Faq')
+            @elseif($page->type == 'VideoGallery')
+                @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
+            @endif
+            @if($page->type !== 'News')
                 <div class="news" style="display: none">
                     @include('pages.type.news',['categories'=>$categories->get()])
                 </div>
-                <div class="content" style="display: none">
-                    @include('pages.type.content')
-                </div>
             @endif
-
+                <div class="videoGallery" style="display: none">
+                    @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
+                </div>
             <input type="submit" value="Save" class="btn btn-success"/>
             <div class="clearfix"></div>
             {!! Form::close() !!}
@@ -104,7 +136,13 @@
 </body>
 <script>  let myImg = '{{($page->image)}}' ? 'data:image/png;base64,{{($page->image)}}' : '',
         pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-    let page_content = `{!! !empty($page->body) ? $page->body : '' !!}`
+    let page_content = `{!! !empty($page->body) ? str_replace("`", "'", $page->body) : '' !!}`
 </script>
 <script src="/js/pages/edit.js"></script>
 @include('layout.footer')
+<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
+        type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<script src="/assets/pages/scripts/table-datatables-editable.js" type="text/javascript"></script>

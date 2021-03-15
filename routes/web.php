@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('media/create_folder','MediaController@create_folder')->name('create_folder');
     Route::post('media/delete_folder','MediaController@delete_folder')->name('delete_folder');
     Route::post('media/open_folder','MediaController@open_folder')->name('open_folder');
-
+    Route::post('media/file_upload','MediaController@file_upload');
 });
 
 

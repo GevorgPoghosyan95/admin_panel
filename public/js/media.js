@@ -57,29 +57,32 @@
 //         reader.readAsDataURL(input.files[0]); // convert to base64 string
 //     }
 // }
-
+$(document).ready(function () {
+    $('#fldr').val(0);
+})
 let $modal = $('#modal');
 let image = document.getElementById('image');
 let cropper;
 let send_data= [];
 $(document).on('click', '.blah', function (e) {
-    let url = $(this).attr('src');
-    $modal.modal('show');
-    image.src = url;
-    let fname = url.replace(/^.*[\\\/]/, ''),
-    id = $(this).parent().data('id');
-    fetch(url)
-        .then(function (response) {
-            return response.blob()
-        })
-        .then(function (blob) {
-            // send('k', blob,fname,id)
-            send_data.push('k')
-            send_data.push(blob)
-            send_data.push(fname)
-            send_data.push(id)
-        });
-
+    if(!$(this).hasClass('blank')){
+        let url = $(this).attr('src');
+        $modal.modal('show');
+        image.src = url;
+        let fname = url.replace(/^.*[\\\/]/, ''),
+            id = $(this).parent().data('id');
+        fetch(url)
+            .then(function (response) {
+                return response.blob()
+            })
+            .then(function (blob) {
+                // send('k', blob,fname,id)
+                send_data.push('k')
+                send_data.push(blob)
+                send_data.push(fname)
+                send_data.push(id)
+            });
+    }
 });
 
 
@@ -89,30 +92,77 @@ $("body").on("change", ".image", function(e){
     const file11 = this.files[0];
     const fileType = file11['type'];
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-    console.log(file11);
-    let done = function (url) {
-        image.src = url;
-        $modal.modal('show');
-      //  send()
-    };
-    let reader;
-    let file;
-    let url;
-    if (files && files.length > 0 && validImageTypes.includes(fileType)) {
-        file = files[0];
-        if (URL) {
-            done(URL.createObjectURL(file));
-        } else if (FileReader) {
-            reader = new FileReader();
-            reader.onload = function (e) {
-                done(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-    else {
-        flashMessage('unsupported media type !','red');
-    }
+    // let done = function (url) {
+    //     image.src = url;
+    //     $modal.modal('show');
+    //   //  send()
+    // };
+    // let reader;
+    // let file;
+    // let url;
+    // if (files && files.length > 0 && validImageTypes.includes(fileType)) {
+    //     file = files[0];
+    //     if (URL) {
+    //         done(URL.createObjectURL(file));
+    //     } else if (FileReader) {
+    //         reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             done(reader.result);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // }
+    // else {
+        let fd = new FormData($(this).parents('form')[0]),
+            fol = $('#fldr').val();
+        fd.append('folder',fol);
+        // fd.append('file',file);
+        //     fd.append('folder',fol);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: 'media/file_upload',
+            type: 'post',
+            dataType: "json",
+            data:  function(){
+                var data = new FormData();
+                jQuery.each(jQuery('#med_pic')[0].files, function(i, file) {
+                    data.append('file[]', file);
+                });
+                data.append('fol', fol);
+                return data;
+            }(),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log(response);
+                $.each(response,function (i,val) {
+                    let path = val.type == 'image' ? val.path : '/images/doc.png' ;
+                    let ext =  val.type === 'image' ? '': '.'+ val.type;
+                    let add_class =  val.type === 'image' ? 'blah': 'blah blank';
+                    let div = '<div class="img_box" data-id="'+val.id +'">' +
+                        '<span aria-hidden="true" class="rem">' +
+                        '<i class="fa fa-close img_del"></i></span>' +
+                        '<p class="vert">' + readableBytes(val.size) +' '+ ext+'</p>'+
+                        '<img class="'+ add_class+'" src="'+ path+'" />' +
+                        '<a href="javascript:void(0) " style="margin-top: 1px" data-path="' + val.public_url + '">copy public path</a>' +
+                        '</div>';
+                    if(fol == '0'){
+                        $('.img_bl').append(div);
+                    } else{
+                        $('.f_box[data-id='+fol+']').find('.count').text(val.cnt);
+                        $('.f_data').append(div);
+                    }
+                })
+
+            }
+        })
+
+        // flashMessage('unsupported media type !','red');
+    // }
 });
 
 $modal.on('shown.bs.modal', function () {
@@ -290,12 +340,15 @@ $(document).on('dblclick','.f_box',function (e) {
             success: function(response){
                 if(response.status == 'success') {
                         $.each(response.images, function (i, v) {
+                        let path =  v.image.type === 'image' ?  v.path : '/images/doc.png' ,
+                            ext =  v.image.type === 'image' ? '': v.image.type;
+                            let add_class =  v.image.type === 'image' ? 'blah': 'blah blank';
                             if(v.image) {
                                 $('.f_level .f_data').append(
                                     '<div class="img_box" data-id="' + v.image.id + '" data-f="' + id + '">\n' +
                                     '   <span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>\n' +
-                                    '<p class="vert">'+ readableBytes(v.size) +' </p>'+
-                                    '  <img class="blah" src="' + v.path + '">\n' +
+                                    '<p class="vert">'+ readableBytes(v.size) +' .'+ ext +'</p>'+
+                                    '  <img class="'+add_class+'" src="' + path + '">\n' +
                                     '<a href="javascript:void(0) " style="margin-top: 1px" data-path="' + v.path + '">copy public path</a>' +
                                     '</div>')
                             }

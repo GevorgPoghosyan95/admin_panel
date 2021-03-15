@@ -50,9 +50,10 @@
 </div>
 
 </body>
+
 <script>  let myImg = '{{($post->image)}}' ? 'data:image/png;base64,{{($post->image)}}' : '',
         pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-    let post_content = `{!! !empty($post->content) ? $post->content : '' !!}`
+    let post_content = `{!! !empty($post->content) ? str_replace("`", "'", $post->content)  : '' !!}`
 </script>
 <script src="/js/posts/edit.js"></script>
 @include('layout.footer')
