@@ -1,6 +1,11 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<<<<<<< HEAD
+<link rel="stylesheet" href="/css/cropper.css" />
+<script src="/js/cropper.js" ></script>
+=======
 <link rel="stylesheet" href="/css/cropper.css"/>
 <script src="/js/cropper.js"></script>
+>>>>>>> 04fdeb7c7728e87d7aab36c6e0c91c8242b1e632
 
 <link href="/css/lang.css" rel="stylesheet" type="text/css"/>
 <style>
@@ -73,7 +78,7 @@
                     @foreach($folders as $folder)
                         <div class="f_box" data-id="{{$folder->id}}">
                             <div class="folder_box">
-                                <span class="count">{{$folder->picture->count()}}</span>
+                                <span class="count">{{$folder->files->count()}}</span>
                                 <i class="fa fa-folder" aria-hidden="true"></i><span>{{$folder->name}}</span>
                             </div>
                             <div class="rem_fol">delete folder</div>

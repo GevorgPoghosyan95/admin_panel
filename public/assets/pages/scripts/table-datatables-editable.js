@@ -18,20 +18,19 @@ var TableDatatablesEditable = function () {
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[0] + '">';
             jqTds[1].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[1] + '">';
-            jqTds[2].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
-            jqTds[3].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[3] + '">';
-            jqTds[4].innerHTML = '<a class="edit" href="">Save</a>';
-            jqTds[5].innerHTML = '<a class="cancel" href="">Cancel</a>';
+            jqTds[2].innerHTML = '<a class="edit" href="">Save</a>';
+            jqTds[3].innerHTML = '<a class="cancel" href="">Cancel</a>';
+            jqTds[4].innerHTML = '';
         }
 
         function saveRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
+            let linkData = JSON.stringify({'name':jqInputs[0].value,'url':jqInputs[1].value});
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
             oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
-            oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
-            oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
-            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
-            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 5, false);
+            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
+            oTable.fnUpdate('<a class="deleteLink" href="">Delete</a>', nRow, 3, false);
+            oTable.fnUpdate('<input type="text" class="form-control" readonly name="links[]" value=' + linkData +'>',nRow,4,false);
             oTable.fnDraw();
         }
 
@@ -39,9 +38,7 @@ var TableDatatablesEditable = function () {
             var jqInputs = $('input', nRow);
             oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
             oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
-            oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
-            oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
-            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
+            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
             oTable.fnDraw();
         }
 
@@ -50,8 +47,8 @@ var TableDatatablesEditable = function () {
         var oTable = table.dataTable({
 
             // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-            // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-            // So when dropdowns used the scrollable div should be removed. 
+            // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js).
+            // So when dropdowns used the scrollable div should be removed.
             //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
 
             "lengthMenu": [
@@ -101,7 +98,7 @@ var TableDatatablesEditable = function () {
                     oTable.fnDeleteRow(nEditing); // cancel
                     nEditing = null;
                     nNew = false;
-                    
+
                     return;
                 }
             }
@@ -113,7 +110,7 @@ var TableDatatablesEditable = function () {
             nNew = true;
         });
 
-        table.on('click', '.delete', function (e) {
+        table.on('click', '.deleteLink', function (e) {
             e.preventDefault();
 
             if (confirm("Are you sure to delete this row ?") == false) {
@@ -122,7 +119,7 @@ var TableDatatablesEditable = function () {
 
             var nRow = $(this).parents('tr')[0];
             oTable.fnDeleteRow(nRow);
-            alert("Deleted! Do not forget to do some ajax to sync with backend :)");
+          //  alert("Deleted! Do not forget to do some ajax to sync with backend :)");
         });
 
         table.on('click', '.cancel', function (e) {
@@ -140,7 +137,7 @@ var TableDatatablesEditable = function () {
         table.on('click', '.edit', function (e) {
             e.preventDefault();
             nNew = false;
-            
+
             /* Get the row as a parent of the link that was clicked on */
             var nRow = $(this).parents('tr')[0];
 
@@ -153,7 +150,7 @@ var TableDatatablesEditable = function () {
                 /* Editing this row and want to save it */
                 saveRow(oTable, nEditing);
                 nEditing = null;
-                alert("Updated! Do not forget to do some ajax to sync with backend :)");
+             //   alert("Updated! Do not forget to do some ajax to sync with backend :)");
             } else {
                 /* No edit in progress - let's start one */
                 editRow(oTable, nRow);

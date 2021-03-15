@@ -25,7 +25,8 @@ class PageRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'path'=>'nullable|unique:pages,path,'.$this->request->get('pageID')
+            'path'=>'nullable|unique:pages,path,'.$this->request->get('pageID'),
+            'type'=>'required'
         ];
     }
 }

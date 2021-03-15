@@ -7,7 +7,8 @@ class PageTypes {
      const All = [
          "Content",
          "News",
-         "Faq"
+         "VideoGallery",
+         "Home Page",
      ];
 
 }

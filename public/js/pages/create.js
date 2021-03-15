@@ -1,4 +1,34 @@
 $(document).ready(function () {
+    $(".chosen-select").chosen({no_results_text: "Oops, nothing found!", width: '100%'});
+
+    $('select[name = "folders[]"]').change(function () {
+        let galleryType = $(this).val()
+        showGalleryTypes(galleryType)
+    })
+
+    let galleryType = $('select[name = "folders[]"]').val()
+    showGalleryTypes(galleryType)
+
+    function showGalleryTypes(val) {
+        if (val !== null) {
+            $('.galleryType').html('                                       <button type="button" class="btn blue">Select Gallery Type</button>\n' +
+                '                    <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\n' +
+                '                        <i class="fa fa-angle-down"></i>\n' +
+                '                    </button>' +
+                ' <div class="dropdown-menu hold-on-click dropdown-radiobuttons" role="menu">\n' +
+                '                        <label>\n' +
+                '                            <input type="radio" name="galleryType" value="video">VideoGallery</label>\n' +
+                '                        <label>\n' +
+                '                            <input type="radio" name="galleryType" value="photo">PhotoGallery</label>\n' +
+                '                        <label>\n' +
+                '                            <input type="radio" name="galleryType" value="file">FileGallery</label>\n' +
+                '                    </div>\n' +
+                '                </div>')
+        } else {
+            $('.galleryType').html('');
+        }
+    }
+
     let type = $('select[name = "page_type"]').val()
     showType(type)
     tinymce.init({
@@ -82,14 +112,17 @@ $(document).ready(function () {
             case "Content":
                 $('.content').show();
                 $('.news').hide();
+                $('#videoLinks').hide();
                 break;
             case "News":
                 $('.news').show();
                 $('.content').hide();
+                $('#videoLinks').hide();
                 break;
-            case "Faq":
+            case "VideoGallery":
                 $('.news').hide();
-                $('.content').hide();
+                $('.content').show();
+                $('#videoLinks').show();
                 break;
             default:
             // code block

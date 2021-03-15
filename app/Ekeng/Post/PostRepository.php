@@ -133,19 +133,15 @@ EOD;
     }
 
 
-    static function faq()
+    static function faq($post)
     {
-        $faqCategory = Category::where('name', 'FAQ')->first();
-        $posts = $faqCategory->posts;
-        $html='';
-        foreach ($posts as $post) {
-            $html .= <<<EOD
+            $html = <<<EOD
                      <div class="accordion"><b>$post->title</b></div>
                     <div class="panel">
                         $post->content
                     </div><br>
 EOD;
-        }
+
         return $html;
 
     }

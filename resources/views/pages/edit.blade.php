@@ -56,20 +56,75 @@
                     @endif
                 @endforeach
             </select><br>
+            <label for="" style="font-size: 26px">Folders</label>
+            {!! Form::select('folders[]', $folders, $page->folders,['multiple class' => 'chosen-select form-control','style'=>'width:20%']); !!}
+            <div class="btn-group" style="float:right">
+                <div class="galleryType">
+                    <div class="btn-group" style="float:right">
+                        <div class="galleryType">
+                            <button type="button" class="btn blue">Select Gallery Type</button>
+                            <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <div class="dropdown-menu hold-on-click dropdown-radiobuttons" role="menu">
+                                @php $types = ["video"=>"VideoGallery","photo"=>"PhotoGallery","file"=>"FileGallery"]; @endphp
+                                @if($page->galleryType)
+                                    @foreach ($types as $type=>$value)
+                                        @if($type == $page->galleryType)
+                                            <label>
+                                                <input type="radio" name="galleryType" value="{{$type}}"
+                                                       checked>{{$value}}</label>
+                                        @else
+                                            <label>
+                                                <input type="radio" name="galleryType"
+                                                       value="{{$type}}">{{$value}}</label>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <label for="path" style="font-size: 26px">Page Type</label>
-            {!! Form::select('type', $pageTypes, $page->type,['class' => 'form-control']); !!}<br>
+            <select class="form-control form-control-lg" name="type">
+                @foreach($pageTypes as  $type)
+                    @if($type == $page->type)
+                        <option value="{{$type}}" selected>{{$type}}</option>
+                    @else
+                        <option value="{{$type}}">{{$type}}</option>
+                    @endif
+                @endforeach
+            </select><br>
             @if($page->type == 'Content')
                 <label for="" style="font-size: 26px">Page Content</label>
-                <textarea class="tiny_area" name="content"></textarea> <br>
+                <textarea class="tiny_area" name="body"></textarea> <br>
                 <div class="input-images" style="width: 10%"></div>
                 <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
                 {{--                <input type="file" name="doc" >--}}
                 <input type="hidden" name="img" value="{{$page->image}}" id="img">
             @elseif($page->type == 'News')
-                <label for="" style="font-size: 26px">Page News Category</label>
-                {!! Form::select('categoryID', $categories, $page->categoryID,['class' => 'form-control']); !!}<br>
+                <div class="news">
+                    <label for="" style="font-size: 26px">Page News Category</label>
+                    {!! Form::select('categoryID', $categories->pluck('name','id'), $page->categoryID,['class' => 'form-control']); !!}
+                    <br>
+                    <label for="path" style="font-size: 26px">News Style</label>
+                    {!! Form::select('style', ['accordion'=>'Accordion','classic'=>'Classic'], $page->style,['class' => 'form-control']); !!}
+                    <br>
+                </div>
+            @elseif($page->type == 'VideoGallery')
+                @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
             @endif
+            @if($page->type !== 'News')
+                <div class="news" style="display: none">
+                    @include('pages.type.news',['categories'=>$categories->get()])
+                </div>
+            @endif
+                <div class="videoGallery" style="display: none">
+                    @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
+                </div>
             <input type="submit" value="Save" class="btn btn-success"/>
             <div class="clearfix"></div>
             {!! Form::close() !!}
@@ -79,59 +134,15 @@
 </div>
 
 </body>
-<script>
-    $(document).ready(function () {
-        let myImg = '{{($page->image)}}' ? 'data:image/png;base64,{{($page->image)}}' : '',
-            pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
-        tinymce.init({
-            selector: 'textarea.tiny_area',
-            plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-            imagetools_cors_hosts: ['picsum.photos'],
-            menubar: 'file edit view insert format tools table help',
-            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-            toolbar_sticky: true,
-            autosave_ask_before_unload: true,
-            autosave_interval: "30s",
-            autosave_prefix: "{path}{query}-{id}-",
-            autosave_restore_when_empty: false,
-            autosave_retention: "2m",
-            image_advtab: true,
-            setup: function (editor) {
-                editor.on('init', function (e) {
-                    editor.setContent(`{!! !empty($page->body) ? $page->body : '' !!}`);
-                });
-            },
-            file_picker_callback: function (cb, value, meta) {
-                var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
-                input.onchange = function () {
-                    var file = this.files[0];
-
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        var id = 'blobid' + (new Date()).getTime();
-                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                        var base64 = reader.result.split(',')[1];
-                        var blobInfo = blobCache.create(id, file, base64);
-                        blobCache.add(blobInfo);
-
-                        /* call the callback and populate the Title field with the file name */
-                        cb(blobInfo.blobUri(), {title: file.name});
-                    };
-                    reader.readAsDataURL(file);
-                };
-                input.click();
-            }
-        });
-        $('.input-images').imageUploader({
-            imagesInputName: 'photos',
-            maxFiles: 1,
-            preloaded: pre
-        });
-        $('.iui-close').click(function () {
-            $('#img').val('')
-        });
-    });
+<script>  let myImg = '{{($page->image)}}' ? 'data:image/png;base64,{{($page->image)}}' : '',
+        pre = myImg !== '' ? [{id: 1, src: myImg}] : [];
+    let page_content = `{!! !empty($page->body) ? str_replace("`", "'", $page->body) : '' !!}`
 </script>
+<script src="/js/pages/edit.js"></script>
 @include('layout.footer')
+<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
+        type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<script src="/assets/pages/scripts/table-datatables-editable.js" type="text/javascript"></script>

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Ekeng\PageManager;
+use App\Factory\Page\PageCreator;
+use App\Factory\Page\StandardPageCreator;
+use App\Factory\Page\VideoGalleryCreator;
+use App\Folder;
 use App\Http\Requests\PageRequest;
 use App\Menu;
 use App\MenuItem;
@@ -24,6 +28,17 @@ class PageController extends Controller
         $this->middleware('permission:pages-delete', ['only' => ['destroy']]);
     }
 
+
+    public function createPage(PageCreator $creator)
+    {
+        return $creator->create();
+    }
+
+
+    public function updatePage(PageCreator $creator)
+    {
+        return $creator->update();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -42,9 +57,10 @@ class PageController extends Controller
     public function create()
     {
         $pageTypes = PageTypes::All;
-        $categories = Category::where('name', '<>', 'FAQ')->get();
+        $categories = Category::all();
+        $folders = Folder::pluck('name', 'id');
         $menus = Menu::where('name', '<>', 'Main')->get();
-        return view('pages.create', compact('pageTypes', 'categories','menus'));
+        return view('pages.create', compact('pageTypes', 'categories', 'menus', 'folders'));
     }
 
     /**
@@ -55,17 +71,18 @@ class PageController extends Controller
      */
     public function store(PageRequest $request)
     {
-        $file = $request->file('photos')[0];
-        if ($file) {
-            $imagedata = file_get_contents($file);
-            $image = base64_encode($imagedata);
-        } else {
-            $image = null;
+
+        switch ($request->get('type')) {
+            case "Content":
+            case "News":
+                $this->createPage(new StandardPageCreator($request));
+                break;
+            case "VideoGallery":
+                $this->createPage(new VideoGalleryCreator($request));
+                break;
         }
-        $pageData = $request->all();
-        $pageData['image'] = $image;
-        Page::create($pageData);
-        return redirect('pages')->with('success', 'Page created successfully');
+
+        return redirect()->back()->with('success', 'Page created successfully');
     }
 
     /**
@@ -88,10 +105,11 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::where('id', $id)->first();
-        $categories = Category::where('name', '<>', 'FAQ')->pluck('name','id');
+        $categories = Category::where('name', '<>', null);
         $menus = Menu::where('name', '<>', 'Main')->get();
         $pageTypes = PageTypes::All;
-        return view('pages.edit', compact('page','categories','menus','pageTypes'));
+        $folders = Folder::pluck('name', 'id');
+        return view('pages.edit', compact('page', 'categories', 'menus', 'pageTypes', 'folders'));
     }
 
     /**
@@ -103,23 +121,16 @@ class PageController extends Controller
      */
     public function update(PageRequest $request, Page $page)
     {
-        $pageData = $request->all();
-        $file = $request->file('photos')[0];
-        $base64 = '';
-        if ($file !== null) {
-            $imagedata = file_get_contents($file);
-            $base64 = base64_encode($imagedata);
+        switch ($request->get('type')) {
+            case "Content":
+            case "News":
+                $this->updatePage(new StandardPageCreator($request,$page));
+                break;
+            case "VideoGallery":
+                $this->updatePage(new VideoGalleryCreator($request,$page));
+                break;
         }
-        if ($request->input('img') === null && $file !== null) {
-            $imagedata = file_get_contents($file);
-            $base64 = base64_encode($imagedata);
-        }
-        if ($request->input('img') !== null) {
-            $base64 = $page->image;
-        }
-        $pageData['img'] = $base64;
-        $page->update($pageData);
-        return redirect('pages')->with('success', 'Page Was Update Successfully');
+        return redirect()->back()->with('success', 'Page Was Update Successfully');
     }
 
 

@@ -63,8 +63,7 @@ class PageManager
     }
 
 
-    public function create_data($pages, $token)
-    {
+    public function create_data($pages,$token){
         $data = array();
         if (!empty($pages)) {
             foreach ($pages as $page) {
@@ -73,19 +72,18 @@ class PageManager
 
                 $nestedData['id'] = $page->id;
                 $nestedData['title'] = $page->title;
-                $nestedData['body'] = substr(strip_tags($page->body),0,30);
+                $nestedData['body'] = mb_substr(strip_tags($page->body),0,100, "utf-8");
                 $nestedData['image'] = $page->image ? "<img src='data:image/png;base64,$page->image' alt=''>" : '';
-                $nestedData['path'] = $page->path ? $page->path : '';
-                $nestedData['updated_at'] = date('Y-m-d H:i:s', strtotime($page->updated_at));
+                $nestedData['path'] = $page->path;
                 $nestedData['created_at'] = date('Y-m-d H:i:s', strtotime($page->created_at));
-                $nestedData['options'] = <<<EOD
+                $nestedData['options'] = $nestedData['options'] = <<<EOD
                                             <div class="btn-group">
                                                 <button class="btn btn-xs green dropdown-toggle" type="button"
                                                         data-toggle="dropdown"
                                                         aria-expanded="false"> Actions
                                                     <i class="fa fa-angle-down"></i>
                                                 </button>
-                                                    <input type="checkbox" name="pageCheckbox" class="pageCheckbox" type="checkbox" value="$page->id"> 
+                                                <input type="checkbox" name="pageCheckbox" class="pageCheckbox" type="checkbox" value="$page->id"> 
                                                 <ul class="dropdown-menu pull-left" role="menu">
                                                     <li>
                                                         <a href="#">
