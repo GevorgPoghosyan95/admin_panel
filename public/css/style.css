@@ -71,7 +71,7 @@
         position: relative;
     }
     .img_box .blah { width: 100%;height: 150px;object-fit: cover;}
-
+    .tox-notifications-container {display: none !important;}
     .media_content .rem{
         position: absolute;
         right: 1px;
