@@ -93,18 +93,19 @@ function showType(type) {
             $('.content').show();
             $('.news').hide();
             $('#videoLinks').hide();
-            $('.videoGallery').show();
+            $('.videoGallery').hide();
             break;
         case "News":
             $('.news').show();
             $('.content').hide();
             $('#videoLinks').hide();
-            $('.videoGallery').show();
+            $('.videoGallery').hide();
             break;
         case "VideoGallery":
             $('.news').hide();
             $('.content').hide();
             $('#videoLinks').show();
+            $('.videoGallery').show();
             break;
         default:
         // code block

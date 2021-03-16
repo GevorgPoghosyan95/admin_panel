@@ -12,9 +12,9 @@ class AllController extends Controller
         return view('site.index');
     }
 
-    public function page($route){
-        if(Page::where('path','/'.$route)->exists()){
-            $page = Page::where('path','/'.$route)->first();
+    public function page($lang,$path){
+        if(Page::where('path','/'.$path)->where('lang',$lang)->exists()){
+            $page = Page::where('path','/'.$path)->where('lang',$lang)->first();
             return view('site.page',compact('page'));
         }else{
             abort('404');
