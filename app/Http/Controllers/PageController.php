@@ -56,6 +56,7 @@ class PageController extends Controller
      */
     public function create()
     {
+
         $pageTypes = PageTypes::All;
         $categories = Category::all();
         $folders = Folder::pluck('name', 'id');

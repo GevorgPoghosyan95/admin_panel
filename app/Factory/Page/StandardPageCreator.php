@@ -44,6 +44,7 @@ class StandardPageCreator implements PageCreator {
      */
 
     public function update(){
+
         if ($this->request->get("type") == "News") {
             $this->request->validate([
                 'categoryID' => 'required',
@@ -64,6 +65,7 @@ class StandardPageCreator implements PageCreator {
             $base64 = $this->page->image;
         }
         $pageData['img'] = $base64;
+        dd($pageData);
         $this->page->update($pageData);
         $this->page->folders()->sync($this->request->get('folders'));
     }
