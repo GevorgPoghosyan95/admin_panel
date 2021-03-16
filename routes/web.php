@@ -38,32 +38,42 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('change_password/{user}', 'Ekeng\ProfileController@change')->name('change_password');
     Route::post('permissions_foreach', 'PermissionController@foreach')->name('permissions_foreach');
     //pages
-    Route::resource('pages','PageController');
+    Route::resource('pages', 'PageController');
     Route::post('pages_foreach', 'PageController@foreach');
     Route::post('pages/deleteChecked', 'PageController@deleteChecked');
 
-    Route::get('menu','MenuController@index');
-    Route::post('menus_foreach','MenuController@foreach');
+    Route::get('menu', 'MenuController@index');
+    Route::post('menus_foreach', 'MenuController@foreach');
     Route::get('menu/edit/{id}', 'MenuController@edit')->name('menu_edit');
     Route::delete('menu/delete/{id}', 'MenuController@delete')->name('menu_delete');
-    Route::get('menu/builder/{id}','MenuItemController@build')->name('menu_builder');
-    Route::get('menu/builder/edit/{id}','MenuItemController@build_edit'); //ajax
+    Route::get('menu/builder/{id}', 'MenuItemController@build')->name('menu_builder');
+    Route::get('menu/builder/edit/{id}', 'MenuItemController@build_edit'); //ajax
     Route::post('menu/create', 'MenuItemController@create')->name('menu_create');
     Route::post('menu/create/menu', 'MenuController@create_menu')->name('create_menu');
     Route::post('menu/menu_item_add', 'MenuItemController@menu_item_add')->name('menu_item_add');
     Route::post('menu/menu_item_edit', 'MenuItemController@menu_item_edit')->name('menu_item_edit');
     Route::post('menu/menu_item_delete', 'MenuItemController@menu_item_delete')->name('menu_item_delete');
-    Route::get('menu/builder/edit/get_page/{id}','MenuItemController@get_page'); //ajax
+    Route::get('menu/builder/edit/get_page/{id}', 'MenuItemController@get_page'); //ajax
 
-    Route::get('media','MediaController@index');
-    Route::post('media/upload','MediaController@upload');
-    Route::post('media/delete_file','MediaController@delete_file');
-    Route::post('media/create_folder','MediaController@create_folder')->name('create_folder');
-    Route::post('media/delete_folder','MediaController@delete_folder')->name('delete_folder');
-    Route::post('media/open_folder','MediaController@open_folder')->name('open_folder');
-    Route::post('media/file_upload','MediaController@file_upload');
+    Route::get('media', 'MediaController@index');
+    Route::post('media/upload', 'MediaController@upload');
+    Route::post('media/delete_file', 'MediaController@delete_file');
+    Route::post('media/create_folder', 'MediaController@create_folder')->name('create_folder');
+    Route::post('media/delete_folder', 'MediaController@delete_folder')->name('delete_folder');
+    Route::post('media/open_folder', 'MediaController@open_folder')->name('open_folder');
+    Route::post('media/file_upload', 'MediaController@file_upload');
 });
 
+Route::get('/', function () {
+    return redirect(app()->getLocale());
+});
 
-Route::get('/', 'Site\AllController@index')->name('home');
-Route::get('{route}', 'Site\AllController@page');
+Route::group([
+    'prefix' => '{locale}',
+    'where' => ['locale' => '[a-zA-Z]{2}'],
+    'middleware' => ['setlocale', 'web']
+], function () {
+    Route::get('/', 'Site\AllController@index')->name('home');
+    Route::get('/{path}', 'Site\AllController@page');
+});
+

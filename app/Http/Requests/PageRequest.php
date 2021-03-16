@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PageRequest extends FormRequest
 {
@@ -13,6 +14,8 @@ class PageRequest extends FormRequest
      */
     public function authorize()
     {
+        $request = 6;
+
         return true;
     }
 
@@ -23,10 +26,13 @@ class PageRequest extends FormRequest
      */
     public function rules()
     {
+        $request = $this->request;
         return [
             'title' => 'required|max:255',
-            'path'=>'nullable|unique:pages,path,'.$this->request->get('pageID'),
-            'type'=>'required'
+            'path' => ['required', 'string', Rule::unique('pages')->where(function ($query) use ($request) {
+                return $query->where('lang', $request->get('lang'));
+            })],
+            'type' => 'required'
         ];
     }
 }

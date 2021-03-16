@@ -57,7 +57,7 @@ function recursion($data, $html)
         if ($item->path == null) {
             $content = $item->title;
         } else {
-            $content = "<a href='$item->path'>$item->title</a>";
+            $content = '<a href="'.'/'.app()->getLocale().$item->path.'">'.$item->title.'</a>';
         }
         if ($item->children()->exists()) {
             $html .= '<li class="' . $class . '">' . $content;
@@ -85,7 +85,7 @@ function showSubMenu($menu)
     $menu = Menu::where('name', $menu)->first();
     $menuHtml = '';
     foreach ($menu->menuItems()->orderBy('order','asc')->get() as $item) {
-        $url = $item->page->path;
+        $url = '/'.$item->page->lang.$item->page->path;
         $title = $item->page->title;
         strpos(request()->url(),$url) == false ? $class="":$class = "active";
         $menuHtml .= '<a class="'.$class.'" href="' . $url . '">' . $title . '</a>';
