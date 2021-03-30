@@ -128,7 +128,7 @@ $("body").on("change", ".image", function(e){
             type: 'post',
             dataType: "json",
             data:  function(){
-                var data = new FormData();
+                let data = new FormData();
                 jQuery.each(jQuery('#med_pic')[0].files, function(i, file) {
                     data.append('file[]', file);
                 });
@@ -138,15 +138,16 @@ $("body").on("change", ".image", function(e){
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
                 $.each(response,function (i,val) {
                     let path = val.type == 'image' ? val.path : '/images/doc.png' ;
                     let ext =  val.type === 'image' ? '': '.'+ val.type;
                     let add_class =  val.type === 'image' ? 'blah': 'blah blank';
+                    let fileNameIndex = val.path.lastIndexOf("/") + 1;
+                    let description  =  val.type === 'image' ? val.path.substr(fileNameIndex).slice(0,20) +' / '+ readableBytes(val.size) +' '+ ext : val.path.substr(fileNameIndex).slice(0,20);
                     let div = '<div class="img_box" data-id="'+val.id +'">' +
                         '<span aria-hidden="true" class="rem">' +
                         '<i class="fa fa-close img_del"></i></span>' +
-                        '<p class="vert">' + readableBytes(val.size) +' '+ ext+'</p>'+
+                        '<p class="vert">' + description+'</p>'+
                         '<img class="'+ add_class+'" src="'+ path+'" />' +
                         '<a href="javascript:void(0) " style="margin-top: 1px" data-path="' + val.public_url + '">copy public path</a>' +
                         '</div>';
@@ -157,10 +158,8 @@ $("body").on("change", ".image", function(e){
                         $('.f_data').append(div);
                     }
                 })
-
             }
         })
-
         // flashMessage('unsupported media type !','red');
     // }
 });
@@ -201,13 +200,7 @@ function cropImage(x,y,w,h,X,Y){
     return arr;
 }
 
-// console.log(arr);
-// function send(param,blob,fname,id) {
-
-//     console.log(param,blob,fname,id);
-
     $("#crop").on('click',function(){
-        console.log(send_data[2]);
         let fd = new FormData(),
             // _self =$('#med_pic')[0],
             fol = $('#fldr').val(),
@@ -319,8 +312,7 @@ $(document).on('click','.img_del',function () {
                 $('.f_box[data-id='+fol+']').find('.count').text(response.cnt);
                 flashMessage(response.message)
             }else{
-                alert('error deleting');
-
+                flashMessage(response.message,'red')
             }
         },
     });
@@ -343,11 +335,13 @@ $(document).on('dblclick','.f_box',function (e) {
                         let path =  v.image.type === 'image' ?  v.path : '/images/doc.png' ,
                             ext =  v.image.type === 'image' ? '': v.image.type;
                             let add_class =  v.image.type === 'image' ? 'blah': 'blah blank';
+                            let fileNameIndex = v.image.path.lastIndexOf("/") + 1;
+                            let description  =  v.image.type === 'image' ? v.image.path.substr(fileNameIndex).slice(0,10) +' / '+ readableBytes(v.size) +' '+ ext : v.image.path.substr(fileNameIndex).slice(0,20);
                             if(v.image) {
                                 $('.f_level .f_data').append(
                                     '<div class="img_box" data-id="' + v.image.id + '" data-f="' + id + '">\n' +
                                     '   <span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>\n' +
-                                    '<p class="vert">'+ readableBytes(v.size) +' .'+ ext +'</p>'+
+                                    '<p class="vert">'+ description +'</p>'+
                                     '  <img class="'+add_class+'" src="' + path + '">\n' +
                                     '<a href="javascript:void(0) " style="margin-top: 1px" data-path="' + v.path + '">copy public path</a>' +
                                     '</div>')
@@ -356,7 +350,6 @@ $(document).on('dblclick','.f_box',function (e) {
                         $('.r_level').hide();
                         // $('.toolbar_m .fa-folder').css({'color':'red'})
                         // $('.toolbar_m span').css({'color':'red'})
-
                         $('.toolbar_m').hide();
                         $('.f_level').show();
                         $('#r_menu').after('<span>->' + response.f_name + '</span>')
@@ -397,7 +390,7 @@ $('.rem_fol').click(function () {
                 $('.f_box[data-id='+response.id+']').remove();
                 flashMessage(response.message)
             }else{
-                alert('error deleting');
+                flashMessage(response.message,'red')
 
             }
         },
@@ -406,13 +399,13 @@ $('.rem_fol').click(function () {
 
 // copy public path
 $(document).on('click','.img_box a',function () {
-    var value = $(this).data('path');
+    let value = $(this).data('path');
     copyToClipboard(value,this);
 });
 
 function copyToClipboard(value,_this) {
     $(_this).text('copied').css('background-color', '#0a6aa1');
-    var $tmpInput = $('<input>');
+    let $tmpInput = $('<input>');
     $tmpInput.val(value);
     $('body').append($tmpInput);
     $tmpInput.select();
@@ -425,13 +418,13 @@ function copyToClipboard(value,_this) {
 //
 
 $(document).on('click','.img_box a',function () {
-    var value = $(this).data('path');
+    let value = $(this).data('path');
     copyToClipboard(value,this);
 });
 
 function copyToClipboard(value,_this) {
     $(_this).text('copied').css('background-color', '#0a6aa1');
-    var $tmpInput = $('<input>');
+    let $tmpInput = $('<input>');
     $tmpInput.val(value);
     $('body').append($tmpInput);
     $tmpInput.select();
@@ -451,7 +444,7 @@ function ajaxCsrf() {
 }
 
 function readableBytes(bytes) {
-    var i = Math.floor(Math.log(bytes) / Math.log(1024)),
+    let i = Math.floor(Math.log(bytes) / Math.log(1024)),
         sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + sizes[i];
 }

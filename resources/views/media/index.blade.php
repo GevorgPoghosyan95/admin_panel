@@ -1,6 +1,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="/css/cropper.css" />
 <script src="/js/cropper.js" ></script>
+<script src="/js/flashMessage.js" ></script>
 
 <link href="/css/lang.css" rel="stylesheet" type="text/css"/>
 <style>
@@ -86,7 +87,7 @@
                     @foreach($data as $item)
                         <div class='img_box' data-id="{{$item->id}}" >
                             <span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>
-                            <p class="vert"> {{humanFileSize(\File::size(public_path($item->path)))}}  {{$item->type == 'image'? '': '.'.$item->type}}</p>
+                            <p class="vert"> {{ $item->type == 'image' ?substr(basename($item->path),0,10) .' / '.  humanFileSize(\File::size(public_path($item->path))) : substr(basename($item->path),0,20)}}</p>
                             @if($item->type == 'image')
                             <img class='blah' src="{{$item->path}}" />
                             @else
@@ -178,7 +179,9 @@ function humanFileSize($size,$unit="") {
         </div>
     </div>
 </div>
-
+<div class="flash-modal">
+    <p></p>
+</div>
 
 </body>
 @include('layout.footer')

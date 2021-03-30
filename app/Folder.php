@@ -18,4 +18,5 @@ class Folder extends Model
     public function pages(){
         return $this->belongsToMany(Page::class,'page_2_folder')->withTimestamps();
     }
+
 }
