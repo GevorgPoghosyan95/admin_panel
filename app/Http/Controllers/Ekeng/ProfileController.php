@@ -19,7 +19,13 @@ class ProfileController extends Controller
         return redirect()->back()->with('success','User updated successfully');
     }
 
-    public function change(User $user,Request $request){
-
+    public function change(User $user,ChangePasswordRequest $request){
+        if(Hash::check($request->get('current_password'),$user->password)){
+            $user->password = $request->get('password');
+            $user->save();
+            return redirect()->back()->with('success','Password changed successfully');
+        }else{
+            return redirect()->back()->withErrors('Password incorrect!');
+        }
     }
 }

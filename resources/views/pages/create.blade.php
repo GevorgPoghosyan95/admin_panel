@@ -36,6 +36,11 @@
         </div>
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             {!! Form::open( ['method' => 'POST','route' => 'pages.store', 'files' => true]) !!}
             <label for="title" style="font-size: 26px">Title</label>
             <input type="hidden" name="lang" value="hy">

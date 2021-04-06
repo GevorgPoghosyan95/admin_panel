@@ -106,7 +106,7 @@ class PageController extends Controller
     {
         $page = Page::where('id', $id)->first();
         $categories = Category::where('name', '<>', null);
-        $menus = Menu::where('name', '<>', 'Main')->get();
+        $menus = Menu::where('name', '<>', 'Main')->where('lang',$page->lang)->get();
         $pageTypes = PageTypes::All;
         $folders = Folder::pluck('name', 'id');
         return view('pages.edit', compact('page', 'categories', 'menus', 'pageTypes', 'folders'));
