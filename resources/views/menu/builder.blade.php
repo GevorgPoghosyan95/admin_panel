@@ -201,7 +201,7 @@
             $(this).find('input[name="id"]').val(0);
             $(this).find('input:text').val('');
             $(this).find('#page').val('0');
-
+            $('#url,#title').attr('readonly',false);
         });
         $('#subm').click(function () {
             let page = $('#page').val(),

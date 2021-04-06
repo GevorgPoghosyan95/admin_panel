@@ -132,6 +132,25 @@
                     @include('pages.type.content')
                 </div>
             @endif
+                <div class="input-images" style="width: 10%"></div>
+                <input type="hidden" name="img" value="{{$page->image}}" id="img">
+                <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
+                <div class="picker_bl">
+            <span class="color-picker">
+              <label for="colorPicker">
+            <input type="color" name="color" value="{{$page->color}}" >
+              </label>
+            </span>
+                    &nbsp;<span>color</span>
+                </div>
+                <div class="picker_bl">
+            <span class="color-picker-back">
+              <label for="colorPicker">
+            <input type="color" name="bg_color" value="{{$page->bg_color}}" >
+              </label>
+            </span>
+                    &nbsp;<span>hover color</span>
+                </div>
             <input type="submit" value="Save" class="btn btn-success"/>
             <div class="clearfix"></div>
             {!! Form::close() !!}

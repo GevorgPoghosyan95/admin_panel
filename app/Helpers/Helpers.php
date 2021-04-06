@@ -34,16 +34,17 @@ function createPermission($group)
 
 //create menu dynamically
 
-function showMenu($name)
+function showMenu($name,$id = null)
 {
     $data = getChilds($name);
     $html = '';
-    return recursion($data, $html);
+    return recursion($data,$id, $html);
 }
 
-function recursion($data, $html)
+function recursion($data, $id,$html)
 {
-    $html .= '<ul class="menu">';
+    $is_header = $id == 4 ? 'class="menu"' : '';
+    $html .= '<ul '.$is_header.'>';
     foreach ($data as $item) {
         if ($item->children()->exists()) {
             $class = 'parent';
@@ -61,7 +62,7 @@ function recursion($data, $html)
         }
         if ($item->children()->exists()) {
             $html .= '<li class="' . $class . '">' . $content;
-            $html = recursion($item->children, $html);
+            $html = recursion($item->children,null, $html);
             $html .= '</li>';
         } else {
             $html .= '<li class="' . $class . '">' . $content . '</li>';
@@ -92,6 +93,8 @@ function showSubMenu($menu)
     }
     return $menuHtml;
 }
+
+
 
 function getFileNameByPath($path,$type){
     $parts = explode('/',$path);

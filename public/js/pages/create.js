@@ -104,7 +104,12 @@ $(document).ready(function () {
     //select page type
     $('select[name = "type"]').on('change', function () {
         type = this.value;
-        showType(type)
+        if(type == 'Home Page'){
+            window.location = '/home_page';
+        } else{
+            showType(type)
+        }
+
     });
 
     function showType(type) {

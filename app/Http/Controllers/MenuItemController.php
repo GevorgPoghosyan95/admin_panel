@@ -13,7 +13,7 @@ class MenuItemController extends Controller
     {
         $items = MenuItem::where('menu_id', $id)->get();
         $menu = Menu::find($id);
-        $pages = Page::where('lang',$menu->lang)->get();
+        $pages = Page::where('lang', $menu->lang)->get();
         return view('menu.builder', compact('pages', 'items', 'menu'));
     }
 
@@ -28,8 +28,8 @@ class MenuItemController extends Controller
 
     public function getChilds($menu_id, $parent_id = null, $orderBy = 'asc')
     {
-        return MenuItem::with('children')->leftJoin('pages','pages.id','=','menu_items.page_id')
-            ->where(['menu_id' => $menu_id, 'parent_id' => $parent_id])->select('menu_items.id', 'order', 'menu_items.title','pages.path')
+        return MenuItem::with('children')->leftJoin('pages', 'pages.id', '=', 'menu_items.page_id')
+            ->where(['menu_id' => $menu_id, 'parent_id' => $parent_id])->select('menu_items.id', 'order', 'menu_items.title', 'pages.path')
             ->orderBy('order', $orderBy)
             ->get();
     }
@@ -58,21 +58,26 @@ class MenuItemController extends Controller
 
     function menu_item_add(Request $request)
     {
-
+//        dd($request->all());
+        $p_id = $request->input('page_id') ;
         if ( $request->input('id') === '0') {
+            if($p_id == '0') {
+                $p_id = null;
+            }
             $current_order = MenuItem::where('menu_id', $request->input('menu_id'))->max('order');
             $current_order ? $curr = $current_order : $curr = 1;
+//            dd( strtolower($request->input('title')));
             $menu_item = new MenuItem;
-            $menu_item->page_id = $request->input('page_id');
+            $menu_item->page_id = $p_id;
             $menu_item->menu_id = $request->input('menu_id');
             $menu_item->title = $request->input('title');
             $menu_item->target = $request->input('target');
-            $menu_item->slug = strtolower($request->input('title'));
+            $menu_item->slug = mb_strtolower($request->input('title'));
             $menu_item->order = $current_order + 1;
             $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
+
             return $ret;
         } else {
-//            dd($request->all());
             MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),
                 'slug'=>strtolower($request->input('title'))]);
 //            Page::find($request->input('page_id'))->update(['path'=>$request->input('url')]);
@@ -93,15 +98,15 @@ class MenuItemController extends Controller
         } else {
             return json_encode(['status' => 'fail', 'message' => 'Error deleting item']);
         }
-
     }
 
-    public function get_page($id){
-            $data = Page::find($id);
-            if($data){
-                return json_encode(['status' => 'success', 'data' => $data]);
-            } else {
-                return json_encode(['status' => 'fail']);
-            }
+    public function get_page($id)
+    {
+        $data = Page::find($id);
+        if ($data) {
+            return json_encode(['status' => 'success', 'data' => $data]);
+        } else {
+            return json_encode(['status' => 'fail']);
+        }
     }
 }

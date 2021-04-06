@@ -62,6 +62,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('media/delete_folder', 'MediaController@delete_folder')->name('delete_folder');
     Route::post('media/open_folder', 'MediaController@open_folder')->name('open_folder');
     Route::post('media/file_upload', 'MediaController@file_upload');
+
+    Route::get('home_page', 'PageController@homePage')->name('home_page');
+    Route::post('home_store', 'PageController@home_store')->name('home.page.store');
+    Route::post('home_update', 'PageController@home_update')->name('home.page.update');
+
+    Route::post('addPartner', 'PageController@addPartner')->name('addPartner');
+    Route::post('removePartner/{id}', 'PageController@removePartner')->name('removePartner');
+
+    Route::get('layout/header', 'LayoutController@header')->name('header');
+    Route::post('layout/header_store', 'LayoutController@header_store')->name('header_store');
+    Route::get('layout/footer', 'LayoutController@footer')->name('footer');
+    Route::post('layout/footer_store', 'LayoutController@footer_store')->name('footer_store');
 });
 
 Route::get('/', function () {

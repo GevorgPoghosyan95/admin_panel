@@ -1,0 +1,79 @@
+.template {
+    padding: 10px;
+}
+
+.template div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px
+}
+
+.template .bd {
+    /*border: 1px solid red;*/
+    height: 100%;
+    background-color: #fff;
+    border-radius: 5px !important;
+    padding: 10px;
+}
+
+.template .sd {
+    /*border: 1px solid red;*/
+    height: 98%;
+    background-color: #fff;
+    border-radius: 5px !important;
+    padding: 10px
+}
+
+.template .bd1 {
+    /*border: 1px solid red;*/
+    height: 186px;
+    background-color: #fff;
+    border-radius: 5px !important;
+    padding: 10px
+}
+
+.link_m:hover {
+    cursor: pointer
+}
+.logo-input{float : unset;width: 25%}
+
+.block {
+    width: 20%;height: 110px;border: 1px solid black;border-radius: 5px!important;
+    margin: 10px;position: relative;
+}
+.input-images{width: 100%!important;}
+.image-uploader .uploaded .uploaded-image{width: 100%}
+.image-uploader .uploaded .uploaded-image img{
+    height: 90px!important;
+    object-fit: contain!important;width: 100%;
+}
+.partner_bl{margin: 15px;
+    position: relative;padding: 10px}
+.partner_bl .rem{
+    position: absolute;
+}
+/*.block:hover{background-color:#f4f6fb!important; }*/
+.new_block { display: flex;justify-content: center;align-items: center;}
+.new_block:hover {cursor: pointer}
+.bl_container{display: flex;justify-content: flex-start}
+
+label[for="p_logo"]{
+    z-index: 5;
+    border: 1px solid #b1b2b4;
+    position: relative;
+    text-align: center;
+    padding: 20px 10px 15px 10px;
+    border-radius: 5px !important;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+.part_l .fa-cloud-upload{font-size: 36px;margin-left: 10px}
+.rem_pl {display: none; position: absolute;right: 10px;top: -5px;cursor: pointer;z-index: 10}
+#imagePreview {background-size: contain;
+    background-position: 50%;}
+#imagePreview:hover .rem_pl,#imagePreview1:hover .rem_pl{display: block;}
+.btn-default.active:hover,.btn-default.active,.btn-default.active.focus{background-color:#204d74;color: #fff}

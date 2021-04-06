@@ -12,6 +12,7 @@ use App\Http\Requests\PageRequest;
 use App\Menu;
 use App\MenuItem;
 use App\Page;
+use App\Partner;
 use App\Statics\PageTypes;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,7 @@ class PageController extends Controller
     {
         return $creator->update();
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -60,6 +62,11 @@ class PageController extends Controller
         $categories = Category::all();
         $folders = Folder::pluck('name', 'id');
         $menus = Menu::where('name', '<>', 'Main')->get();
+        $h_page = Page::where('type','HomePage')->first();
+        if(!empty($h_page)){
+            $pos = array_search('Home Page', $pageTypes);
+            unset($pageTypes[$pos]);
+        }
         return view('pages.create', compact('pageTypes', 'categories', 'menus', 'folders'));
     }
 
@@ -71,7 +78,6 @@ class PageController extends Controller
      */
     public function store(PageRequest $request)
     {
-
         switch ($request->get('type')) {
             case "Content":
             case "News":
@@ -105,6 +111,12 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::where('id', $id)->first();
+        if($page->type == 'HomePage'){
+            $carousels = Folder::where('name','like','%carousel%')->pluck('name','id');
+            $categories = Category::pluck('name','id');
+            $partners = Partner::all();
+            return view('home.edit', compact('page', 'categories', 'carousels','partners'));
+        }
         $categories = Category::where('name', '<>', null);
         $menus = Menu::where('name', '<>', 'Main')->where('lang',$page->lang)->get();
         $pageTypes = PageTypes::All;
@@ -124,10 +136,10 @@ class PageController extends Controller
         switch ($request->get('type')) {
             case "Content":
             case "News":
-                $this->updatePage(new StandardPageCreator($request,$page));
+                $this->updatePage(new StandardPageCreator($request, $page));
                 break;
             case "VideoGallery":
-                $this->updatePage(new VideoGalleryCreator($request,$page));
+                $this->updatePage(new VideoGalleryCreator($request, $page));
                 break;
         }
         return redirect()->back()->with('success', 'Page Was Update Successfully');
@@ -161,6 +173,61 @@ class PageController extends Controller
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'error' => ['message' => 'Deleting problem!']]);
         }
+    }
+
+    public function homePage()
+    {
+        $carousels = Folder::where('name','like','%carousel%')->get();
+        $categories = Category::all();
+        $partners = Partner::all();
+        return view('home.index',compact('carousels','categories','partners'));
+    }
+
+    public function home_store(Request $request){
+        Page::create([
+            'title'=>'Home',
+            'path'=>'/',
+            'lang'=>$request->get('lang'),
+            'categoryID'=>$request->get('categoryID'),
+            'car_template'=>$request->get('car_template'),
+            'mainCarouselID'=>$request->get('carouselId'),
+            'carouselNewsCategory'=>$request->get('carouselNewsCategory'),
+            'carouselType'=>$request->get('carouselType'),
+            'video_block'=>$request->get('video_block'),
+            'partners_carousel'=>$request->get('partners_carousel'),
+            'type'=>'HomePage'
+            ]);
+        return redirect()->back();
+    }
+
+    public function home_update(Request $request){
+        unset($request['_token']);
+        Page::where('id',$request->get('id'))->update($request->all());
+        return redirect()->back();
+    }
+    public function addPartner(Request $request)
+    {
+        if($request->hasFile('file')){
+            $file =  $request->file('file');
+            $image = base64_encode(file_get_contents($file));
+            try{
+                $data = new Partner;
+                $data->url = $request->get('url');
+                $data->lang = $request->get('lang');
+                $data->image = $image;
+                $data->save();
+                return response()->json(['status' => 'success', 'id' => $data->id,'image' => $data->image, 'message' => 'added successfully']);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 'error', 'message' => 'Deleting problem!']);
+            }
+
+        }
+    }
+
+    public function removePartner($id)
+    {
+        Partner::where('id',$id)->delete();
+        return response()->json(['status' => 'success', 'message' => 'deleted successfully','id' => $id]);
     }
 
 }

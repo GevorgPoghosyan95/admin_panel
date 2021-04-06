@@ -86,6 +86,7 @@ class MediaController extends Controller
     public function delete_file(Request $request)
     {
         $path = Media::find($request->input('id'));
+        try {
         Media::where('id',$request->input('id'))->delete();
         File::delete(public_path($path->path));
         if($request->input('folder')){
@@ -94,6 +95,9 @@ class MediaController extends Controller
             $cnt = null;
         }
         return response()->json(['status' => 'success','id' => $request->input('id'),'message' => 'delete successfully','cnt' => $cnt]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Deleting problem!']);
+        }
     }
 
     public function create_folder(Request $request){
@@ -113,11 +117,15 @@ class MediaController extends Controller
     public function delete_folder(Request $request)
     {
         $name = Folder::where('id',$request->input('id'))->first();
-        $path = public_path('/site//uploads/files/'.$name->name);
+        $path = public_path('/site/uploads/files/'.$name->name);
         File::deleteDirectory($path);
-        Folder::where('id',$request->input('id'))->delete();
-        Media::where('folder_id',$request->input('id'))->delete();
-        return response()->json(['status' => 'success','id' => $request->input('id'),'message' => 'deleted successfully']);
+        try {
+            Folder::where('id', $request->input('id'))->delete();
+            Media::where('folder_id', $request->input('id'))->delete();
+            return response()->json(['status' => 'success', 'id' => $request->input('id'), 'message' => 'deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Deleting problem!']);
+        }
     }
 
     public function open_folder(Request $request){
@@ -131,6 +139,7 @@ class MediaController extends Controller
            $img['size'] = \File::size(public_path($image->path));
            array_push($images1,$img);
         }
+
         return response()->json(['status' => 'success','id' =>$request->input('id'),'images' => $images1,'f_name' => $folder->name]);
     }
 
@@ -152,6 +161,10 @@ class MediaController extends Controller
                 $p = Folder::where('id',$x)->first();
                 $path = '/site/uploads/files/'.$p->name.'/'. $file->getClientOriginalName();
                 Storage::disk('files')->put($p->name.'/'.$file->getClientOriginalName(),File::get($file));
+            }
+            $copy = Media::where('path',$path)->first();
+            if($copy){
+                continue;
             }
             $data = new Media;
             $data->path = $path;

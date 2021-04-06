@@ -66,6 +66,7 @@
                 <select class="form-control form-control-lg" name="type">
                     <option disabled selected hidden>Choose Type</option>
                     @foreach($pageTypes as  $type)
+
                         <option value="{{$type}}">{{$type}}</option>
                     @endforeach
                 </select><br>
