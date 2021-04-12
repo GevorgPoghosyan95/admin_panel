@@ -71,7 +71,7 @@
                         <h1>{!! $page->title !!}</h1>
                         {!! $page->body !!}
                         @if($page->categories->posts()->exists())
-                            @php $posts = $page->categories->posts()->paginate(2); @endphp
+                            @php $posts = $page->categories->posts()->orderBy('id','desc')->paginate(10); @endphp
                             {!! $posts->render() !!}
                             <br>
                             <br>
@@ -91,7 +91,7 @@
                         <h1>{!! $page->title !!}</h1>
                         {!! $page->body !!}
                         @if($page->categories->posts()->exists())
-                            @foreach($page->categories->posts as $post)
+                            @foreach($page->categories->posts()->orderBy('id','desc')->get() as $post)
                                 {!! \App\Ekeng\Post\PostRepository::faq($post) !!}
                             @endforeach
                             <script src="/site/js/faq.js"></script>

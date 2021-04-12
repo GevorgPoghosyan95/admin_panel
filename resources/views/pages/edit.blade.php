@@ -98,10 +98,9 @@
                     @endif
                 @endforeach
             </select><br>
+            <label for="" style="font-size: 26px">Page Content</label>
+            <textarea class="tiny_area" name="body"></textarea><br>
             @if($page->type == 'Content')
-                <div class="content">
-                    @include('pages.type.content')
-                </div>
                 <input type="hidden" name="img" value="{{$page->image}}" id="img">
             @elseif($page->type == 'News')
                 <div class="news">
@@ -127,30 +126,26 @@
                     @include('pages.type.videoGallery',['videoLinks'=>$page->videoLinks])
                 </div>
             @endif
-            @if($page->type !== 'Content')
-                <div class="content" style="display: none">
-                    @include('pages.type.content')
-                </div>
-            @endif
-                <div class="input-images" style="width: 10%"></div>
-                <input type="hidden" name="img" value="{{$page->image}}" id="img">
-                <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div> <br>
-                <div class="picker_bl">
+            <div class="input-images" style="width: 10%"></div>
+            <input type="hidden" name="img" value="{{$page->image}}" id="img">
+            <div class="img-alert" style="color: red;padding-left: 5px;font-size: 12px"></div>
+            <br>
+            <div class="picker_bl">
             <span class="color-picker">
               <label for="colorPicker">
-            <input type="color" name="color" value="{{$page->color}}" >
+            <input type="color" name="color" value="{{$page->color}}">
               </label>
             </span>
-                    &nbsp;<span>color</span>
-                </div>
-                <div class="picker_bl">
+                &nbsp;<span>color</span>
+            </div>
+            <div class="picker_bl">
             <span class="color-picker-back">
               <label for="colorPicker">
-            <input type="color" name="bg_color" value="{{$page->bg_color}}" >
+            <input type="color" name="bg_color" value="{{$page->bg_color}}">
               </label>
             </span>
-                    &nbsp;<span>hover color</span>
-                </div>
+                &nbsp;<span>hover color</span>
+            </div>
             <input type="submit" value="Save" class="btn btn-success"/>
             <div class="clearfix"></div>
             {!! Form::close() !!}

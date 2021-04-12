@@ -14,35 +14,39 @@ use Illuminate\Http\Request;
 
 class AllController extends Controller
 {
-    public function index($lang){
+    public function index($lang)
+    {
         $Car_news = [];
-        $homePage = Page::where('path','/')->where('lang',$lang)->first();
-        if($homePage){
+        $homePage = Page::where('path', '/')->where('lang', $lang)->first();
+        if ($homePage) {
             $menu = Menu::where('name', 'Banner')->first();
             $video_links = VideoLink::take(2)->get()->sortBy('id');
             $partners = Partner::all();
             $allnews = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
                 ->leftjoin('categories', 'post_2_category.category_id', '=', 'categories.id')->
-                where('post_2_category.category_id',$homePage->categoryID)
-                ->where('posts.lang',$lang)->take(3)->orderBy('posts.id','desc')->get();
-            if($homePage->carouselType == 1) {
+                where('post_2_category.category_id', $homePage->categoryID)
+                ->where('posts.lang', $lang)->take(3)->orderBy('posts.id', 'desc')
+                ->select('posts.title as title','posts.image as image','posts.created_at as created_at','posts.video as video','posts.id as id')->get();;
+            if ($homePage->carouselType == 1) {
                 $Car_news = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
                     ->leftjoin('categories', 'post_2_category.category_id', '=', 'categories.id')->
-                    where('post_2_category.category_id',$homePage->carouselNewsCategory)
-                    ->where('posts.lang',$lang)->take(3)->get();
+                    where('post_2_category.category_id', $homePage->carouselNewsCategory)
+                    ->where('posts.lang', $lang)->take(3)
+                    ->select('posts.title as title','posts.image as image','posts.created_at as created_at','posts.video as video','posts.id as id')->get();
             }
-            return view('site.index',compact('homePage','allnews','Car_news','menu','video_links','partners'));
-        }else{
+            return view('site.index', compact('homePage', 'allnews', 'Car_news', 'menu', 'video_links', 'partners'));
+        } else {
             return redirect('/hy');
         }
 
     }
 
-    public function page($lang,$path){
-        if(Page::where('path','/'.$path)->where('lang',$lang)->exists()){
-            $page = Page::where('path','/'.$path)->where('lang',$lang)->first();
-            return view('site.page',compact('page'));
-        }else{
+    public function page($lang, $path)
+    {
+        if (Page::where('path', '/' . $path)->where('lang', $lang)->exists()) {
+            $page = Page::where('path', '/' . $path)->where('lang', $lang)->first();
+            return view('site.page', compact('page'));
+        } else {
             abort('404');
         }
 

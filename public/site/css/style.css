@@ -360,8 +360,16 @@ body { top: 0px !important; }
 #prev {background: url(../img/gui-prev.png) no-repeat 0px 50px; height: 160px; }
 #next {background: url(../img/gui-next.png) no-repeat 26px 50px; height: 160px;}
 
+.menu {
+    cursor: pointer;
+}
 
-
+.content.wrapper table td {
+    border-collapse: collapse;
+    border: 1px solid #d7d9df;
+    padding: 2px 14px;
+    font-size: 14px;
+}
 
 
 

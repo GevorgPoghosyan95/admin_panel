@@ -97,9 +97,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="content" style="display: none">
-                    @include('pages.type.content')
-                </div>
+                <label for="" style="font-size: 26px">Page Content</label>
+                <textarea class="tiny_area" name="body"></textarea><br>
                 <div class="news" style="display: none">
                     @include('pages.type.news',['categories'=>$categories])
                 </div>
