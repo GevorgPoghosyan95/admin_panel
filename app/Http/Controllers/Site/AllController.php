@@ -17,20 +17,25 @@ class AllController extends Controller
     public function index($lang){
         $Car_news = [];
         $homePage = Page::where('path','/')->where('lang',$lang)->first();
-        $menu = Menu::where('name', 'Banner')->first();
-        $video_links = VideoLink::take(2)->get()->sortBy('id');
-        $partners = Partner::all();
-        $allnews = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
-            ->leftjoin('categories', 'post_2_category.category_id', '=', 'categories.id')->
-            where('post_2_category.category_id',$homePage->categoryID)
-            ->where('posts.lang',$lang)->take(3)->get();
-        if($homePage->carouselType == 1) {
-            $Car_news = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
+        if($homePage){
+            $menu = Menu::where('name', 'Banner')->first();
+            $video_links = VideoLink::take(2)->get()->sortBy('id');
+            $partners = Partner::all();
+            $allnews = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
                 ->leftjoin('categories', 'post_2_category.category_id', '=', 'categories.id')->
-                where('post_2_category.category_id',$homePage->carouselNewsCategory)
-                ->where('posts.lang',$lang)->take(3)->get();
+                where('post_2_category.category_id',$homePage->categoryID)
+                ->where('posts.lang',$lang)->take(3)->orderBy('posts.id','desc')->get();
+            if($homePage->carouselType == 1) {
+                $Car_news = Post::leftjoin('post_2_category', 'post_2_category.post_id', '=', 'posts.id')
+                    ->leftjoin('categories', 'post_2_category.category_id', '=', 'categories.id')->
+                    where('post_2_category.category_id',$homePage->carouselNewsCategory)
+                    ->where('posts.lang',$lang)->take(3)->get();
+            }
+            return view('site.index',compact('homePage','allnews','Car_news','menu','video_links','partners'));
+        }else{
+            return redirect('/hy');
         }
-        return view('site.index',compact('homePage','allnews','Car_news','menu','video_links','partners'));
+
     }
 
     public function page($lang,$path){

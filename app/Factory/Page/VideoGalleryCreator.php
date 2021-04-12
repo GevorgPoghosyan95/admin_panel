@@ -44,6 +44,7 @@ class VideoGalleryCreator implements PageCreator {
     public function update(){
 
         $pageData = $this->request->all();
+
         $file = $this->request->file('photos')[0];
         $base64 = '';
         if ($file !== null) {

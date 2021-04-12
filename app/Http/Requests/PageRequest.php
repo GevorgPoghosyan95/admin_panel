@@ -29,7 +29,7 @@ class PageRequest extends FormRequest
         $request = $this->request;
         return [
             'title' => 'required|max:255',
-            'path' => ['required', 'string', Rule::unique('pages')->where(function ($query) use ($request) {
+            'path' => ['nullable', 'string', Rule::unique('pages')->where(function ($query) use ($request) {
                 return $query->where('lang', $request->get('lang'));
             })],
             'type' => 'required'
