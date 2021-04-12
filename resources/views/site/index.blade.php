@@ -94,13 +94,14 @@
             <h2 class="icon_service">Ծառայություններ</h2>
 
             <div class="service">
+
                 @foreach ($menu->menuItems()->orderBy('order','asc')->get() as $item)
                     <div class="plus">
                         <a href="{!! '/'.$item->page->lang.$item->page->path !!}"
                            onmouseover="this.style='background-color:{{$item->page->color}};';" onmouseout="this.style='background-color:{{$item->page->bg_color}}';"
                            style="background-image: 'data:image/png;base64'{{$item->page->image}};background-color: {{$item->page->bg_color}};">
                             <div class="ico">
-                                <div class="icoim1">&nbsp;</div>
+                                <div class="icoim1" style="background: url('data:image/gif;base64,{{$item->page->image}}');background-size: 40px">&nbsp;</div>
                             </div>
                             <div class="ca-content">
                                 <h4 class="ca-main">{!! $item->page->title !!}</h4>
