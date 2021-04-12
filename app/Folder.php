@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Folder extends Model
 {
-    protected $table = 'Folders';
+    protected $table = 'folders';
     protected $fillable = [
         'name'
     ];
