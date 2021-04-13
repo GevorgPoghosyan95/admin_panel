@@ -58,7 +58,7 @@
                             </div>
                         @elseif($page->galleryType == "file")
                             @foreach ($page->folders as $folder)
-                                @foreach ($folder->files as $file)
+                                @foreach ($folder->files()->orderBy('id','desc')->get() as $file)
                                     <div class="{{$file->type}}"><a href="{{$file->path}}"
                                                                     target="blank">{!! getFileNameByPath($file->path,$file->type) !!}</a>
                                     </div>
@@ -97,10 +97,39 @@
                             <script src="/site/js/faq.js"></script>
                         @endif
                     @endif
+                    <br><br>
+                    @if($page->folders()->exists())
+                        @if($page->galleryType == "photo")
+                            <div class="gallery">
+                                @foreach ($page->folders as $folder)
+                                    @php $images = $folder->files()->paginate(15) @endphp
+                                    @foreach ($images as $file)
+                                        @if($file->type == 'image')
+                                            <a href="{{$file->path}}"><img src="{{$file->path}}" alt=""></a>
+                                            <span>&nbsp;</span>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                                <div class=clear></div>
+                                <br>
+                                {!! $images->render() !!}
+                                <br>
+                                <br>
+                            </div>
+                        @elseif($page->galleryType == "file")
+                            @foreach ($page->folders as $folder)
+                                @foreach ($folder->files()->orderBy('id','desc')->get() as $file)
+                                    <div class="{{$file->type}}"><a href="{{$file->path}}"
+                                                                    target="blank">{!! getFileNameByPath($file->path,$file->type) !!}</a>
+                                    </div>
+                                @endforeach
+                            @endforeach
+                        @endif
+                    @endif
                 @elseif($page->type == 'VideoGallery')
                     @if($page->galleryType == "video")
                         <h1>{!! $page->title !!}</h1>
-                            {!! $page->body !!}
+                        {!! $page->body !!}
                         <div class="video2">
                             @php $videos = $page->videoLinks()->orderBy('id','desc')->paginate(9) @endphp
                             @foreach ($videos as $video)
