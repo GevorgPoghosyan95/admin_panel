@@ -74,13 +74,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('layout/header_store', 'LayoutController@header_store')->name('header_store');
     Route::get('layout/footer', 'LayoutController@footer')->name('footer');
     Route::post('layout/footer_store', 'LayoutController@footer_store')->name('footer_store');
-    Route::get('post/more/{post}','PostController@show');
 });
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
-
+Route::get('post/more/{post}','PostController@show');
 Route::group([
     'prefix' => '{locale}',
     'where' => ['locale' => '[a-zA-Z]{2}'],
