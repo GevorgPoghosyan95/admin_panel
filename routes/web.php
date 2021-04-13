@@ -86,6 +86,7 @@ Route::group([
     'where' => ['locale' => '[a-zA-Z]{2}'],
     'middleware' => ['setlocale', 'web']
 ], function () {
+    Route::get('/search','Site\AllController@search');
     Route::get('/', 'Site\AllController@index')->name('home');
     Route::get('/{path}', 'Site\AllController@page');
 });

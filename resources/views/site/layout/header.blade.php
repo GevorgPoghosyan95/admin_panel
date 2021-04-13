@@ -39,8 +39,8 @@
 
         <div class="search">
 
-            <form method="get" action="search.html" class="search-bar">
-                <input type="search" placeholder="Որոնում" name="q" required>
+            <form method="get" action="/{{app()->getLocale()}}/search" class="search-bar">
+                <input type="search" placeholder="Որոնում" name="params" required>
                 <button class="search-btn" type="submit">&nbsp;</button>
             </form>
 

@@ -84,7 +84,7 @@
                 @endif
             @endforeach
 
-            <p style="text-align: center; margin-bottom: 24px;"><a href="news.html" class="newlink">Բոլոր
+            <p style="text-align: center; margin-bottom: 24px;"><a href="/{{app()->getLocale()}}/news" class="newlink">Բոլոր
                     նորությունները
                     &#10140;</a></p>
         </div>
