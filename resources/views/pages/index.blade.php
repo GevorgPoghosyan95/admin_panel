@@ -8,7 +8,7 @@
     table img {
         height: 100px;
         width: 100px;
-        object-fit: cover
+        object-fit: contain;
     }
 
     tbody tr {
