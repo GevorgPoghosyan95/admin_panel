@@ -99,7 +99,7 @@
     </div>
     <!-- END SLIDER AND NEWS -->
 
-
+    @if($menu)
     <!-- START SERVICE -->
     <div class="line1 bggrey">
         <div class="line2">
@@ -128,7 +128,7 @@
             </div>
         </div>
     </div>
-
+    @endif
     <!-- END SERVICE -->
 
     <!-- START VIDEO -->

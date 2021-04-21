@@ -16,6 +16,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/site/css/style.css" type="text/css">
     <link rel="stylesheet" href="/site/css/paginate.css" type="text/css">
+    <link rel="stylesheet" href="/site/css/phone.css" type="text/css">
     <link rel="stylesheet" href="/site/css/ico.css" type="text/css">
 
     <script src="/site/js/jquery.min.js"></script>

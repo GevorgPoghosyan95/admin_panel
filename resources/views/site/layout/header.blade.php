@@ -1,6 +1,11 @@
 <!-- START TOP BLOK -->
 <style>
     .menu .active {background-color: #ffa82b;color: #fff}
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
 </style>
 <div class="line1 shapka1">
     <div class="line2 shapka2">
@@ -54,6 +59,22 @@
 
     </div>
 </div>
+
+<div class="hot-phone">
+    <div class="hot-phone-icon">
+        <div class="phonering-alo-phone phonering-alo-green phonering-alo-show" id="phonering-alo-phoneIcon">
+            <div class="phonering-alo-ph-circle"></div>
+            <div class="phonering-alo-ph-circle-fill">
+                <a class="phone-img " href="tel:8107">
+                    <img src="/images/icoim333.png" height="35px">
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="number-phone tooltip" style="font-size: 12px"><span class="no_mobile">Թեժ գիծ</span> <br class="no_mobile">81 - 07</div>
+</div>
+
 <script>
  $(document).ready(function () {
     let menu = $('.menu li');
@@ -74,4 +95,19 @@
          }
      });
  })
+
+
+</script>
+<script>
+    window.onscroll = function() {myFunction()};
+    var header = $(".shapka3");
+    var sticky = header.offset().top;
+
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.addClass("sticky");
+        } else {
+            header.removeClass("sticky");
+        }
+    }
 </script>
