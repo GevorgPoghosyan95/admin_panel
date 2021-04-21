@@ -1,5 +1,7 @@
 <!-- START TOP BLOK -->
-
+<style>
+    .menu .active {background-color: #ffa82b;color: #fff}
+</style>
 <div class="line1 shapka1">
     <div class="line2 shapka2">
         <div class=cell1>
@@ -52,3 +54,24 @@
 
     </div>
 </div>
+<script>
+ $(document).ready(function () {
+    let menu = $('.menu li');
+     menu.click(function () {
+         $(this).addClass('active');
+         menu.not(this).removeClass('active');
+     });
+     menu.each(function () {
+         let href = $(this).find('a').prop('href');
+         let item = href.split('/');
+         let hash = item[item.length - 1];
+         let win_href = window.location.href;
+         let win_href_item = win_href.split('/');
+         if (win_href_item[win_href_item.length -1] === hash || win_href_item[win_href_item.length -2] === hash) {
+             console.log($(this).closest('.parent').addClass('active'));
+             $(this).find('.parent').addClass('active');
+             // $('.m_menu[href*="'+ item[4]+'"]').addClass('active');
+         }
+     });
+ })
+</script>

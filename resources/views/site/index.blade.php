@@ -30,9 +30,7 @@
     <!-- START SLIDER AND NEWS -->
     <div class="line1">
         <div class="line2 slidnews">
-
             <!-- START SLIDER -->
-
             <div class="slider-wrapper">
                 <h2 class="icon_news">Նորություններ</h2>
                 <div id="slider" class="nivoSlider">
@@ -48,29 +46,33 @@
                         @endforeach
                     @endif
                 </div>
-
             </div>
 
             <!-- END SLIDER -->
 
             <!-- START NEWS -->
             @if($homePage->car_template != 't1')
+                @php
+                    $pad = "padding: 10px";
+                @endphp
         </div>
         @else
             {{--                 </div>--}}
+            @php
+                $pad = null;
+            @endphp
         @endif
-
         <div class="newshome">
             @foreach($allnews as $n)
                 @if($n->video == null)
-                    <div><img src="data:image/png;base64,{{$n->image}}" alt="" width=240>
+                    <div  style="{{$pad}}"><img src="data:image/png;base64,{{$n->image}}" alt="" width=240>
                         <span class="data">{{Carbon\Carbon::parse($n->created_at)->formatLocalized('%d, %B %Y')}}</span>
                         <a href="/post/more/{{$n->id}}" class=newlink><p>
                                 {!! Str::words(strip_tags($n->title), $words = 9, $end = '...') !!}</p>
                         </a>
                     </div>
                 @else
-                    <div>
+                    <div style="{{$pad}}">
                         <video width="240" height="auto" controls="controls"
                                style="min-width: 200px; max-width: 600px; float:left; margin-right: 14px; margin-top: 0;"
                                poster="video/25.02.2021.png">
@@ -83,12 +85,10 @@
                     </div>
                 @endif
             @endforeach
-
             <p style="text-align: center; margin-bottom: 24px;"><a href="/{{app()->getLocale()}}/news" class="newlink">Բոլոր
                     նորությունները
                     &#10140;</a></p>
         </div>
-
         <!-- END NEWS -->
         @if($homePage->car_template != 't1')
             {{--            </div>--}}
@@ -97,12 +97,10 @@
     @endif
 
     </div>
-
     <!-- END SLIDER AND NEWS -->
 
 
     <!-- START SERVICE -->
-
     <div class="line1 bggrey">
         <div class="line2">
 
@@ -127,9 +125,7 @@
                             </div>
                         </a></div>
                 @endforeach
-
             </div>
-
         </div>
     </div>
 
@@ -139,7 +135,6 @@
     @if($homePage->video_block == 'on')
         <div class="line1">
             <div class="line2">
-
                 <h2 class="icon_video">Տեսանյութեր</h2>
                 <div class=video>
                     @foreach($video_links as $video)
@@ -159,7 +154,6 @@
                             </div>
                         @endif
                     @endforeach
-
                 </div>
             </div>
         </div>
@@ -171,17 +165,14 @@
     @if($homePage->partners_carousel == 'on')
         <div class="line1 bggrey">
             <div class="line2">
-
                 <h2 class="icon_partner">Գործընկերներ</h2>
-
                 <div class="partner">
                     <a id="prev" href="#"></a>
                     <div id="carousel">
-
                         @foreach($partners as $partner)
                             <div class="partner_bl" style="float: left" data-id="{{$partner->id}}">
                                 <span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>
-                                <a href="{{$partner->url}}">
+                                <a href="{{$partner->url}}" target="_blank">
                                     <img src="data:image/png;base64,{{$partner->image}}" width="280"
                                          height="90"
                                          alt="{{$partner->description}}">
@@ -191,7 +182,6 @@
                     </div>
                     <a id="next" href="#"></a>
                 </div>
-
             </div>
         </div>
     @endif

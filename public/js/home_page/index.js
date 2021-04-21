@@ -1,7 +1,7 @@
 
 $('#partnersModal').on('hidden.bs.modal', function (e) {
-    // $('.delete-image').click();
     $('#url').val('');
+    $('#p_logo').val('');
     $('#imagePreview').css('background-image' , '');
     $('#imagePreview').html('').css('height','0');
     $('label[for="p_logo"]').show()
@@ -26,49 +26,56 @@ function readURL(input, previewId) {
             $(previewId).css({'background-image' : 'url('+e.target.result +')'});
             $(previewId).hide();
             $(previewId).fadeIn(650);
-        }
+        };
         reader.readAsDataURL(input.files[0]);
     }
 }
 
 $('.block').click(function () {
     $('#partnersModal').modal('show');
-    $('.save_part').one('click',function () {
-        let formData = new FormData();
-        let file = $('input[type=file]')[0].files[0];
-        formData.append('file',file);
-        formData.append('description',$('#description').val());
-        formData.append('url',$('#url').val());
-        formData.append('lang',$('input[name="lang"]').val());
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN':$('input[name="_token"]').val()
-            }
-        })
-        $.ajax({
-            url:'/addPartner',
-            type:'POST',
-            dataType: 'json',
-            data:formData,
-            processData: false,
-            contentType: false,
-            success:function(result) {
-                if(result.status == 'success'){
-                    let div = '<div class="partner_bl" style="float: left" data-id="'+result.id+'">\n' +
-                        '<span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>'+
-                        '  <a href="'+$('#url').val()+'"><img src="data:image/png;base64,'+ result.image+'" width="280"\n' +
-                        ' height="90" alt="ՀՀ Ազգային ժողով"></a>\n' +
-                        ' </div>';
-                    $('.partner').append(div);
-                    $('#partnersModal').modal('hide');
-                    flashMessage(result.message);
-                }else{
-                    flashMessage(result.message,'red');
-                }
-            }
-        });
-    })
 });
+$('#partners_from').submit(function (e) {
+    e.preventDefault()
+    let formData = new FormData();
+    let file = $('input[type=file]')[0].files[0];
+    formData.append('file',file);
+    formData.append('description',$('#description').val());
+    formData.append('url',$('#url').val());
+    formData.append('lang',$('input[name="lang"]').val());
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN':$('input[name="_token"]').val()
+        }
+    });
+    $.ajax({
+        url:'/addPartner',
+        type:'POST',
+        dataType: 'json',
+        data:formData,
+        processData: false,
+        contentType: false,
+        success:function(result) {
+            if(result.status == 'success'){
+                let div = '<div class="partner_bl" style="float: left" data-id="'+result.id+'">\n' +
+                    '<span aria-hidden="true" class="rem"><i class="fa fa-close img_del"></i></span>'+
+                    '<img src="data:image/png;base64,'+ result.image+'" width="280"\n' +
+                    ' height="90" alt="ՀՀ Ազգային ժողով">\n' +
+                    ' </div>';
+                $('.partner').append(div);
+                $('#partnersModal').modal('hide');
+                flashMessage(result.message);
+            }else{
+                flashMessage(result.message,'red');
+            }
+        }
+    });
+    e.preventDefault()
+})
+
+
+
+
+
 
 $(document).on('click','.rem',function () {
     let id = $(this).parents('.partner_bl').data('id');

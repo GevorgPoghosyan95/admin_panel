@@ -72,6 +72,7 @@ class MenuItemController extends Controller
             $menu_item->menu_id = $request->input('menu_id');
             $menu_item->title = $request->input('title');
             $menu_item->target = $request->input('target');
+            $menu_item->route = $request->input('url');
             $menu_item->slug = mb_strtolower($request->input('title'));
             $menu_item->order = $current_order + 1;
             $menu_item->save() ? $ret = json_encode(['status' => 'success', 'id' => $menu_item->id, 'message' => 'Added successfully']) : $ret = json_encode(['status' => 'fail', 'message' => 'Error adding item']);
@@ -79,7 +80,7 @@ class MenuItemController extends Controller
             return $ret;
         } else {
             MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),
-                'slug'=>strtolower($request->input('title'))]);
+                'slug'=>strtolower($request->input('title')),'target' =>  $request->input('target')]);
 //            Page::find($request->input('page_id'))->update(['path'=>$request->input('url')]);
             return json_encode(['status' => 's', 'message' => 'Edit successfully', 'id' => $request->input('id'),'title' => $request->input('title')]);
         }

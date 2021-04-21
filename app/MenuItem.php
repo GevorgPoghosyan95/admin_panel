@@ -20,7 +20,7 @@ class MenuItem extends Model
 
     public function child()
     {
-        return $this->hasMany(self::class, 'parent_id')->select('menu_items.id as id','menu_items.title','parent_id','pages.path as path','order')->orderBy('order', 'asc');
+        return $this->hasMany(self::class, 'parent_id')->select('menu_items.id as id','menu_items.title','parent_id','pages.path as path','order','menu_items.target as target')->orderBy('order', 'asc');
     }
 
     // recursive, loads all descendants

@@ -58,14 +58,19 @@ function recursion($data, $id,$html)
         if ($item->path == null) {
             $content = $item->title;
         } else {
-            $content = '<a href="'.'/'.app()->getLocale().$item->path.'">'.$item->title.'</a>';
+            if(str_contains($item->path,'http') == false){
+                $content = '<a href="' . '/' . app()->getLocale() . $item->path . '" target="'.$item->target.'">' . $item->title . '</a>';
+            }else{
+                $content = '<a href="'  . $item->path . '" target="'.$item->target.'">' . $item->title . '</a>';
+            }
+
         }
         if ($item->children()->exists()) {
             $html .= '<li class="' . $class . '">' . $content;
-            $html = recursion($item->children,null, $html);
+            $html = recursion($item->children, null, $html);
             $html .= '</li>';
         } else {
-            $html .= '<li class="' . $class . '">' . $content . '</li>';
+           $html .= '<li class="' . $class . '">' . $content . '</li>';
         }
     }
     $html .= '</ul>';
@@ -76,7 +81,8 @@ function getChilds($name, $parent_id = null, $orderBy = 'asc')
 {
     return MenuItem::with('children')->leftJoin('menus', 'menus.id', '=', 'menu_items.menu_id')
         ->leftJoin('pages', 'pages.id', '=', 'menu_items.page_id')
-        ->where(['name' => $name, 'parent_id' => $parent_id])->select('menu_items.id as id', 'menu_items.order as order', 'menu_items.title as title', 'pages.path as path')
+        ->where(['name' => $name, 'parent_id' => $parent_id])
+        ->select('menu_items.id as id', 'menu_items.order as order', 'menu_items.title as title', 'pages.path as path','menu_items.target as target')
         ->orderBy('order', $orderBy)
         ->get();
 }
