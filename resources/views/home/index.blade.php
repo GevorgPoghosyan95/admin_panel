@@ -28,7 +28,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 style="text-align: center">select template type</h1>
+                    <h1 style="text-align: center">Select template type</h1>
                 </div>
             </div>
             <div class="row">
@@ -73,7 +73,9 @@
             </div>
             <form action="{{route('home.page.store')}}" method="post">
                 @csrf
-                <input type="hidden" name="lang" value="hy">
+                <label style="font-size: 26px">Title</label>
+                <input type="text" name="title" class="form-control">
+                <input type="hidden" name="lang" value="{{$lang}}">
                 <input type="hidden" name="mainCarouselStatus" value="on">
                 <input type="hidden" name="car_template" value="t1">
                 <input type="hidden" name="video_block" value="on">
@@ -101,7 +103,7 @@
                         </select>
                     </div>
                     <div class="col-lg-6" id="cat_bl" >
-                        <label for="path" style="font-size: 26px">News Categories</label>
+                        <label for="path" style="font-size: 26px">News Categories (For carousel)</label>
                         <br>
                         <select class="form-control form-control-lg" name="carouselNewsCategory">
                             @foreach($categories as  $category)
@@ -112,7 +114,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                    <label for="path" style="font-size: 26px">News Categories</label>
+                    <label for="path" style="font-size: 26px">News Categories (For news block)</label>
                     <br>
                     <select class="form-control form-control-lg" name="categoryID">
                         @foreach($categories as  $category)

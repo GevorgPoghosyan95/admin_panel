@@ -11,11 +11,15 @@ use App\Post;
 use App\VideoLink;
 use Faker\Provider\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class AllController extends Controller
 {
     public function index($lang)
     {
+        $header_data = Layout::where('lang',$lang)->where('name','header')->first();
+        $footer_data = Layout::where('lang',$lang)->where('name','footer')->first();
+        View::share(['header_data' => $header_data,'footer_data' => $footer_data]);
         $Car_news = [];
         $homePage = Page::where('path', '/')->where('lang', $lang)->first();
         if ($homePage) {
@@ -43,6 +47,9 @@ class AllController extends Controller
 
     public function page($lang, $path)
     {
+        $header_data = Layout::where('lang',$lang)->where('name','header')->first();
+        $footer_data = Layout::where('lang',$lang)->where('name','footer')->first();
+        View::share(['header_data' => $header_data,'footer_data' => $footer_data]);
         if (Page::where('path', '/' . $path)->where('lang', $lang)->exists()) {
             $page = Page::where('path', '/' . $path)->where('lang', $lang)->first();
             return view('site.page', compact('page'));

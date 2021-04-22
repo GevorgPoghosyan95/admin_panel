@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('addPartner', 'PageController@addPartner')->name('addPartner');
     Route::post('removePartner/{id}', 'PageController@removePartner')->name('removePartner');
 
-    Route::get('layout/header', 'LayoutController@header')->name('header');
+    Route::get('layout/header/{lang}', 'LayoutController@header')->name('header');
     Route::post('layout/header_store', 'LayoutController@header_store')->name('header_store');
     Route::get('layout/footer', 'LayoutController@footer')->name('footer');
     Route::post('layout/footer_store', 'LayoutController@footer_store')->name('footer_store');

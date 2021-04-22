@@ -26,11 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        $header_data = Layout::where('name','header')->first();
-        $footer_data = Layout::where('name','footer')->first();
-        View::share(['header_data' => $header_data,'footer_data' => $footer_data]);
-
         Schema::defaultStringLength(191);
     }
 }

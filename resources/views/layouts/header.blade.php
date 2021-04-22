@@ -149,7 +149,7 @@
 
     });
 
-    $('#lang-switch .hy').addClass("active-flag");
+    $('#lang-switch .{!! $lang !!}').addClass("active-flag");
     $(function () {
         $("#lang-switch .hy").click(function () {
             $('input[name="lang"]').val('hy')

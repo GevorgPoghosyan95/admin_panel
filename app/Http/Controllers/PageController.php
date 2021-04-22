@@ -113,8 +113,8 @@ class PageController extends Controller
         $page = Page::where('id', $id)->first();
         if($page->type == 'HomePage'){
             $carousels = Folder::where('name','like','%carousel%')->pluck('name','id');
-            $categories = Category::pluck('name','id');
-            $partners = Partner::all();
+            $categories = Category::where('lang',$page->lang)->pluck('name','id');
+            $partners = Partner::where('lang',$page->lang)->get();
             return view('home.edit', compact('page', 'categories', 'carousels','partners'));
         }
         $categories = Category::where('name', '<>', null);
@@ -181,13 +181,12 @@ class PageController extends Controller
         $carousels = Folder::where('name','like','%carousel%')->get();
         $categories = Category::where('lang',$lang)->get();
         $partners = Partner::where('lang',$lang)->get();
-        return view('home.index',compact('carousels','categories','partners'));
+        return view('home.index',compact('carousels','categories','partners','lang'));
     }
 
     public function home_store(Request $request){
-//        dd($request->all());
         Page::create([
-            'title'=>'Home',
+            'title'=>$request->get('title'),
             'path'=>'/',
             'lang'=>$request->get('lang'),
             'categoryID'=>$request->get('categoryID'),
@@ -200,7 +199,7 @@ class PageController extends Controller
             'partners_carousel'=>$request->get('partners_carousel'),
             'type'=>'HomePage'
             ]);
-        return redirect()->back();
+        return redirect('pages');
     }
 
     public function home_update(Request $request){

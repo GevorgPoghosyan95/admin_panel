@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class LayoutController extends Controller
 {
-    public function header()
+    public function header($lang)
     {
-        $menus= Menu::pluck('name','id');
-        $data = Layout::where('name','header')->first();
-        return view('layouts.header',compact('menus','data'));
+        $menus= Menu::where('lang',$lang)->pluck('name','id');
+        $data = Layout::where('lang',$lang)->where('name','header')->first();
+        return view('layouts.header',compact('menus','data','lang'));
     }
     public function header_store(Request $request)
     {

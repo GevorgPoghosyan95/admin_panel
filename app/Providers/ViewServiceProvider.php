@@ -31,9 +31,5 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('layout.sidebar', function($view) use($sidebar) {
             $view->with(['sidebar' => $sidebar]);
         });
-
-        View::composer('menu::layouts.sidebar', function($view) use($sidebar) {
-            $view->with(['sidebar' => $sidebar]);
-        });
     }
 }
