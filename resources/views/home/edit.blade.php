@@ -16,10 +16,23 @@
             <form action="{{route('home.page.update',['id'=>$page->id])}}" method="post">
                 @csrf
                 <input type="hidden" name="car_template" value="t1">
+                <input type="hidden" name="mainCarouselStatus" value="{{$page->mainCarouselStatus}}">
                 <input type="hidden" name="video_block" value="{{$page->video_block}}">
                 <input type="hidden" name="partners_carousel" value="{{$page->partners_carousel}}">
-                <input type="text" name="title" value="{{$page->title}}" class="form-control">
                 <label style="font-size: 26px">Title</label>
+                <input type="text" name="title" value="{{$page->title}}" class="form-control">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <p style="font-size: 21px">Carousel</p>
+                    </div>
+                    <div class="col-lg-1 pull-right">
+                        <br>
+                        <div class="btn-group btn-toggle video-toggle" onclick="toggleButton(this)" data-t="mainCarouselStatus">
+                            <button type="button" class="{{$page->mainCarouselStatus == 'on' ? 'btn btn-primary active' : 'btn btn-default'}}" data-status="on">ON</button>
+                            <button type="button" class="{{$page->mainCarouselStatus == 'off' ? 'btn btn-primary active' : 'btn btn-default'}}" data-status="off">OFF</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 style="text-align: center">select template type</h1>

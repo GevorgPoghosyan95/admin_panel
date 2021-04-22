@@ -105,7 +105,7 @@ $(document).ready(function () {
     $('select[name = "type"]').on('change', function () {
         type = this.value;
         if(type == 'Home Page'){
-            window.location = '/home_page';
+            window.location = '/'+$('input[name="lang"]').val() + '/home_page';
         } else{
             showType(type)
         }

@@ -76,7 +76,6 @@
                     </button>
                 </div>
             </div>
-
             <div class="col-lg-12">
                 <div class="dd">
                     <ol class="dd-list outer">
@@ -84,6 +83,7 @@
                     </ol>
                 </div>
             </div>
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>

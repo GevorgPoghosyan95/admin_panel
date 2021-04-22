@@ -80,7 +80,7 @@ class MenuItemController extends Controller
             return $ret;
         } else {
             MenuItem::where('id',$request->input('id'))->update(['title' => $request->input('title'),'page_id'=>$request->input('page_id'),
-                'slug'=>strtolower($request->input('title')),'target' =>  $request->input('target')]);
+                'slug'=>mb_strtolower($request->input('title')),'target' =>  $request->input('target')]);
 //            Page::find($request->input('page_id'))->update(['path'=>$request->input('url')]);
             return json_encode(['status' => 's', 'message' => 'Edit successfully', 'id' => $request->input('id'),'title' => $request->input('title')]);
         }

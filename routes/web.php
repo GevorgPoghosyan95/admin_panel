@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('media/open_folder', 'MediaController@open_folder')->name('open_folder');
     Route::post('media/file_upload', 'MediaController@file_upload');
 
-    Route::get('home_page', 'PageController@homePage')->name('home_page');
+    Route::get('/{lang}/home_page', 'PageController@homePage')->name('home_page');
     Route::post('home_store', 'PageController@home_store')->name('home.page.store');
     Route::post('home_update', 'PageController@home_update')->name('home.page.update');
 

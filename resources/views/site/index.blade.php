@@ -28,8 +28,9 @@
         </style>
     @endif
     <!-- START SLIDER AND NEWS -->
+    @if($homePage->mainCarouselStatus == 'on')
     <div class="line1">
-        <div class="line2 slidnews">
+        <div class="line2 slidnews" >
             <!-- START SLIDER -->
             <div class="slider-wrapper">
                 <h2 class="icon_news">Նորություններ</h2>
@@ -97,13 +98,50 @@
     @endif
 
     </div>
+    @endif
     <!-- END SLIDER AND NEWS -->
-
+    <div class="line1">
+        <div class="line2">
+            <h2 class="icon_news">News</h2>
+            <div class="news_block" >
+                <div class="news_item">
+                    <img src="http://127.0.0.1:8000/site/uploads/files/Main_carousel/03.jpg" alt="" width=240>
+                    <span class="data">{{Carbon\Carbon::parse($n->created_at)->formatLocalized('%d, %B %Y')}}</span>
+                    <a href="/post/more/{{$n->id}}" class=newlink><p>
+                            {!! Str::words(strip_tags($n->title), $words = 9, $end = '...') !!}</p>
+                    </a>
+                </div>
+                <div class="news_item">
+                    <img src="http://127.0.0.1:8000/site/uploads/files/Main_carousel/03.jpg" alt="" width=240>
+                    <span class="data">{{Carbon\Carbon::parse($n->created_at)->formatLocalized('%d, %B %Y')}}</span>
+                    <a href="/post/more/{{$n->id}}" class=newlink><p>
+                            {!! Str::words(strip_tags($n->title), $words = 9, $end = '...') !!}</p>
+                    </a>
+                </div>
+                <div class="news_item">
+                    <img src="http://127.0.0.1:8000/site/uploads/files/Main_carousel/03.jpg" alt="" width=240>
+                    <span class="data">{{Carbon\Carbon::parse($n->created_at)->formatLocalized('%d, %B %Y')}}</span>
+                    <a href="/post/more/{{$n->id}}" class=newlink><p>
+                            {!! Str::words(strip_tags($n->title), $words = 9, $end = '...') !!}</p>
+                    </a>
+                </div>
+                <div class="news_item">
+                    <img src="http://127.0.0.1:8000/site/uploads/files/Main_carousel/03.jpg" alt="" width=240>
+                    <span class="data">{{Carbon\Carbon::parse($n->created_at)->formatLocalized('%d, %B %Y')}}</span>
+                    <a href="/post/more/{{$n->id}}" class=newlink><p>
+                            {!! Str::words(strip_tags($n->title), $words = 9, $end = '...') !!}</p>
+                    </a>
+                </div>
+                <p style="text-align: center; margin-bottom: 24px;"><a href="/{{app()->getLocale()}}/news" class="newlink">Բոլոր
+                        նորությունները
+                        &#10140;</a></p>
+            </div>
+        </div>
+    </div>
     @if($menu)
     <!-- START SERVICE -->
     <div class="line1 bggrey">
         <div class="line2">
-
             <h2 class="icon_service">Ծառայություններ</h2>
 
             <div class="service">

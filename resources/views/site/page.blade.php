@@ -6,31 +6,21 @@
 
 @section('type')
     <!-- START CONTENT -->
-
     <div class="line1">
         <div class="line2">
-
             <!-- START COLUM LEFT 1 -->
-
             <div class="left">
-
                 <!-- START MENU 2 -->
                 @if($page->leftMenu)
                     <div class="menu2">
-
                         <nav>
                             {!! showSubMenu($page->leftMenu->name) !!}
                         </nav>
-
                     </div>
             @endif
             <!-- END MENU 2 -->
             </div>
-
-
             <!-- END COLUM LEFT 1 -->
-
-
             <!-- START CONTENT COLUM 2 -->
             <div class="content wrapper">
                 @if($page->type == 'Content')
@@ -40,22 +30,20 @@
                     <br>
                     @if($page->folders()->exists())
                         @if($page->galleryType == "photo")
-                            <div class="gallery">
-                                @foreach ($page->folders as $folder)
-                                    @php $images = $folder->files()->paginate(15) @endphp
-                                    @foreach ($images as $file)
-                                        @if($file->type == 'image')
-                                            <a href="{{$file->path}}"><img src="{{$file->path}}" alt=""></a>
-                                            <span>&nbsp;</span>
-                                        @endif
+                                <div class="gallery">
+                                    @foreach ($page->folders as $folder)
+                                        @php $images = $folder->files()->paginate(15) @endphp
+                                        @foreach ($images as $file)
+                                            @if($file->type == 'image')
+                                                <a href="{{$file->path}}"><img src="{{$file->path}}" alt=""></a>
+                                            @endif
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                                <div class=clear></div>
+                                </div>
                                 <br>
                                 {!! $images->render() !!}
                                 <br>
                                 <br>
-                            </div>
                         @elseif($page->galleryType == "file")
                             @foreach ($page->folders as $folder)
                                 @foreach ($folder->files()->orderBy('id','desc')->get() as $file)
@@ -111,11 +99,11 @@
                                     @endforeach
                                 @endforeach
                                 <div class=clear></div>
+                            </div>
                                 <br>
                                 {!! $images->render() !!}
                                 <br>
                                 <br>
-                            </div>
                         @elseif($page->galleryType == "file")
                             @foreach ($page->folders as $folder)
                                 @foreach ($folder->files()->orderBy('id','desc')->get() as $file)

@@ -9,13 +9,23 @@
     @include('layout.sidebar')
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
-        <div id="lang-switch">
-            <img src="/images/armenia.png" class="hy">
-            <img src="/images/english.png" class="en">
-            <img src="/images/russia.png" class="ru">
-        </div>
+
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <p style="font-size: 21px">Carousel</p>
+                </div>
+                <div class="col-lg-1 pull-right">
+                    <br>
+                    <div class="btn-group btn-toggle video-toggle" onclick="toggleButton(this)" data-t="mainCarouselStatus">
+                        <button type="button" class="btn btn-primary active" data-status="on">ON</button>
+                        <button type="button" class="btn btn-default " data-status="off">OFF</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <h1 style="text-align: center">select template type</h1>
@@ -64,6 +74,7 @@
             <form action="{{route('home.page.store')}}" method="post">
                 @csrf
                 <input type="hidden" name="lang" value="hy">
+                <input type="hidden" name="mainCarouselStatus" value="on">
                 <input type="hidden" name="car_template" value="t1">
                 <input type="hidden" name="video_block" value="on">
                 <input type="hidden" name="partners_carousel" value="on">

@@ -63,10 +63,10 @@ class PageController extends Controller
         $folders = Folder::pluck('name', 'id');
         $menus = Menu::where('name', '<>', 'Main')->get();
         $h_page = Page::where('type','HomePage')->first();
-        if(!empty($h_page)){
-            $pos = array_search('Home Page', $pageTypes);
-            unset($pageTypes[$pos]);
-        }
+//        if(!empty($h_page)){
+//            $pos = array_search('Home Page', $pageTypes);
+//            unset($pageTypes[$pos]);
+//        }
         return view('pages.create', compact('pageTypes', 'categories', 'menus', 'folders'));
     }
 
@@ -176,15 +176,16 @@ class PageController extends Controller
         }
     }
 
-    public function homePage()
+    public function homePage($lang)
     {
         $carousels = Folder::where('name','like','%carousel%')->get();
-        $categories = Category::all();
-        $partners = Partner::all();
+        $categories = Category::where('lang',$lang)->get();
+        $partners = Partner::where('lang',$lang)->get();
         return view('home.index',compact('carousels','categories','partners'));
     }
 
     public function home_store(Request $request){
+//        dd($request->all());
         Page::create([
             'title'=>'Home',
             'path'=>'/',
@@ -192,6 +193,7 @@ class PageController extends Controller
             'categoryID'=>$request->get('categoryID'),
             'car_template'=>$request->get('car_template'),
             'mainCarouselID'=>$request->get('carouselId'),
+            'mainCarouselStatus'=>$request->get('mainCarouselStatus'),
             'carouselNewsCategory'=>$request->get('carouselNewsCategory'),
             'carouselType'=>$request->get('carouselType'),
             'video_block'=>$request->get('video_block'),
@@ -202,6 +204,7 @@ class PageController extends Controller
     }
 
     public function home_update(Request $request){
+//        dd($request->all());
         unset($request['_token']);
         Page::where('id',$request->get('id'))->update($request->all());
         return redirect()->back();

@@ -9,7 +9,7 @@ class Page extends Model
     protected $fillable = [
         'title','body','image','document','lang',
         'path','categoryID','type','menuID','style',
-        'galleryType','color','bg_color','carouselType','mainCarouselID','car_template','carouselNewsCategory'
+        'galleryType','color','bg_color','carouselType','mainCarouselID','car_template','carouselNewsCategory','mainCarouselStatus','video_block'
     ];
 
     public function menuItem(){
