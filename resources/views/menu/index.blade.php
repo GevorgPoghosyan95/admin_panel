@@ -98,6 +98,11 @@
                         <input type="text" class="form-control" id="name" placeholder="name" name="name">
                         <input type="hidden" name="lang" value="hy">
                     </div>
+                    <div class="form-group">
+                        <label for="url" style="display: block;float: left">Main menu</label>
+                        <input type="checkbox"  name="mainMenu" class="form-control" style="width: 10%;display: block;float: left;height: 20px">
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

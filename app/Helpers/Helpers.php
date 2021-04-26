@@ -34,16 +34,16 @@ function createPermission($group)
 
 //create menu dynamically
 
-function showMenu($name,$id = null)
+function showMenu($name,$lang)
 {
-    $data = getChilds($name);
+    $data = getChilds($name,$lang);
     $html = '';
-    return recursion($data,$id, $html);
+    return recursion($data,$name, $html);
 }
 
-function recursion($data, $id,$html)
+function recursion($data, $name,$html)
 {
-    $is_header = $id == 4 ? 'class="menu"' : '';
+    $is_header = $name == 'main' ? 'class="menu"' : '';
     $html .= '<ul '.$is_header.'>';
     foreach ($data as $item) {
         if ($item->children()->exists()) {
@@ -77,11 +77,11 @@ function recursion($data, $id,$html)
     return $html;
 }
 
-function getChilds($name, $parent_id = null, $orderBy = 'asc')
+function getChilds($name, $lang,$parent_id = null, $orderBy = 'asc')
 {
     return MenuItem::with('children')->leftJoin('menus', 'menus.id', '=', 'menu_items.menu_id')
         ->leftJoin('pages', 'pages.id', '=', 'menu_items.page_id')
-        ->where(['name' => $name, 'parent_id' => $parent_id])
+        ->where(['menus.slug' => $name, 'parent_id' => $parent_id,'menus.lang'=>$lang])
         ->select('menu_items.id as id', 'menu_items.order as order', 'menu_items.title as title', 'pages.path as path','menu_items.target as target')
         ->orderBy('order', $orderBy)
         ->get();

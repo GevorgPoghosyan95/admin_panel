@@ -37,16 +37,19 @@ class MenuController extends Controller
 
     public function create_menu(Request $request)
     {
+//        dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:menus|max:255',
         ]);
+        $isMain = $request->input('mainMenu');
 
         if ($validator->fails()) {
             return back()->withErrors(['name already in use']);
         } else {
+            $isMain ? $checked = 'main' : $checked = $request->input('name');
             $menu = new Menu;
             $menu->name = $request->input('name');
-            $menu->slug = $request->input('name');
+            $menu->slug = $checked;
             $menu->lang = $request->input('lang');
             $menu->save();
 
@@ -66,7 +69,7 @@ class MenuController extends Controller
     {
         Menu::where('id',$id)->update([
             'name' => $request->get('menu_name'),
-            'slug' => strtolower($request->get('menu_name'))
+//            'slug' => strtolower($request->get('menu_name'))
         ]);
         return redirect()->back()->with('success', 'Menu name changed!');
     }

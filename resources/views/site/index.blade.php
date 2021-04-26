@@ -117,11 +117,8 @@
                     </a>
                 </div>
                 @endforeach
-                <p style="text-align: center; margin-bottom: 24px;"><a href="/{{app()->getLocale()}}/news"
-                                                                       class="newlink">Բոլոր
-                        նորությունները
-                        &#10140;</a></p>
             </div>
+            <p style="text-align: center; margin-bottom: 24px;"><a href="/{{app()->getLocale()}}/news" class="newlink">Բոլոր նորությունները &#10140;</a></p>
         </div>
     </div>
     @if($menu)
@@ -129,9 +126,7 @@
         <div class="line1 bggrey">
             <div class="line2">
                 <h2 class="icon_service">Ծառայություններ</h2>
-
                 <div class="service">
-
                     @foreach ($menu->menuItems()->orderBy('order','asc')->get() as $item)
                         <div class="plus">
                             <a href="{!! '/'.$item->page->lang.$item->page->path !!}"
@@ -140,8 +135,7 @@
                                style="background-image: 'data:image/png;base64'{{$item->page->image}};background-color: {{$item->page->bg_color}};">
                                 <div class="ico">
                                     <div class="icoim1"
-                                         style="background: url('data:image/gif;base64,{{$item->page->image}}');background-size: 40px">
-                                        &nbsp;
+                                         style="background: url('data:image/gif;base64,{{$item->page->image}}');background-size: 40px">&nbsp;
                                     </div>
                                 </div>
                                 <div class="ca-content">

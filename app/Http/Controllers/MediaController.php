@@ -133,11 +133,14 @@ class MediaController extends Controller
         $images1 = [];
         $img = [];
         $folder = Folder::find($request->input('id'));
+//        dd('ok');
         foreach ($images as $image){
            $img['path'] = asset($image->path);
            $img['image'] = $image;
-           $img['size'] = \File::size(public_path($image->path));
-           array_push($images1,$img);
+           if(is_file(public_path($image->path))){
+               $img['size'] = \File::size(public_path($image->path));
+           }
+            array_push($images1,$img);
         }
 
         return response()->json(['status' => 'success','id' =>$request->input('id'),'images' => $images1,'f_name' => $folder->name]);
