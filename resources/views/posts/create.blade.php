@@ -39,6 +39,10 @@
             <label for="title" style="font-size: 18px">Title</label>
             <input type="hidden" name="lang" value="hy">
             <input type="text" class="form-control" name="title" id="title">
+
+            <label for="title" style="font-size: 18px">Sub Title</label>
+            <input type="text" class="form-control" name="sub_title">
+
             <label for="title" style="font-size: 18px">Video Link</label>
             <input type="text" class="form-control" name="video_link">
             <label for="title" style="font-size: 18px">Video</label>

@@ -8,6 +8,8 @@ class PageTypes {
          "Content",
          "News",
          "VideoGallery",
+         "Managerial Staff",
+         //Home Page must be last
          "Home Page",
      ];
 

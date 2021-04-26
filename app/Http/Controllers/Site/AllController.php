@@ -50,7 +50,9 @@ class AllController extends Controller
     {
         if (Page::where('path', '/' . $path)->where('lang', $lang)->exists()) {
             $page = Page::where('path', '/' . $path)->where('lang', $lang)->first();
-            return view('site.page', compact('page'));
+            $staff = Category::where('lang', $lang)->where('name','Staff')->first();
+            $staffAssistance = Category::where('lang', $lang)->orWhere('name','Staff Assistance')->first();
+            return view('site.page', compact('page','staff','staffAssistance'));
         } else {
             abort('404');
         }

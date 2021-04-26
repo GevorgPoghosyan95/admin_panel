@@ -31,6 +31,8 @@
             {!! Form::model($post, ['method' => 'PUT','route' => ['posts.update', $post->id], 'files' => true]) !!}
                 <label for="title" style="font-size: 18px">Title</label>
                 <input type="text" class="form-control" name="title" id="title" value="{!! !empty($post->title) ? $post->title : '' !!}"><br>
+                <label for="title" style="font-size: 18px">Sub Title</label>
+                <input type="text" class="form-control" name="sub_title"  value="{!! !empty($post->sub_title) ? $post->sub_title : '' !!}"><br>
                 <button class="btn btn-success" id="change_video">Change Video Link</button>
                 <div class="video"></div>
                 <label for="title" style="font-size: 18px">Category</label><br>

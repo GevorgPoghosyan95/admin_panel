@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'title','content','image','lang','video'
+        'title','content','image','lang','video','sub_title'
     ];
 
     public $timestamps = [

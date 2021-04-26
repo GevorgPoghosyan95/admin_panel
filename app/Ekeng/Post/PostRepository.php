@@ -26,6 +26,7 @@ class PostRepository
         }
         $post = Post::create([
             'title' => $request->get('title'),
+            'sub_title'=>$request->get('sub_title'),
             'content' => $request->get('content'),
             'image' => $image,
             'lang' => $request->get('lang'),
@@ -53,6 +54,7 @@ class PostRepository
         }
         $updatedData = [
             'title' => $request->input('title'),
+            'sub_title'=>$request->get('sub_title'),
             'content' => $request->input('content'),
             'image' => $base64,
         ];

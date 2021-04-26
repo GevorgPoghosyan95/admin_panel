@@ -80,6 +80,7 @@ class PageController extends Controller
     {
         switch ($request->get('type')) {
             case "Content":
+            case "Managerial Staff":
             case "News":
                 $this->createPage(new StandardPageCreator($request));
                 break;
@@ -120,7 +121,7 @@ class PageController extends Controller
         $categories = Category::where('name', '<>', null);
         $menus = Menu::where('name', '<>', 'Main')->where('lang',$page->lang)->get();
         $pageTypes = PageTypes::All;
-        unset($pageTypes[3]);
+        unset($pageTypes[count($pageTypes) - 1]);
         $folders = Folder::pluck('name', 'id');
         return view('pages.edit', compact('page', 'categories', 'menus', 'pageTypes', 'folders'));
     }
@@ -136,6 +137,7 @@ class PageController extends Controller
     {
         switch ($request->get('type')) {
             case "Content":
+            case "Managerial Staff":
             case "News":
                 $this->updatePage(new StandardPageCreator($request, $page));
                 break;
